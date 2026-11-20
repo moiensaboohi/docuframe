@@ -13,6 +13,9 @@ import sys
 
 HERE = pathlib.Path(__file__).resolve().parent
 SKILL = HERE.parent
+# this file is called docuframe.py: drop its folder from the import path so `import docuframe`
+# finds the engine package, not this launcher
+sys.path[:] = [p for p in sys.path if not p or pathlib.Path(p).resolve() != HERE]
 os.environ.setdefault("DOCUFRAME_STYLES", str(SKILL / "styles"))
 os.environ.setdefault("DOCUFRAME_TEMPLATES", str(SKILL / "templates"))
 
