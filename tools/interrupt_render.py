@@ -10,7 +10,7 @@ import time
 
 
 def done_chunks(proj):
-    return [p for p in (proj / "out" / "chunks").glob("*/*.mp4") if p.stat().st_size > 0]
+    return [p for p in (proj / "out" / "chunks").glob("*/*.mp4") if ".part" not in p.name and p.stat().st_size > 0]
 
 
 def main():

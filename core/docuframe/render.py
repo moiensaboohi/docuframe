@@ -74,15 +74,24 @@ def worker(job):
     proj, fmt, size, f0, f1, out, quality = job
     film, r, _, _ = make(proj, fmt, size)
     enc, _ = encoder(r.W, quality)
-    part = pathlib.Path(out).with_suffix(".part.mp4")
+    # a temp name unique to this process: after a forced stop an orphaned worker may still be writing
+    # its old part file while the resumed render starts the same chunk
+    part = pathlib.Path(out).with_name(f"{pathlib.Path(out).stem}.part-{os.getpid()}.mp4")
+    parent = mp.parent_process()
     ff = popen(["ffmpeg", "-v", "error", "-y", "-f", "rawvideo", "-pix_fmt", "rgba", "-s", f"{r.W}x{r.H}",
                 "-r", str(film.fps), "-i", "-", *enc, str(part)], stdin=__import__("subprocess").PIPE)
     t0 = time.time()
     try:
         for n in range(f0, f1):
+            if (n - f0) % 15 == 0 and parent is not None and not parent.is_alive():
+                ff.stdin.close()            # the render was stopped: don't run on as an orphan
+                ff.wait()
+                part.unlink(missing_ok=True)
+                os._exit(0)
             ff.stdin.write(r.frame(n).tobytes())
     finally:
-        ff.stdin.close()
+        if not ff.stdin.closed:
+            ff.stdin.close()
     if ff.wait() != 0:
         raise RuntimeError(f"the video encoder failed on frames {f0}-{f1}")
     replace_with_retry(part, out)
