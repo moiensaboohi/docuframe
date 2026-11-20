@@ -1,0 +1,11 @@
+{
+ "style": "evidence-board",
+ "format": "9:16",
+ "lang": "hi",
+ "beats": [
+  {"line": 1, "scene": "title", "text": "चाशनी की सुनामी", "sub": "बोस्टन, 1919"},
+  {"line": 2, "scene": "comparison", "at": "लगभग",
+   "left": {"title": "23 लाख गैलन", "lines": ["शीरा"]}, "right": {"title": "50 फ़ुट", "lines": ["टैंक की ऊँचाई"]}, "source": "City of Boston; Britannica"},
+  {"line": 3, "scene": "list", "title": "नतीजा", "items": [{"text": "21 मौतें", "at": "मौत"}, {"text": "लगभग 150 घायल", "at": "घायल"}], "source": "City of Boston"}
+ ]
+}

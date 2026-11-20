@@ -1,0 +1,11 @@
+name: Style request
+description: Ask for a new look (describe it; don't name a channel or studio)
+labels: [style]
+body:
+  - type: textarea
+    id: look
+    attributes: {label: Describe the look, description: "Colours, type, camera, mood. Links to reference stills are welcome."}
+    validations: {required: true}
+  - type: input
+    id: use
+    attributes: {label: What would you use it for?}

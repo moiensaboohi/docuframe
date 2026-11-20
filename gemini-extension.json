@@ -1,0 +1,6 @@
+{
+  "name": "docuframe",
+  "version": "0.1.0",
+  "description": "Give it a topic or a script, get a finished documentary or explainer film in the style you pick.",
+  "contextFileName": "AGENTS.md"
+}

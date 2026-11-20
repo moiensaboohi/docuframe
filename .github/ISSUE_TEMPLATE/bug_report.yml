@@ -1,0 +1,17 @@
+name: Something broke
+description: An error, a crash, or a film that came out wrong
+labels: [bug]
+body:
+  - type: textarea
+    id: what
+    attributes: {label: What happened?, description: "Paste the error message, or describe what looked wrong."}
+    validations: {required: true}
+  - type: textarea
+    id: doctor
+    attributes: {label: Output of `docuframe doctor --json`, render: json}
+  - type: dropdown
+    id: os
+    attributes: {label: Your computer, options: [Windows, macOS, Linux, Codespaces / cloud, Claude app]}
+  - type: input
+    id: lang
+    attributes: {label: Language of the film}

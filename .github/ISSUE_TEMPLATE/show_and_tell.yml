@@ -1,0 +1,20 @@
+name: Show and tell
+description: Share a film you made (it may appear in the gallery)
+labels: [gallery]
+body:
+  - type: input
+    id: link
+    attributes: {label: Link to the film}
+    validations: {required: true}
+  - type: textarea
+    id: prompt
+    attributes: {label: The prompt you used}
+  - type: input
+    id: style
+    attributes: {label: Style}
+  - type: checkboxes
+    id: ok
+    attributes:
+      label: Permission
+      options:
+        - label: docuframe may show this film and prompt in its gallery

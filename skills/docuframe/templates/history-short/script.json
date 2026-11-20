@@ -1,0 +1,26 @@
+{
+ "title": "The Sticky Tsunami",
+ "lang": "en",
+ "takes": [
+  {"take": "T01_open", "lines": [
+   {"id": 1, "text": "On January 15, 1919, a storage tank burst in Boston's North End.",
+    "spoken": "On January fifteenth, nineteen nineteen, a storage tank burst in Boston's North End.", "facts": ["F1"], "gap_after": 0.6}
+  ]},
+  {"take": "T02_tank", "lines": [
+   {"id": 2, "text": "It held about 2.3 million gallons of molasses.",
+    "spoken": "It held about two point three million gallons of molasses.", "facts": ["F2"]},
+   {"id": 3, "text": "The tank stood about fifty feet tall.",
+    "spoken": "The tank stood about fifty feet tall.", "facts": ["F3"]}
+  ]},
+  {"take": "T03_wave", "lines": [
+   {"id": 4, "text": "The wave rushed through the streets at an estimated 35 miles per hour.",
+    "spoken": "The wave rushed through the streets at an estimated thirty-five miles per hour.", "facts": ["F4"]},
+   {"id": 5, "text": "Twenty-one people were killed, and about 150 were injured.",
+    "spoken": "Twenty-one people were killed, and about a hundred and fifty were injured.", "facts": ["F5"]}
+  ]},
+  {"take": "T04_close", "lines": [
+   {"id": 6, "text": "Slow as molasses, the saying goes. That day, it was not.",
+    "spoken": "Slow as molasses, the saying goes. That day, it was not.", "facts": []}
+  ]}
+ ]
+}

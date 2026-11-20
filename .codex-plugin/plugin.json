@@ -1,0 +1,25 @@
+{
+  "name": "docuframe",
+  "version": "0.1.0",
+  "description": "Give it a topic or a script, get a finished documentary or explainer film in the style you pick.",
+  "author": {"name": "Moein Saboohi", "url": "https://github.com/moiensaboohi"},
+  "homepage": "https://github.com/moiensaboohi/docuframe",
+  "repository": "https://github.com/moiensaboohi/docuframe",
+  "license": "MIT",
+  "keywords": ["skills", "video", "documentary", "explainer", "youtube"],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "docuframe",
+    "shortDescription": "Documentary and explainer films from a topic or a script.",
+    "longDescription": "Give it a topic or a script, get a finished documentary or explainer film in the style you pick. Everything on screen is drawn by code: titles, archive photos, maps, numbers, quotes, timelines, with sources and captions, in many languages including right-to-left.",
+    "developerName": "Moein Saboohi",
+    "category": "Design",
+    "capabilities": [],
+    "websiteURL": "https://github.com/moiensaboohi/docuframe",
+    "defaultPrompt": [
+      "Make a 3 minute documentary about the Great Molasses Flood of 1919.",
+      "Turn this script into a YouTube explainer with sources and chapters.",
+      "Make a 50 second vertical short about why the Suez Canal matters."
+    ]
+  }
+}

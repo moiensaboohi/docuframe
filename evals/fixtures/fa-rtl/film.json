@@ -1,0 +1,12 @@
+{
+ "style": "evidence-board",
+ "format": "16:9",
+ "lang": "fa",
+ "beats": [
+  {"line": 1, "scene": "title", "text": "سونامی شیرین", "sub": "بوستون، ۱۵ ژانویه ۱۹۱۹"},
+  {"line": 1, "scene": "photo", "photo": "P01", "label": "نورث اند، ۱۹۱۹", "at": "مخزن", "source": "عکس: آرشیو شهر بوستون (مالکیت عمومی)"},
+  {"line": 2, "scene": "big-number", "value": "۲٫۳ میلیون گالن", "caption": "ملاس", "source": "City of Boston"},
+  {"line": 3, "scene": "quote", "text": "موج ملاس با سرعتی حدود ۳۵ مایل در ساعت پیش رفت.", "who": "NBC News", "source": "NBC News"},
+  {"line": 4, "scene": "big-number", "value": "۲۱", "caption": "کشته · حدود ۱۵۰ زخمی", "source": "City of Boston; Britannica"}
+ ]
+}

@@ -1,0 +1,15 @@
+{
+ "style": "evidence-board",
+ "format": "16:9",
+ "lang": "en",
+ "beats": [
+  {"line": 1, "scene": "title", "text": "THE STICKY TSUNAMI", "sub": "Boston, January 15, 1919"},
+  {"line": 1, "scene": "photo", "photo": "P01", "at": "burst", "label": "NORTH END, 1919",
+   "mark": {"kind": "ellipse", "fx": 0.5, "fy": 0.55, "w": 0.45, "h": 0.35, "at": "North"}, "source": "Photo: Boston City Archives (public domain)"},
+  {"line": 2, "scene": "big-number", "value": 2.3, "suffix": "M GAL", "caption": "OF MOLASSES", "at": "two", "source": "City of Boston"},
+  {"line": 3, "scene": "big-number", "value": 50, "suffix": " FT", "caption": "TANK HEIGHT", "at": "fifty", "source": "City of Boston; Britannica"},
+  {"line": 4, "scene": "big-number", "value": 35, "suffix": " MPH", "caption": "ESTIMATED SPEED OF THE WAVE", "at": "thirty", "source": "NBC News"},
+  {"line": 5, "scene": "photo", "photo": "P02", "label": "21 KILLED · ~150 INJURED", "at": "killed", "source": "City of Boston; Britannica"},
+  {"line": 6, "scene": "end", "text": "SLOW AS MOLASSES?", "sub": "Sources in the description"}
+ ]
+}

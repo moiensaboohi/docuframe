@@ -1,0 +1,63 @@
+name: ci
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  film:
+    # first-run test on every OS: install, doctor, voice, stills, a draft render, check, package
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: ffmpeg
+        uses: FedericoCarboni/setup-ffmpeg@v3
+      - name: First run (timed)
+        env:
+          PYTHONUTF8: "1"
+        run: |
+          start=$(date +%s)
+          pip install -e ".[voice]"
+          docuframe doctor
+          mkdir -p "work dir/فیلم"
+          cp -r skills/docuframe/templates/history-short "work dir/فیلم/first"
+          python tools/placeholder_photos.py "work dir/فیلم/first"
+          docuframe make --project "work dir/فیلم/first" --yes --draft
+          end=$(date +%s)
+          echo "FIRST_RUN_SECONDS=$((end-start))" | tee -a "$GITHUB_STEP_SUMMARY"
+      - name: Resume after a forced stop
+        run: |
+          cd "work dir/فیلم"
+          rm -rf first/out/chunks
+          (timeout 40 docuframe render --project first --draft --chunk 4 || true)
+          docuframe render --project first --draft --chunk 4 | tee resume.log
+          grep -Eq "[1-9][0-9]* already done" resume.log
+      - name: Right-to-left and Indic fixtures
+        run: |
+          for f in fa-rtl hi-vertical; do
+            cp -r "evals/fixtures/$f" "work dir/$f"
+            python tools/placeholder_photos.py "work dir/$f" || true
+            docuframe voice --project "work dir/$f"
+            docuframe narration --project "work dir/$f"
+            docuframe assets --project "work dir/$f" || true
+            docuframe check --project "work dir/$f"
+          done
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: stills-${{ matrix.os }}
+          path: |
+            work dir/**/out/stills/*.jpg
+            work dir/**/out/check.md
+            work dir/**/out/youtube/description.txt

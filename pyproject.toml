@@ -1,0 +1,36 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "docuframe"
+version = "0.1.0"
+description = "Give it a topic or a script, get a finished documentary or explainer film in the style you pick."
+readme = "README.md"
+license = "MIT"
+requires-python = ">=3.10"
+authors = [{ name = "Moein Saboohi" }]
+dependencies = [
+  "skia-python>=87.6",
+  "numpy>=1.24",
+  "pillow>=10",
+  "fonttools>=4.40",
+]
+
+[project.optional-dependencies]
+voice = ["kokoro-onnx>=0.4", "soundfile>=0.12"]
+align = ["faster-whisper>=1.0"]
+fast-sfx = ["scipy>=1.10"]
+all = ["kokoro-onnx>=0.4", "soundfile>=0.12", "faster-whisper>=1.0", "scipy>=1.10"]
+
+[project.scripts]
+docuframe = "docuframe.cli:main"
+
+[project.urls]
+Homepage = "https://github.com/moiensaboohi/docuframe"
+
+[tool.setuptools.packages.find]
+where = ["core"]
+
+[tool.setuptools.package-data]
+docuframe = ["styles/*/*.json", "styles/*/*.md", "data/*"]

@@ -1,0 +1,3 @@
+interface:
+  display_name: "docuframe"
+  short_description: "Documentary and explainer films from a topic or a script, drawn by code, with sources"

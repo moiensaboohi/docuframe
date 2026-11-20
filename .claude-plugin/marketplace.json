@@ -1,0 +1,18 @@
+{
+  "name": "docuframe",
+  "description": "Give it a topic or a script, get a finished documentary or explainer film in the style you pick.",
+  "owner": {"name": "Moein Saboohi", "url": "https://github.com/moiensaboohi"},
+  "plugins": [
+    {
+      "name": "docuframe",
+      "description": "Give it a topic or a script, get a finished documentary or explainer film in the style you pick.",
+      "version": "0.1.0",
+      "source": "./",
+      "author": {"name": "Moein Saboohi", "url": "https://github.com/moiensaboohi"},
+      "homepage": "https://github.com/moiensaboohi/docuframe",
+      "repository": "https://github.com/moiensaboohi/docuframe",
+      "license": "MIT",
+      "keywords": ["skills", "video", "documentary", "explainer", "youtube", "motion-graphics", "rtl", "skia"]
+    }
+  ]
+}

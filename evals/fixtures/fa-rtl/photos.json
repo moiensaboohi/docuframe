@@ -1,0 +1,9 @@
+{
+ "grade": "bw",
+ "photos": [
+  {"id": "P01", "what": "Wreckage after the molasses flood, North End, 1919", "kind": "photo",
+   "commons": "File:Boston Molasses Disaster.jpg"},
+  {"id": "P02", "what": "Damage to the elevated railway, 1919", "kind": "photo",
+   "commons": "File:Boston Molasses Disaster 2.jpg"}
+ ]
+}
