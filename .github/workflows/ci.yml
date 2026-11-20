@@ -27,7 +27,16 @@ jobs:
           case "$RUNNER_OS" in
             Linux)   sudo apt-get update -q && sudo apt-get install -y -q ffmpeg libegl1 libgl1 ;;
             macOS)   brew install ffmpeg ;;
-            Windows) choco install ffmpeg -y --no-progress ;;
+            Windows)
+              # Chocolatey's server is sometimes down (503): retry, then fall back to the LGPL build on GitHub
+              for i in 1 2 3; do choco install ffmpeg -y --no-progress && break || sleep 15; done
+              if ! command -v ffmpeg >/dev/null; then
+                curl -fsSL -o ff.zip https://github.com/BtbN/FFmpeg-Builds/releases/download/latest/ffmpeg-master-latest-win64-lgpl.zip
+                unzip -q ff.zip -d "$RUNNER_TEMP/ff"
+                bin=$(dirname "$(find "$RUNNER_TEMP/ff" -name ffmpeg.exe | head -1)")
+                echo "$bin" >> "$GITHUB_PATH"
+                export PATH="$bin:$PATH"
+              fi ;;
           esac
           ffmpeg -version | head -1
       - name: First run (timed)
