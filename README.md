@@ -1,4 +1,4 @@
-<p align="center"><img src="docs/media/banner.png" width="100%" alt="docuframe. Give it a topic or a script. Get a finished documentary. 24 styles, 16:9, 9:16 and 1:1, any language including right-to-left, every fact sourced."></p>
+<p align="center"><img src="docs/media/banner.png" width="100%" alt="docuframe. Give it a topic or a script. Get a finished documentary. An open-source agent skill: research, script, narration, motion graphics, captions and a YouTube package, drawn by code with every fact sourced. Narration, captions and on-screen text in any language: English, Persian, Arabic, Hindi, Japanese, Chinese, Spanish, Turkish. Install with npx skills add moiensaboohi/docuframe. Shown: frames from twelve styles: studio-light, studio-dark, editorial-collage, swiss-grid, briefing-room, bold-poster, slides-color, lab-notebook, midnight-minimal, riso-print, newsroom, flat-explainer."></p>
 
 <p align="center">
   <img src="https://img.shields.io/badge/license-MIT-24292f" alt="MIT">
