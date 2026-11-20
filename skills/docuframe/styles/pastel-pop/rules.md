@@ -1,11 +1,11 @@
 # pastel-pop — Pastel pop
 
-**What it is:** Soft peach ground, white cards, chunky friendly type with label chips, coral and violet shapes and bouncy motion.
+**What it is:** Soft peach ground, white cards, chunky friendly type with label chips, coral and deep-teal shapes and bouncy motion.
 
 **Use for:** lifestyle and culture, kids and family learning, food, travel and fun facts.
 **Avoid for:** Serious or tragic subjects.
 
-**Recipe:** panel = card, photo = frame, title = stack, number = bar, motion = pop, accents = shapes, source = chip, lower_third = chip, shadow = 0.0.
+**Recipe:** panel = card, photo = frame, title = stack, number = bar, motion = pop, accents = none, source = chip, lower_third = chip, shadow = 0.0.
 
 **Judge a still by:**
 - One hero per beat; everything else quieter.

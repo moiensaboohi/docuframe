@@ -5,7 +5,7 @@
 **Use for:** science and how-it-works, business and finance basics, education for all ages.
 **Avoid for:** True crime and grief: it is cheerful by design.
 
-**Recipe:** panel = card, photo = frame, title = kinetic, number = ring, motion = pop, accents = shapes, source = chip, lower_third = chip, shadow = 0.0.
+**Recipe:** panel = card, photo = frame, title = kinetic, number = ring, motion = pop, accents = none, source = chip, lower_third = chip, shadow = 0.0.
 
 **Judge a still by:**
 - One hero per beat; everything else quieter.

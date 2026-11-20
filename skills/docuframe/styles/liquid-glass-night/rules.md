@@ -1,11 +1,11 @@
 # liquid-glass-night — Liquid glass (night)
 
-**What it is:** Dark glass over slow neon colour light: translucent cards with bright rims, white type, mint and violet accents; premium and modern.
+**What it is:** Dark frosted glass over the film's own photographs, dimmed: clear smoked cards with a thin rim, white type and a single soft mint accent.
 
 **Use for:** technology and AI, music and culture, finance and crypto.
 **Avoid for:** History before colour photography.
 
-**Recipe:** motion = rise, source = quiet, lower_third = line, accents = blobs, panel = liquid, photo = liquid, title = kinetic, number = counter, layout = editorial, align = center, wrap = True, eyebrow_sub = True, number_gradient = ['grad1', 'grad2'], shadow = 0.0.
+**Recipe:** motion = rise, source = quiet, lower_third = line, accents = blobs, panel = liquid, photo = liquid, title = kinetic, number = counter, layout = editorial, align = center, wrap = True, eyebrow_sub = True, shadow = 0.0.
 
 **Judge a still by:**
 - One hero per beat; everything else quieter.

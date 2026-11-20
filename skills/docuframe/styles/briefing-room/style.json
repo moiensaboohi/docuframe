@@ -1,6 +1,6 @@
 {
   "label": "Dark briefing room",
-  "summary": "Deep navy situation-room look: glowing grid, glass panels with cyan edges, viewfinder brackets, monospace data and amber numbers.",
+  "summary": "Situation-room clarity: flat deep navy with a faint grid, translucent panels with thin cyan edges, viewfinder brackets, monospace data and amber numbers.",
   "use_for": [
     "geopolitics and conflict",
     "intelligence and investigations",
@@ -114,16 +114,11 @@
     }
   },
   "ground": {
-    "kind": "gradient",
+    "kind": "flat",
     "color": [
-      7,
-      11,
-      20
-    ],
-    "color2": [
-      19,
-      35,
-      59
+      10,
+      18,
+      32
     ],
     "pattern": "grid",
     "pattern_rgb": [
@@ -142,8 +137,8 @@
       1
     ],
     "grain": 0.015,
-    "glow": 0.3,
-    "vignette": 0.45,
+    "glow": 0.0,
+    "vignette": 0.4,
     "curve": 0.1,
     "dim": [
       0,
@@ -152,9 +147,9 @@
     ],
     "spotlight": 0.5,
     "bg": [
-      7,
-      11,
-      20
+      10,
+      18,
+      32
     ]
   },
   "photo_grade": "duotone:#0b1320:#9ed8f0",

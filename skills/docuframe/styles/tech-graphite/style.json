@@ -1,0 +1,171 @@
+{
+  "label": "Graphite tech",
+  "summary": "Engineering-drawing calm: flat graphite ground with a faint grid, crisp grotesque type, monospace labels, signal-amber numbers on thin rings. No glow, no gradients.",
+  "use_for": [
+    "technology and AI",
+    "finance and markets",
+    "engineering and products"
+  ],
+  "camera": "world",
+  "layout": {
+    "spacing": 5400,
+    "row": 4,
+    "jitter_deg": 0
+  },
+  "camera_feel": {
+    "handheld": 0.15,
+    "travel": 0.6,
+    "push": 1.03
+  },
+  "tokens": {
+    "color": {
+      "bg": [
+        18,
+        19,
+        21
+      ],
+      "ink": [
+        236,
+        236,
+        234
+      ],
+      "paper": [
+        27,
+        28,
+        31
+      ],
+      "accent": [
+        255,
+        176,
+        32
+      ],
+      "highlight": [
+        255,
+        176,
+        32
+      ],
+      "text": [
+        236,
+        236,
+        234
+      ],
+      "muted": [
+        139,
+        141,
+        146
+      ],
+      "label": [
+        255,
+        176,
+        32
+      ],
+      "number": [
+        255,
+        176,
+        32
+      ],
+      "on_accent": [
+        18,
+        19,
+        21
+      ],
+      "source_fg": [
+        169,
+        171,
+        176
+      ],
+      "source_bg": [
+        27,
+        28,
+        31
+      ],
+      "mark": [
+        255,
+        176,
+        32
+      ],
+      "lt_panel": [
+        27,
+        28,
+        31
+      ],
+      "shadow": [
+        0,
+        0,
+        0
+      ]
+    },
+    "font": {
+      "display": [
+        "Space Grotesk:700"
+      ],
+      "title": [
+        "Space Grotesk:700"
+      ],
+      "label": [
+        "IBM Plex Mono"
+      ],
+      "body": [
+        "Space Grotesk:500"
+      ],
+      "mono": [
+        "IBM Plex Mono"
+      ]
+    }
+  },
+  "ground": {
+    "kind": "flat",
+    "color": [
+      18,
+      19,
+      21
+    ],
+    "pattern": "grid",
+    "pattern_rgb": [
+      236,
+      236,
+      234
+    ],
+    "pattern_alpha": 0.04,
+    "pattern_step": 260
+  },
+  "finish": {
+    "board": null,
+    "grade": [
+      1,
+      1,
+      1
+    ],
+    "grain": 0.0,
+    "glow": 0.0,
+    "vignette": 0.2,
+    "curve": 0.0,
+    "dim": [
+      0,
+      0,
+      0
+    ],
+    "spotlight": 0.0,
+    "bg": [
+      18,
+      19,
+      21
+    ]
+  },
+  "photo_grade": "bw",
+  "captions": "clean",
+  "skin": {
+    "panel": "card",
+    "photo": "frame",
+    "title": "kinetic",
+    "number": "ring",
+    "motion": "wipe",
+    "accents": "none",
+    "source": "chip",
+    "lower_third": "line",
+    "quote_font": "body",
+    "number_font": "display",
+    "shadow": 0.0
+  },
+  "map_look": "explainer"
+}

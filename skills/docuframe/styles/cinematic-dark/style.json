@@ -1,6 +1,6 @@
 {
   "label": "Cinematic dark",
-  "summary": "Premium feature-documentary look: near-black warm gradient, full-frame photographs, slow drifting camera, thin gold serif titles, cinema bars.",
+  "summary": "Feature-documentary restraint: warm near-black, full-frame photographs, slow drifting camera, thin serif titles in muted gold, cinema bars.",
   "use_for": [
     "prestige documentary",
     "biography",
@@ -116,16 +116,11 @@
     }
   },
   "ground": {
-    "kind": "gradient",
+    "kind": "flat",
     "color": [
-      5,
-      5,
-      5
-    ],
-    "color2": [
-      28,
-      23,
-      18
+      10,
+      9,
+      8
     ]
   },
   "finish": {
@@ -136,7 +131,7 @@
       0.95
     ],
     "grain": 0.02,
-    "glow": 0.2,
+    "glow": 0.0,
     "vignette": 0.6,
     "curve": 0.2,
     "dim": [
@@ -146,9 +141,9 @@
     ],
     "spotlight": 0.7,
     "bg": [
-      5,
-      5,
-      5
+      10,
+      9,
+      8
     ]
   },
   "photo_grade": "natural",

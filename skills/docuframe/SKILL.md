@@ -95,6 +95,13 @@ The manifest keeps it as proof of human creative direction.
 12. **Deliver.** Send the files, summarise in 3–5 lines, list what the check could not verify.
     `share --project P` makes a preview clip and post text if they want to post about it.
 
+## Design rules (read before planning beats)
+
+Read `references/design.md` before you write `film.json` or touch a style. In short: one accent
+colour with one job, no gradient text or rainbow gradients, no glow, no emoji, sentence case, no
+stock phrases ("Did you know", "untold story", "game-changer", "not just X, but Y"), no shapes that
+mean nothing, real sourced photographs. `check` flags these as `slop`; fix them like any other warning.
+
 ## Style menu
 
 One line each; pick by subject and tone. `styles` lists every installed pack; each has stills in
@@ -106,8 +113,8 @@ One line each; pick by subject and tone. `styles` lists every installed pack; ea
 |---|---|---|
 | `studio-light` | Product-keynote calm | technology and products, business and strategy, clean explainers of any kind |
 | `studio-dark` | A black keynote stage | technology launches and AI, space and science, big-number stories |
-| `liquid-glass` | Frosted glass cards that really blur the soft colour light drifting behind them, bright specular edges, rounded type and calm centred layouts | technology and design, lifestyle and wellbeing, product and app explainers |
-| `liquid-glass-night` | Dark glass over slow neon colour light | technology and AI, music and culture, finance and crypto |
+| `liquid-glass` | Frosted glass over the film's own photographs | technology and design, lifestyle and wellbeing, product and app explainers |
+| `liquid-glass-night` | Dark frosted glass over the film's own photographs, dimmed | technology and AI, music and culture, finance and crypto |
 | `slides-classic` | Clean presentation slides | lessons and courses, work and business explainers, step-by-step how-tos |
 | `slides-color` | Bold presentation slides | courses and workshops, company and team updates, pitch-style explainers |
 | `swiss-grid` | International-style minimalism | design, architecture and art, economics and data, essays with a clear argument |
@@ -123,15 +130,15 @@ One line each; pick by subject and tone. `styles` lists every installed pack; ea
 | `flat-explainer` | Bright off-white ground with a dot grid, rounded cards with soft shadows, bold geometric type, springy pop-ins and progress rings | science and how-it-works, business and finance basics, education for all ages |
 | `minimal-mono` | Near-black ground, white type, nothing else | essays and opinion, technology, philosophy and big ideas |
 | `archive-documentary` | Full-frame archive photographs with slow camera moves, warm film grain, elegant serif titles, typewriter labels and cinema bars | history, biography, war and politics of the past |
-| `briefing-room` | Deep navy situation-room look | geopolitics and conflict, intelligence and investigations, cyber and space |
+| `briefing-room` | Situation-room clarity | geopolitics and conflict, intelligence and investigations, cyber and space |
 | `vintage-atlas` | Old printed-map feel | exploration and geography, empires and trade routes, historical journeys |
 | `newsroom` | Broadcast-news clarity | news explainers, current affairs, fact-checks |
 | `case-file` | A detective's desk | true crime, mysteries and cold cases, heists and scandals |
 | `lab-notebook` | Graph-paper ground, sticky notes, taped-in photos, handwritten headings and blue-ink circles | science and medicine, inventions, how experiments worked |
-| `tech-gradient` | Deep violet gradient, glowing glass cards, mint data rings and tight geometric type | technology and AI, finance and markets, startups and products |
-| `pastel-pop` | Soft peach ground, white cards, chunky friendly type with label chips, coral and violet shapes and bouncy motion | lifestyle and culture, kids and family learning, food, travel and fun facts |
+| `tech-graphite` | Engineering-drawing calm | technology and AI, finance and markets, engineering and products |
+| `pastel-pop` | Soft peach ground, white cards, chunky friendly type with label chips, coral and deep-teal shapes and bouncy motion | lifestyle and culture, kids and family learning, food, travel and fun facts |
 | `bold-poster` | Neo-brutalist poster energy | hot takes and rankings, internet culture, sport and music |
-| `cinematic-dark` | Premium feature-documentary look | prestige documentary, biography, brand and founder stories |
+| `cinematic-dark` | Feature-documentary restraint | prestige documentary, biography, brand and founder stories |
 | `riso-print` | Two-ink riso zine | art, music and design history, subculture stories, city and place portraits |
 
 Every pack works in 16:9, 9:16 and 1:1 and in every script (RTL and Indic included). Users can ask

@@ -1,6 +1,6 @@
 {
   "label": "Liquid glass (night)",
-  "summary": "Dark glass over slow neon colour light: translucent cards with bright rims, white type, mint and violet accents; premium and modern.",
+  "summary": "Dark frosted glass over the film's own photographs, dimmed: clear smoked cards with a thin rim, white type and a single soft mint accent.",
   "use_for": [
     "technology and AI",
     "music and culture",
@@ -40,14 +40,14 @@
         255
       ],
       "accent": [
-        126,
-        160,
-        255
+        127,
+        214,
+        190
       ],
       "highlight": [
-        95,
-        242,
-        200
+        127,
+        214,
+        190
       ],
       "text": [
         244,
@@ -60,9 +60,9 @@
         198
       ],
       "label": [
-        126,
-        160,
-        255
+        127,
+        214,
+        190
       ],
       "number": [
         255,
@@ -85,39 +85,19 @@
         15
       ],
       "mark": [
-        95,
-        242,
-        200
+        127,
+        214,
+        190
       ],
       "blob1": [
-        50,
-        86,
-        255
+        29,
+        43,
+        68
       ],
       "blob2": [
-        162,
-        52,
-        255
-      ],
-      "blob3": [
-        0,
-        184,
-        156
-      ],
-      "blob4": [
-        255,
-        79,
-        134
-      ],
-      "grad1": [
-        159,
-        184,
-        255
-      ],
-      "grad2": [
-        111,
-        245,
-        210
+        31,
+        58,
+        55
       ],
       "lt_panel": [
         7,
@@ -154,16 +134,11 @@
     }
   },
   "ground": {
-    "kind": "gradient",
+    "kind": "flat",
     "color": [
       7,
       8,
       15
-    ],
-    "color2": [
-      14,
-      16,
-      32
     ]
   },
   "finish": {
@@ -174,7 +149,7 @@
       1
     ],
     "grain": 0.0,
-    "glow": 0.15,
+    "glow": 0.0,
     "vignette": 0.0,
     "curve": 0.0,
     "dim": [
@@ -206,14 +181,12 @@
     "align": "center",
     "wrap": true,
     "eyebrow_sub": true,
-    "number_gradient": [
-      "grad1",
-      "grad2"
-    ],
     "shadow": 0.0
   },
   "radius": 40,
-  "glass_alpha": 0.1,
-  "blob_alpha": 0.75,
+  "glass_alpha": 0.12,
+  "blob_alpha": 0.6,
+  "backdrop_wash": 0.45,
+  "backdrop_blur": 4,
   "map_look": "explainer"
 }

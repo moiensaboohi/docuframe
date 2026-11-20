@@ -904,3 +904,29 @@ class DotLine(E.Item):
                 p.paint(c, 0, 0)
                 c.restore()
                 c.restore()
+
+
+class Backdrop(E.Item):
+    """The film's own photograph filling the frame behind a beat, softened and washed toward the
+    ground colour: what glass panels blur. Content as background, never decoration."""
+    z = -85
+
+    def __init__(self, key, cx, cy, w, h, wash, wash_a=0.55, blur=0.0, t_in=0.0):
+        self.x, self.y = cx, cy
+        super().__init__(t_in, None, None, False)
+        self.key, self.w, self.h, self.wash, self.wash_a, self.blur = key, w, h, wash, wash_a, blur
+        self.reach = max(w, h)
+
+    def paint(self, c, kit, t, o):
+        img = kit.image(self.key)
+        iw, ih = img.width(), img.height()
+        k = max(self.w / iw, self.h / ih) * (1.04 + 0.02 * math.sin(t * 0.05))   # cover, with a very slow breath
+        dst = skia.Rect.MakeXYWH(self.x - iw * k / 2, self.y - ih * k / 2, iw * k, ih * k)
+        p = skia.Paint(Alphaf=clamp(o))
+        if self.blur:
+            p.setImageFilter(skia.ImageFilters.Blur(self.blur, self.blur))
+        c.save()
+        c.clipRect(skia.Rect.MakeXYWH(self.x - self.w / 2, self.y - self.h / 2, self.w, self.h))
+        c.drawImageRect(img, dst, E.SMOOTH, p)
+        c.drawRect(dst, E.fill(self.wash, self.wash_a * o))
+        c.restore()

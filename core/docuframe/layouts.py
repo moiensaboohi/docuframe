@@ -18,7 +18,7 @@ Style data that drives this (all optional):
   skin.photo         rounded | liquid | plain | frame ...
   skin.title_fill    true: title/chapter/end beats sit on a full-frame accent field
   skin.eyebrow_sub   true: a title's "sub" becomes the small line above it
-  skin.number_gradient  [token, token]: the big number runs between two colours
+  skin.number_gradient  [token, token]: gradient number (check flags it as slop; no built-in pack uses it)
   skin.accents       blobs (soft colour light, for glass) | none
   type               {"title": 92, "body": 34, ...}  sizes in px at 1080p (see TYPE)
 """

@@ -1,6 +1,6 @@
 {
   "label": "Studio dark (keynote stage)",
-  "summary": "A black keynote stage: centred white headlines, big numbers in a blue-to-violet gradient, quiet grey supporting lines and photos that glow softly out of the dark.",
+  "summary": "A black keynote stage: centred white headlines, large solid-white numbers, one cool blue accent used sparingly, quiet grey supporting lines.",
   "use_for": [
     "technology launches and AI",
     "space and science",
@@ -84,16 +84,6 @@
         161,
         255
       ],
-      "grad1": [
-        90,
-        160,
-        255
-      ],
-      "grad2": [
-        196,
-        125,
-        255
-      ],
       "lt_panel": [
         0,
         0,
@@ -129,16 +119,11 @@
     }
   },
   "ground": {
-    "kind": "gradient",
+    "kind": "flat",
     "color": [
       0,
       0,
       0
-    ],
-    "color2": [
-      16,
-      16,
-      22
     ]
   },
   "finish": {
@@ -149,8 +134,8 @@
       1
     ],
     "grain": 0.0,
-    "glow": 0.12,
-    "vignette": 0.25,
+    "glow": 0.0,
+    "vignette": 0.0,
     "curve": 0.0,
     "dim": [
       0,
@@ -180,10 +165,6 @@
     "layout": "editorial",
     "align": "center",
     "eyebrow_sub": true,
-    "number_gradient": [
-      "grad1",
-      "grad2"
-    ],
     "shadow": 0.0
   },
   "type": {

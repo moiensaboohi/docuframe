@@ -5,7 +5,7 @@
 **Use for:** science and medicine, inventions, how experiments worked.
 **Avoid for:** Hard news and conflict.
 
-**Recipe:** panel = sticky, photo = tape, title = kinetic, number = counter, motion = pop, accents = shapes, source = chip, lower_third = chip, shadow = 0.0.
+**Recipe:** panel = sticky, photo = tape, title = kinetic, number = counter, motion = pop, accents = none, source = chip, lower_third = chip, shadow = 0.0.
 
 **Judge a still by:**
 - One hero per beat; everything else quieter.

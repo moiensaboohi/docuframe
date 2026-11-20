@@ -1,6 +1,6 @@
 # cinematic-dark — Cinematic dark
 
-**What it is:** Premium feature-documentary look: near-black warm gradient, full-frame photographs, slow drifting camera, thin gold serif titles, cinema bars.
+**What it is:** Feature-documentary restraint: warm near-black, full-frame photographs, slow drifting camera, thin serif titles in muted gold, cinema bars.
 
 **Use for:** prestige documentary, biography, brand and founder stories.
 **Avoid for:** Fast list videos and kids' content.

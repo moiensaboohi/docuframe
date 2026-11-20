@@ -159,7 +159,7 @@
     "title": "kinetic",
     "number": "counter",
     "motion": "slap",
-    "accents": "shapes",
+    "accents": "none",
     "source": "chip",
     "lower_third": "bar",
     "quote_font": "body",

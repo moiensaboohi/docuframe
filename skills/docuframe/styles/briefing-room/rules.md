@@ -1,6 +1,6 @@
 # briefing-room — Dark briefing room
 
-**What it is:** Deep navy situation-room look: glowing grid, glass panels with cyan edges, viewfinder brackets, monospace data and amber numbers.
+**What it is:** Situation-room clarity: flat deep navy with a faint grid, translucent panels with thin cyan edges, viewfinder brackets, monospace data and amber numbers.
 
 **Use for:** geopolitics and conflict, intelligence and investigations, cyber and space.
 **Avoid for:** Light, human-interest stories.

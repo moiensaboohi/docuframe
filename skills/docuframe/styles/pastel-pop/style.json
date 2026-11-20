@@ -1,6 +1,6 @@
 {
   "label": "Pastel pop",
-  "summary": "Soft peach ground, white cards, chunky friendly type with label chips, coral and violet shapes and bouncy motion.",
+  "summary": "Soft peach ground, white cards, chunky friendly type with label chips, coral and deep-teal shapes and bouncy motion.",
   "use_for": [
     "lifestyle and culture",
     "kids and family learning",
@@ -40,9 +40,9 @@
         89
       ],
       "highlight": [
-        124,
-        92,
-        255
+        31,
+        122,
+        112
       ],
       "text": [
         43,
@@ -55,14 +55,14 @@
         158
       ],
       "label": [
-        124,
-        92,
-        255
+        31,
+        122,
+        112
       ],
       "number": [
-        124,
-        92,
-        255
+        31,
+        122,
+        112
       ],
       "on_accent": [
         255,
@@ -167,7 +167,7 @@
     "title": "stack",
     "number": "bar",
     "motion": "pop",
-    "accents": "shapes",
+    "accents": "none",
     "source": "chip",
     "lower_third": "chip",
     "quote_font": "body",

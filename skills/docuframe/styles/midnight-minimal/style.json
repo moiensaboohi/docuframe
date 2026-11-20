@@ -119,16 +119,11 @@
     }
   },
   "ground": {
-    "kind": "gradient",
+    "kind": "flat",
     "color": [
       11,
       13,
       18
-    ],
-    "color2": [
-      16,
-      20,
-      30
     ]
   },
   "finish": {

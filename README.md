@@ -86,14 +86,14 @@ Twenty-four built-in looks, all drawn by code, in two families. Same film, same 
 
 <p align="center"><img src="docs/media/style-gallery-modern.jpg" width="760" alt="The same film in nine modern minimal docuframe styles: keynote-like light and dark, frosted glass light and dark, two slide styles, Swiss grid, soft serif and midnight"></p>
 
-Small confident type on a real grid, soft blur-in motion, numbers that count up with a thin meter, real frosted glass that blurs the light behind it.
+Small confident type on a real grid, soft blur-in motion, numbers that count up with a thin meter, real frosted glass over the film's own photographs.
 
 | Style | Look | Best for |
 |---|---|---|
 | `studio-light` | Product-keynote calm: soft light-grey stage, centred tight headlines in a modern sans, lots of air, photos with rounded corners, every element rising in with a soft blur. | technology and products, business and strategy, clean explainers of any kind |
-| `studio-dark` | A black keynote stage: centred white headlines, big numbers in a blue-to-violet gradient, quiet grey supporting lines and photos that glow softly out of the dark. | technology launches and AI, space and science, big-number stories |
-| `liquid-glass` | Frosted glass cards that really blur the soft colour light drifting behind them, bright specular edges, rounded type and calm centred layouts. | technology and design, lifestyle and wellbeing, product and app explainers |
-| `liquid-glass-night` | Dark glass over slow neon colour light: translucent cards with bright rims, white type, mint and violet accents; premium and modern. | technology and AI, music and culture, finance and crypto |
+| `studio-dark` | A black keynote stage: centred white headlines, large solid-white numbers, one cool blue accent used sparingly, quiet grey supporting lines. | technology launches and AI, space and science, big-number stories |
+| `liquid-glass` | Frosted glass over the film's own photographs: the picture behind each beat is washed light and blurred through clear glass cards with a thin bright rim. Calm, centred, one blue accent. | technology and design, lifestyle and wellbeing, product and app explainers |
+| `liquid-glass-night` | Dark frosted glass over the film's own photographs, dimmed: clear smoked cards with a thin rim, white type and a single soft mint accent. | technology and AI, music and culture, finance and crypto |
 | `slides-classic` | Clean presentation slides: white pages, a left-aligned header with a short blue bar, simple grey cards, plain photos, page numbers, hard cuts between slides. | lessons and courses, work and business explainers, step-by-step how-tos |
 | `slides-color` | Bold presentation slides: title and chapter slides on a full indigo colour field with white type, content slides on white with soft cards and indigo accents. | courses and workshops, company and team updates, pitch-style explainers |
 | `swiss-grid` | International-style minimalism: off-white page, strict left alignment, tight bold sans headlines, light oversized numbers, hairline rules and one red accent. | design, architecture and art, economics and data, essays with a clear argument |
@@ -111,18 +111,25 @@ Small confident type on a real grid, soft blur-in motion, numbers that count up 
 | `flat-explainer` | Bright off-white ground with a dot grid, rounded cards with soft shadows, bold geometric type, springy pop-ins and progress rings. | science and how-it-works, business and finance basics, education for all ages |
 | `minimal-mono` | Near-black ground, white type, nothing else: large kinetic headlines, hairline frames and slow wipes. Lets the words carry it. | essays and opinion, technology, philosophy and big ideas |
 | `archive-documentary` | Full-frame archive photographs with slow camera moves, warm film grain, elegant serif titles, typewriter labels and cinema bars. | history, biography, war and politics of the past |
-| `briefing-room` | Deep navy situation-room look: glowing grid, glass panels with cyan edges, viewfinder brackets, monospace data and amber numbers. | geopolitics and conflict, intelligence and investigations, cyber and space |
+| `briefing-room` | Situation-room clarity: flat deep navy with a faint grid, translucent panels with thin cyan edges, viewfinder brackets, monospace data and amber numbers. | geopolitics and conflict, intelligence and investigations, cyber and space |
 | `vintage-atlas` | Old printed-map feel: parchment ground with a faint graticule, sepia photos taped in, elegant serif headings, oxblood ink. | exploration and geography, empires and trade routes, historical journeys |
 | `newsroom` | Broadcast-news clarity: crisp light ground, heavy red title bars, framed photos, source chips and lower thirds, hard cuts. | news explainers, current affairs, fact-checks |
 | `case-file` | A detective's desk: manila folder ground, Polaroids, typewritten labels on torn paper, red stamps and red string between clues. | true crime, mysteries and cold cases, heists and scandals |
 | `lab-notebook` | Graph-paper ground, sticky notes, taped-in photos, handwritten headings and blue-ink circles: a scientist's notebook come alive. | science and medicine, inventions, how experiments worked |
-| `tech-gradient` | Deep violet gradient, glowing glass cards, mint data rings and tight geometric type. Premium, modern, made for tech and money. | technology and AI, finance and markets, startups and products |
-| `pastel-pop` | Soft peach ground, white cards, chunky friendly type with label chips, coral and violet shapes and bouncy motion. | lifestyle and culture, kids and family learning, food, travel and fun facts |
+| `tech-graphite` | Engineering-drawing calm: flat graphite ground with a faint grid, crisp grotesque type, monospace labels, signal-amber numbers on thin rings. No glow, no gradients. | technology and AI, finance and markets, engineering and products |
+| `pastel-pop` | Soft peach ground, white cards, chunky friendly type with label chips, coral and deep-teal shapes and bouncy motion. | lifestyle and culture, kids and family learning, food, travel and fun facts |
 | `bold-poster` | Neo-brutalist poster energy: saturated yellow ground, black ink outlines with hard offset shadows, giant black type, red hits. | hot takes and rankings, internet culture, sport and music |
-| `cinematic-dark` | Premium feature-documentary look: near-black warm gradient, full-frame photographs, slow drifting camera, thin gold serif titles, cinema bars. | prestige documentary, biography, brand and founder stories |
+| `cinematic-dark` | Feature-documentary restraint: warm near-black, full-frame photographs, slow drifting camera, thin serif titles in muted gold, cinema bars. | prestige documentary, biography, brand and founder stories |
 | `riso-print` | Two-ink riso zine: blue-and-pink duotone photos on cream stock, halftone dots, slightly off-register energy, condensed blue type. | art, music and design history, subculture stories, city and place portraits |
 
 More packs ship as data (`styles/<name>/style.json`) — see the roadmap and `community-styles/`.
+
+## Not AI slop
+
+Every look is held to written design rules (`skills/docuframe/references/design.md`): one accent
+colour with one job, no gradient text or rainbow gradients, no glow, no emoji, no stock phrases,
+no shapes that mean nothing, real sourced photographs. `docuframe check` flags breaks as `slop`
+warnings, both in a film's on-screen words and narration and in a style's settings.
 
 ## Languages
 

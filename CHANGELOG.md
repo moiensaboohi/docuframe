@@ -1,6 +1,11 @@
 # Changelog
 
 ## 0.1.0 — unreleased
+- Anti-slop pass: written design rules (references/design.md) and a `slop` check (stock phrases,
+  emoji, exclamation marks, ALL CAPS sentences, gradient text, gradient grounds, glow, too many
+  accent hues). Removed gradient text, rainbow light, gradient grounds and glow from the packs;
+  glass styles now frost the film's own photographs; rings only measure a real share; decorative
+  floating shapes removed. tech-gradient is replaced by tech-graphite.
 - Modern minimal family (9 packs): studio-light, studio-dark, liquid-glass, liquid-glass-night,
   slides-classic, slides-color, swiss-grid, soft-minimal, midnight-minimal. New "editorial" and
   "deck" layouts compose every beat on a grid with a px type scale (small, calm type), start or

@@ -1,11 +1,11 @@
 # liquid-glass — Liquid glass (light)
 
-**What it is:** Frosted glass cards that really blur the soft colour light drifting behind them, bright specular edges, rounded type and calm centred layouts.
+**What it is:** Frosted glass over the film's own photographs: the picture behind each beat is washed light and blurred through clear glass cards with a thin bright rim. Calm, centred, one blue accent.
 
 **Use for:** technology and design, lifestyle and wellbeing, product and app explainers.
 **Avoid for:** Hard news, conflict and grief.
 
-**Recipe:** motion = rise, source = quiet, lower_third = line, accents = blobs, panel = liquid, photo = liquid, title = kinetic, number = counter, layout = editorial, align = center, wrap = True, eyebrow_sub = True, shadow = 0.0.
+**Recipe:** motion = rise, source = quiet, lower_third = line, accents = backdrop, panel = liquid, photo = liquid, title = kinetic, number = counter, layout = editorial, align = center, wrap = True, eyebrow_sub = True, shadow = 0.0.
 
 **Judge a still by:**
 - One hero per beat; everything else quieter.

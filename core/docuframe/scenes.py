@@ -315,6 +315,16 @@ class Builder(EditorialScenes):
 
     def decorate(self, b, i, cx, cy, t0):
         kind = self.skin.get("accents", "none")
+        if kind == "backdrop":      # the film's own photos behind glass; quiet light if the film has none
+            keys = [k for k in self.doc.meta]
+            w = getattr(self, "vis_w", CLUSTER_W) * 1.2
+            h = getattr(self, "vis_h", CLUSTER_H) * 1.2
+            if keys:
+                key = b.get("photo") if b.get("photo") in self.doc.meta else keys[i % len(keys)]
+                self.film.add(K.Backdrop(key, cx, cy, w, h, self.c.get("bg", (0, 0, 0)), self.st.get("backdrop_wash", 0.55),
+                                         self.st.get("backdrop_blur", 0.0) * getattr(self, "px", 1.0)))
+                return
+            kind = "blobs"
         if kind == "blobs":         # colour light behind glass, on every beat so the camera never leaves it
             pal = [self.c[k] for k in ("blob1", "blob2", "blob3", "blob4") if k in self.c] or \
                   [self.c.get(k) for k in ("accent", "highlight", "label") if self.c.get(k)]
@@ -446,6 +456,8 @@ class Builder(EditorialScenes):
         share = b.get("share")
         if share is None and b.get("of"):
             share = float(v) / float(b["of"])
+        if kind == "ring" and share is None:
+            kind = "counter"        # a ring must measure a real share; a full ring around any number is decoration
         dec = None
         frac = repr(float(v)).split(".")[1]
         dec = 0 if frac == "0" else min(3, len(frac))

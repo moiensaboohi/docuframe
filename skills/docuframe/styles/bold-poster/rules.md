@@ -5,7 +5,7 @@
 **Use for:** hot takes and rankings, internet culture, sport and music.
 **Avoid for:** Grief, medicine, anything delicate.
 
-**Recipe:** panel = outline, photo = outline, title = kinetic, number = counter, motion = slap, accents = shapes, source = chip, lower_third = bar, shadow = 1.0.
+**Recipe:** panel = outline, photo = outline, title = kinetic, number = counter, motion = slap, accents = none, source = chip, lower_third = bar, shadow = 1.0.
 
 **Judge a still by:**
 - One hero per beat; everything else quieter.

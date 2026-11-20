@@ -170,7 +170,7 @@
     "title": "kinetic",
     "number": "ring",
     "motion": "pop",
-    "accents": "shapes",
+    "accents": "none",
     "source": "chip",
     "lower_third": "chip",
     "quote_font": "body",

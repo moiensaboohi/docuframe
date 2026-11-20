@@ -21,6 +21,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import re
 import pathlib
 
 import numpy as np
@@ -190,6 +191,98 @@ def check_chapters(b, duration, rep):
             rep.add("chapters", "fail", f"chapter {n!r} starts {c - a:.1f} s after the previous one (YouTube needs 10 s)", "Merge chapters.")
 
 
+# ---------------------------------------------------------------- slop: defaults nobody chose
+SLOP_PHRASES = ["did you know", "let's dive in", "let’s dive in", "dive into", "here's the thing", "here’s the thing", "in a world where",
+                "untold story", "you won't believe", "you won’t believe", "mind-blowing", "mind blowing", "game-changer",
+                "game changer", "revolutionary", "revolutionize", "revolutionise", "unlock", "unleash", "delve", "tapestry",
+                "testament to", "ever-evolving", "navigating the", "buckle up", "stay tuned", "without further ado",
+                "the secret behind", "changed everything", "shocking truth"]
+SLOP_PATTERNS = [r"\bnot (?:just|only) [^,.;]{1,40}, but\b", r"\bit'?s not about [^,.;]{1,40}, it'?s about\b"]
+EMOJI = re.compile("[\U0001F000-\U0001FAFF\u2600-\u27BF\u2B00-\u2BFF\u2190-\u21FF\uFE0F]")
+
+
+def _beat_texts(beat):
+    """(field, text) for everything a beat puts on screen."""
+    out = []
+    for k in ("text", "sub", "kicker", "caption", "label", "title", "who", "name", "role"):
+        if isinstance(beat.get(k), str):
+            out.append((k, beat[k]))
+    for it in beat.get("items", []) or []:
+        out.append(("item", it["text"] if isinstance(it, dict) else str(it)))
+    for side in ("left", "right"):
+        if isinstance(beat.get(side), dict):
+            out.append(("title", beat[side].get("title", "")))
+            out += [("line", x) for x in beat[side].get("lines", [])]
+    for ev in beat.get("events", []) or []:
+        out += [("label", str(ev.get("label", ""))), ("when", str(ev.get("when", "")))]
+    return [(k, t) for k, t in out if t]
+
+
+def _hue(rgb):
+    import colorsys
+    r, g, b = (v / 255 for v in rgb[:3])
+    h, l, s_ = colorsys.rgb_to_hls(r, g, b)
+    return None if s_ < 0.25 or l < 0.12 or l > 0.92 else h
+
+
+def check_slop(proj, plan, st, rep):
+    """Generated-looking choices: stock phrases, emoji, shouting, gradient text, glow, too many colours."""
+    modern = (st.get("skin") or {}).get("layout", "center") != "center"
+    hits = 0
+    for i, beat in enumerate(plan.get("beats", [])):
+        for field, txt in _beat_texts(beat):
+            low = txt.lower()
+            bad = [ph for ph in SLOP_PHRASES if ph in low] + [m.group(0) for pat in SLOP_PATTERNS for m in re.finditer(pat, low)]
+            if bad:
+                rep.add("slop", "warn", f"beat {i + 1} {field}: stock phrase {bad[0]!r} in {txt[:50]!r}",
+                        "Say the specific fact instead (references/design.md).")
+                hits += 1
+            if EMOJI.search(txt):
+                rep.add("slop", "warn", f"beat {i + 1} {field}: emoji or decorative symbol in {txt[:50]!r}", "Remove it; let the words carry it.")
+                hits += 1
+            if "!" in txt and field in ("text", "title", "kicker", "label", "sub", "caption"):
+                rep.add("slop", "warn", f"beat {i + 1} {field}: exclamation mark in {txt[:50]!r}", "Drop it; the fact is the surprise.")
+                hits += 1
+            words = [w for w in re.split(r"\s+", txt) if any(ch.isalpha() for ch in w)]
+            if modern and len(words) > 3 and txt.upper() == txt and any(ch.isalpha() and ch.isupper() for ch in txt):
+                rep.add("slop", "warn", f"beat {i + 1} {field}: {len(words)} words in ALL CAPS: {txt[:50]!r}", "Use sentence case.")
+                hits += 1
+    narr = proj / "audio" / "timing.json"
+    if narr.exists():
+        try:
+            segs = json.loads(narr.read_text(encoding="utf-8")).get("segments", [])
+        except ValueError:
+            segs = []
+        for sg in segs:
+            low = str(sg.get("caption") or sg.get("vo") or "").lower()
+            bad = [ph for ph in SLOP_PHRASES if ph in low]
+            if bad:
+                rep.add("slop", "warn", f"narration line {sg.get('id')}: stock phrase {bad[0]!r}", "Rewrite the line around the fact.")
+                hits += 1
+    skin = st.get("skin") or {}
+    if skin.get("number_gradient") or skin.get("title_gradient"):
+        rep.add("slop", "warn", "style turns on gradient text", "Use one solid colour for numbers and titles.")
+        hits += 1
+    g = st.get("ground") or {}
+    if g.get("kind") == "gradient" and sum(abs(a - b) for a, b in zip(g.get("color", [0, 0, 0]), g.get("color2", g.get("color", [0, 0, 0])))) > 45:
+        rep.add("slop", "warn", "style ground is a visible colour gradient", "Use a flat ground; let photographs and type give depth.")
+        hits += 1
+    if (st.get("finish") or {}).get("glow", 0) > 0.12:
+        rep.add("slop", "warn", f"style glow is {st['finish']['glow']}", "Keep glow under 0.12 unless the subject is light itself.")
+        hits += 1
+    cols = (st.get("tokens") or {}).get("color", {})
+    hues = []
+    for k in ("accent", "highlight", "label", "number", "mark"):
+        h = _hue(cols[k]) if k in cols else None
+        if h is not None and all(min(abs(h - x), 1 - abs(h - x)) > 0.06 for x in hues):
+            hues.append(h)
+    if len(hues) > 2:
+        rep.add("slop", "warn", f"style uses {len(hues)} accent hues", "Pick one accent (two at most) and give it one job.")
+        hits += 1
+    if not hits:
+        rep.add("slop", "pass", "no stock phrases, emoji, shouting, gradient text or colour sprawl")
+
+
 def run_checks(proj, fmt=None, frames=True):
     from .render import make, size_for
     proj = pathlib.Path(proj).resolve()
@@ -205,6 +298,7 @@ def run_checks(proj, fmt=None, frames=True):
         check_frames(proj, film, r, b, fmt, rep, proj / "out" / "check")
     check_captions(proj, rep)
     check_chapters(b, b.doc.duration, rep)
+    check_slop(proj, plan, st, rep)
     for note in r.res.book.notes:
         rep.add("fonts", "warn", note, "Run docuframe doctor to fetch fonts.")
     out = proj / "out"; out.mkdir(exist_ok=True)
