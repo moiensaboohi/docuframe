@@ -97,9 +97,29 @@ The manifest keeps it as proof of human creative direction.
 
 ## Style menu
 
-One line each; pick by subject and tone. `styles` lists every installed pack.
+One line each; pick by subject and tone. `styles` lists every installed pack; each has stills in
+`styles/<name>/stills/` to show the user. If they can't decide, show two or three that fit and let them pick.
 
-- **evidence-board** — dark cork wall, pinned photos, red string, one continuous camera. True crime, history, investigations, biographies.
+| Style | Look | Best for |
+|---|---|---|
+| `evidence-board` | dark cork wall, pinned photos, red string, one continuous camera | true crime, history, investigations, biographies |
+| `editorial-collage` | Torn paper, duotone cut-out photos, bold condensed type slapped onto a warm paper ground; scraps of colour around every idea | culture and history explainers, politics and economics, people and ideas |
+| `flat-explainer` | Bright off-white ground with a dot grid, rounded cards with soft shadows, bold geometric type, springy pop-ins and progress rings | science and how-it-works, business and finance basics, education for all ages |
+| `minimal-mono` | Near-black ground, white type, nothing else | essays and opinion, technology, philosophy and big ideas |
+| `archive-documentary` | Full-frame archive photographs with slow camera moves, warm film grain, elegant serif titles, typewriter labels and cinema bars | history, biography, war and politics of the past |
+| `briefing-room` | Deep navy situation-room look | geopolitics and conflict, intelligence and investigations, cyber and space |
+| `vintage-atlas` | Old printed-map feel | exploration and geography, empires and trade routes, historical journeys |
+| `newsroom` | Broadcast-news clarity | news explainers, current affairs, fact-checks |
+| `case-file` | A detective's desk | true crime, mysteries and cold cases, heists and scandals |
+| `lab-notebook` | Graph-paper ground, sticky notes, taped-in photos, handwritten headings and blue-ink circles | science and medicine, inventions, how experiments worked |
+| `tech-gradient` | Deep violet gradient, glowing glass cards, mint data rings and tight geometric type | technology and AI, finance and markets, startups and products |
+| `pastel-pop` | Soft peach ground, white cards, chunky friendly type with label chips, coral and violet shapes and bouncy motion | lifestyle and culture, kids and family learning, food, travel and fun facts |
+| `bold-poster` | Neo-brutalist poster energy | hot takes and rankings, internet culture, sport and music |
+| `cinematic-dark` | Premium feature-documentary look | prestige documentary, biography, brand and founder stories |
+| `riso-print` | Two-ink riso zine | art, music and design history, subculture stories, city and place portraits |
+
+Every pack works in 16:9, 9:16 and 1:1 and in every script (RTL and Indic included). Users can ask
+for a look in plain words ("paper cut-out", "clean flat", "dark and premium") — map it to the nearest pack.
 
 More packs are added as data in `styles/<name>/style.json`; their `rules.md` says when to use them.
 If the user names a look you don't have, pick the nearest pack and say so — never imitate a named
@@ -171,4 +191,3 @@ Refuse briefly, offer a nearby safe version if there is one:
 - Word timing without `align` is an estimate (~150–250 ms).
 - Archive search covers Wikimedia Commons; other archives need the item URL and its rights line.
 - Rendering is CPU-only: expect roughly real-time ×2–4 at 1080p on a 4-core laptop; long films take a while.
-- One style pack ships in this version; see the README for the roadmap.

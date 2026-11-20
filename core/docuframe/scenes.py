@@ -33,6 +33,7 @@ import pathlib
 import skia
 
 from . import engine as E
+from . import skins as K
 from . import styles as S
 
 FORMATS = {"16:9": (1920, 1080), "9:16": (1080, 1920), "1:1": (1080, 1080), "4:5": (1080, 1350)}
@@ -40,37 +41,6 @@ CLUSTER_W, CLUSTER_H = 3600, 2300
 
 
 # ---------------------------------------------------------------- new items (world space)
-class Panel(E.Item):
-    """A flat panel (card, quote slip, comparison column) in the style's paper colour."""
-    z = 11
-
-    def __init__(self, x, y, w, h, t_in, rgb, rot=0.0, radius=28, shadow=0.35, accent=None, t_out=None):
-        super().__init__(t_in, t_out)
-        self.x, self.y, self.w, self.h, self.rgb, self.rot, self.radius, self.shadow, self.accent = x, y, w, h, rgb, rot, radius, shadow, accent
-
-    def bounds(self, res):
-        r = max(self.w, self.h) * 0.75 + 200
-        return skia.Rect.MakeLTRB(self.x - r, self.y - r, self.x + r, self.y + r)
-
-    def cues(self):
-        return [("paper", self.t_in, 0.5, {})]
-
-    def draw(self, c, res, t):
-        u = E.ease_out_cubic(E.ramp(t, self.t_in, 0.55))
-        a = self.fade(t) * u
-        if a <= 0:
-            return
-        c.save(); c.translate(self.x, self.y + (1 - u) * 120); c.rotate(self.rot)
-        r = skia.RRect.MakeRectXY(skia.Rect.MakeXYWH(-self.w / 2, -self.h / 2, self.w, self.h), self.radius, self.radius)
-        if self.shadow:
-            sh = skia.RRect.MakeRectXY(skia.Rect.MakeXYWH(-self.w / 2 + 30, -self.h / 2 + 50, self.w, self.h), self.radius, self.radius)
-            c.drawRRect(sh, E.paint((0, 0, 0), self.shadow * a, blur=60))
-        c.drawRRect(r, E.paint(self.rgb, a))
-        if self.accent:
-            c.drawRect(skia.Rect.MakeXYWH(-self.w / 2, -self.h / 2, 26, self.h), E.paint(self.accent, a))
-        c.restore()
-
-
 class TextBlock(E.Item):
     """Wrapped, shaped text (any script) that fades and rises in. align: left | center | right
     (for right-to-left text, left/right follow reading direction automatically via `start`)."""
@@ -147,54 +117,6 @@ class Timeline(E.Item):
                 c.restore()
 
 
-# ---------------------------------------------------------------- overlays (screen space, short side = 1080)
-class SourceLine(E.Item):
-    """Small "Source: ..." line in the lower corner while a beat is on screen."""
-    z = 200
-
-    def __init__(self, text, t_in, t_out, rgb=(240, 236, 228), safe=(60, 60)):
-        super().__init__(t_in, t_out)
-        self.text, self.rgb, self.safe = text, rgb, safe
-
-    def draw(self, c, res, t):
-        a = E.ramp(t, self.t_in + 0.3, 0.4) * self.fade(t)
-        if a <= 0:
-            return
-        W, H = res.overlay_size
-        vertical = H > W
-        y = H - (H * 0.24 if vertical else self.safe[1])
-        x = W - self.safe[0] if not vertical else W / 2
-        c.drawRect(skia.Rect.MakeLTRB(0, y - 40, W, H), E.paint((0, 0, 0), 0.0))
-        E.draw_text(c, res, self.text, x + 1.5, y + 1.5, 26, "label", (0, 0, 0), 0.6 * a, 0.02, "center" if vertical else "right")
-        E.draw_text(c, res, self.text, x, y, 26, "label", self.rgb, 0.9 * a, 0.02, "center" if vertical else "right")
-
-
-class LowerThird(E.Item):
-    z = 210
-
-    def __init__(self, name, role, t_in, t_out, bar_rgb, text_rgb=(250, 248, 244)):
-        super().__init__(t_in, t_out)
-        self.name, self.role, self.bar, self.text_rgb = name, role, bar_rgb, text_rgb
-
-    def draw(self, c, res, t):
-        u = E.ease_out_cubic(E.ramp(t, self.t_in, 0.45)) * self.fade(t)
-        if u <= 0:
-            return
-        W, H = res.overlay_size
-        vertical = H > W
-        x = 80 if not vertical else 70
-        y = H - (200 if not vertical else H * 0.30)
-        nw = E.text_width(res, self.name, 46, "cond", 0.04) + 60
-        c.drawRect(skia.Rect.MakeXYWH(x, y - 58, nw * u, 76), E.paint(self.bar, 0.95))
-        if u > 0.6:
-            E.draw_text(c, res, self.name, x + 30, y, 46, "cond", self.text_rgb, (u - 0.6) / 0.4, 0.04)
-        if self.role:
-            rw = E.text_width(res, self.role, 28, "label") + 50
-            c.drawRect(skia.Rect.MakeXYWH(x, y + 22, rw * u, 50), E.paint((20, 20, 20), 0.85))
-            if u > 0.7:
-                E.draw_text(c, res, self.role, x + 25, y + 56, 28, "label", (235, 235, 235), (u - 0.7) / 0.3)
-
-
 # ---------------------------------------------------------------- layout
 def _pos(i, n, st, fmt):
     lay = st["layout"]
@@ -218,7 +140,22 @@ class Builder:
     def __init__(self, doc: E.Doc, plan: dict, style: dict, fmt: str):
         self.doc, self.plan, self.st, self.fmt = doc, plan, style, fmt
         self.W, self.H = FORMATS[fmt]
-        self.film = E.Film(doc.duration, fps=int(plan.get("fps", 30)), look=dict(style["finish"]))
+        self.skin = {**S.DEFAULTS["skin"], **style.get("skin", {})}
+        look = dict(style["finish"])
+        ground = style.get("ground", {})
+        if ground.get("kind", "texture") != "texture":
+            look["board"] = None
+            look["bg"] = tuple(ground.get("color", look.get("bg", (20, 20, 20))))
+            if ground.get("kind") == "gradient":
+                look["bg2"] = tuple(ground.get("color2", look["bg"]))
+        look["handheld"] = style.get("camera_feel", {}).get("handheld", 1.0)
+        self.film = E.Film(doc.duration, fps=int(plan.get("fps", 30)), look=look)
+        if ground.get("pattern"):
+            self.film.add(K.Ground(ground["pattern"], ground.get("pattern_rgb", (0, 0, 0)), ground.get("pattern_alpha", 0.08),
+                                   ground.get("pattern_step", 240)))
+        if self.skin.get("letterbox") and self.W > self.H:
+            self.film.overlay(K.Letterbox(doc.duration))
+        self.feel = {"travel": 0.85, "push": 1.05, **style.get("camera_feel", {})}
         self.film.roles = S.roles(style)
         self.film.lang = plan.get("lang") or doc.timing.get("lang")
         self.c = {k: tuple(v) for k, v in style["tokens"]["color"].items()}
@@ -277,16 +214,20 @@ class Builder:
             zoom = fn(b, i, cx, cy, rot, t0, t1) or self.zoom_for()
             if b.get("source"):
                 self.sources.append(b["source"])
-                f.overlay(SourceLine(self.source_text(b["source"]), t0, t1 - 0.4, self.c.get("text", (240, 236, 228))))
+                f.overlay(K.SourceTag(self.source_text(b["source"]), t0, t1 - 0.4, self.skin["source"],
+                                      self.c.get("source_fg", self.c.get("text")), self.c.get("source_bg", self.c.get("ink")),
+                                      bool(self.skin.get("letterbox"))))
+            self.decorate(b, i, cx, cy, t0)
             # camera: arrive on the cluster as the beat starts, push in gently while it holds
             if kind == "lower-third":
                 continue
             nxt = ends[i] if i + 1 < len(beats) else self.doc.duration
             last = i == len(beats) - 1
             if world:
+                travel = self.feel["travel"]
                 arrive = 0.0 if i == 0 else max(0.0, t0 - 0.05)
-                hold = (min(nxt - 0.85, self._pull_t(starts) - 0.3) if last and self._wants_pull(beats, starts) else nxt - 0.85)
-                push = 1.03 if self.H > self.W else 1.05
+                hold = (min(nxt - travel, self._pull_t(starts) - 0.3) if last and self._wants_pull(beats, starts) else nxt - travel)
+                push = 1 + (self.feel["push"] - 1) * (0.6 if self.H > self.W else 1.0)
                 f.shot(arrive, cx, cy, zoom * 0.97, rot=rot * 0.15)
                 if hold > arrive + 0.4:
                     # same point, slow push-in: equal positions give the spline a zero slope, so the
@@ -296,10 +237,10 @@ class Builder:
                 if i:
                     f.cut(t0 - 0.02)
                 f.shot(max(0.0, t0 - 0.02), cx, cy, zoom * 0.98)
-                f.shot(max(t0 + 0.3, nxt - 0.06), cx, cy, zoom * 1.08)
+                f.shot(max(t0 + 0.3, nxt - 0.06), cx, cy, zoom * self.feel["push"])
             prev_center = (cx, cy)
         # strings between photos (evidence style) and a final pull-back over the whole world
-        if self.st["scenes"].get("photo", {}).get("strings") and len(self.prints) > 1:
+        if self.skin.get("strings") and len(self.prints) > 1:
             for (ia, pa), (ib, pb) in zip(self.prints, self.prints[1:]):
                 f.add(E.StringLine((pa.x, pa.y - 600), (pb.x, pb.y - 600), pb.t_in + 0.2, dur=0.9))
         if world and self._wants_pull(beats, starts):
@@ -337,29 +278,73 @@ class Builder:
         return starts[-1] + 2.5
 
     # -- scenes (each returns the camera zoom it wants, or None for the default)
+    # -- shared pieces
+    def headline(self, text, x, y, size, t0, role="display", rgb=None, kicker=None, accent_rule=True):
+        """A title in the style's title skin. Returns the size actually used."""
+        kind = self.skin["title"]
+        rgb = rgb or self.c.get("text")
+        size = self.fit(text, size, role, 0.04 if kind == "bar" else 0.0)
+        f = self.film
+        if kind == "kinetic" or kind == "stack":
+            if kicker and kind == "stack":
+                f.add(K.Kicker(kicker, x, y - size * 1.3, max(72, size * 0.26), t0, self.c.get("accent"), self.c.get("on_accent", (255, 255, 255)),
+                               self.skin["motion"]))
+            f.add(K.Kinetic(text, x, y, size, t0 + (0.15 if kicker else 0), rgb, role, self.c.get("accent"), accent_rule and kind == "kinetic"))
+        elif kind == "serif":
+            f.add(E.BigText(text, x, y, size, t0, font=role, rgb=rgb, track=0.01, grunge=False, shadow=False, hit=None))
+            f.add(K.Rule(x, y - size * 0.32, E.text_width(self.doc.res(), text, size, role, 0.01) / 2 + size * 0.5, size * 1.2, t0 + 0.3,
+                         self.c.get("accent", rgb), max(4, size * 0.012)))
+        elif kind == "torn":
+            w = E.text_width(self.doc.res(), text, size, role, 0.02) + size * 1.4
+            f.add(K.Card(x, y - size * 0.36, w, size * 1.55, t0, self.c.get("paper"), "torn", "slap", rot=-1.5, seed=len(text)))
+            f.add(E.BigText(text, x, y, size, t0 + 0.12, font=role, rgb=self.c.get("ink"), track=0.02, grunge=False, shadow=False, hit=0.6))
+        else:   # bar
+            sc = self.st["scenes"].get("title", {})
+            bar = self.c.get(sc.get("bar", "label"))
+            f.add(E.BigText(text, x, y, size, t0, font=role, rgb=rgb, type_on=sc.get("type_on", 0.6), grunge=sc.get("grunge", True), bar=bar,
+                            bar_h=sc.get("bar_h", 0.92), shadow=sc.get("shadow", True), hit=sc.get("hit", 0.8)))
+        return size
+
+    def panel(self, x, y, w, h, t0, rot=0.0, accent=None, seed=1):
+        return self.film.add(K.Card(x, y, w, h, t0, self.c.get("paper"), self.skin["panel"], self.skin["motion"], rot=rot,
+                                    accent=accent, ink=self.c.get("ink"), seed=seed))
+
+    def decorate(self, b, i, cx, cy, t0):
+        kind = self.skin.get("accents", "none")
+        if kind == "none" or b["scene"] in ("lower-third", "map", "photo") and kind != "corners":
+            return
+        if kind in ("shapes", "scraps", "halftone") and i % 2:      # every other beat: variety, not clutter
+            return
+        palette = [self.c.get(k) for k in ("accent", "highlight", "label", "muted") if self.c.get(k)]
+        if kind == "halftone":
+            palette = [self.c.get("highlight", self.c.get("accent"))]
+        if kind == "corners":
+            palette = [self.c.get("accent")]
+        self.film.add(K.Accents(kind, cx, cy, CLUSTER_W * 0.92, CLUSTER_H * 0.92, t0 + 0.1, palette, seed=i + 3))
+
+    # -- scenes (each returns the camera zoom it wants, or None for the default)
     def scene_title(self, b, i, cx, cy, rot, t0, t1):
-        sc = self.st["scenes"].get("title", {})
-        size = b.get("size", sc.get("size", 560))
-        size = self.fit(b["text"], size)          # fit the frame: shrink rather than crop
-        bar = self.c.get(sc["bar"]) if sc.get("bar") else None
-        self.film.add(E.BigText(b["text"], cx, cy, size, t0, rgb=self.c.get(sc.get("color", "text"), (246, 243, 236)),
-                                type_on=sc.get("type_on", 0.6), grunge=sc.get("grunge", True), bar=bar,
-                                bar_h=sc.get("bar_h", 0.92), shadow=sc.get("shadow", True), hit=sc.get("hit", 0.8)))
-        if b.get("sub"):
-            self.film.add(E.BigText(b["sub"], cx, cy + size * 0.75, size * 0.32, t0 + 0.6, font="label",
-                                    rgb=self.c.get("muted", (200, 190, 180)), grunge=False, shadow=False))
+        size = self.headline(b["text"], cx, cy, b.get("size", self.st["scenes"].get("title", {}).get("size", 560)), t0,
+                             kicker=b.get("kicker") or (b.get("sub") if self.skin["title"] == "stack" else None))
+        if b.get("sub") and self.skin["title"] != "stack":
+            self.film.add(TextBlock(b["sub"], cx, cy + size * 0.55, CLUSTER_W * 0.8, max(110, size * 0.24), t0 + 0.6, role="label",
+                                    rgb=self.c.get("muted", self.c.get("text"))))
         if b.get("chapter", True):
             self.chapters.append((t0, b.get("chapter_title", b["text"])))
         return None
 
     def scene_chapter(self, b, i, cx, cy, rot, t0, t1):
         n = b.get("number")
-        if n is not None:
-            self.film.add(E.BigText(f"{int(n):02d}", cx, cy - 520, 300, t0, rgb=self.c.get("accent"), grunge=False, shadow=False))
-        self.film.add(E.BigText(b["title"], cx, cy + 120, b.get("size", 380), t0 + 0.2, rgb=self.c.get("text"),
-                                type_on=0.5, grunge=self.st["scenes"].get("chapter", {}).get("grunge", False), hit=0.6))
+        kick = b.get("kicker") or (f"{self.chapter_word()} {int(n):02d}" if n is not None else None)
+        if kick and self.skin["title"] != "stack":
+            self.film.add(K.Kicker(kick, cx, cy - 560, 70, t0, self.c.get("accent"), self.c.get("on_accent", (255, 255, 255)), self.skin["motion"]))
+        self.headline(b["title"], cx, cy + 80, b.get("size", 420), t0 + 0.15, kicker=kick)
         self.chapters.append((t0, b["title"]))
         return self.zoom_for(CLUSTER_W * 1.1, CLUSTER_H * 1.1)
+
+    def chapter_word(self):
+        return {"fa": "فصل", "ar": "الفصل", "hi": "अध्याय", "es": "CAPÍTULO", "fr": "CHAPITRE", "de": "KAPITEL", "pt": "CAPÍTULO",
+                "zh": "第", "ja": "第"}.get((self.film.lang or "en").split("-")[0], "CHAPTER")
 
     def scene_photo(self, b, i, cx, cy, rot, t0, t1):
         sc = self.st["scenes"].get("photo", {})
@@ -367,23 +352,32 @@ class Builder:
         meta = self.doc.meta.get(key)
         if meta is None:
             raise SystemExit(f"beat {i + 1}: photo {key!r} is not prepared. Add it to photos.json and run docuframe assets.")
-        w = b.get("w", sc.get("w", 2700))
-        if meta["h"] / meta["w"] * w > CLUSTER_H * 1.05:
-            w = CLUSTER_H * 1.05 * meta["w"] / meta["h"]
-        pr = E.Print(key, cx, cy, w, rot=rot, t_in=t0, label=b.get("label"), label_t=t0 + 0.6 if b.get("label") else None,
-                     pin=sc.get("pin", True), border=sc.get("border", 0.035), label_rgb=self.c.get("label", (176, 24, 20)))
+        skin = b.get("skin", self.skin["photo"])
+        w = b.get("w", sc.get("w", 3300 if skin == "full" else 2700))
+        limit = CLUSTER_H * (1.1 if skin == "full" else 1.0)
+        if meta["h"] / meta["w"] * w > limit:
+            w = limit * meta["w"] / meta["h"]
+        label = b.get("label")
+        pr = K.Photo(key, cx, cy, w, t0, skin=skin, motion=self.skin["motion"], rot=rot if skin != "full" else 0.0, label=label,
+                     label_t=t0 + 0.6 if label else None, caption=b.get("caption"), bar_rgb=self.c.get("label", (176, 24, 20)),
+                     ink=self.c.get("ink"), paper=self.c.get("photo_paper", (250, 248, 242)), seed=i + 1)
         self.film.add(pr)
         self.prints.append((i, pr))
         self.photos_used.append(key)
         m = b.get("mark")
+        pw, ph = pr.size(self.doc.meta)
         if m:
-            x, y = self.doc.on(pr, m.get("fx", 0.5), m.get("fy", 0.5))
-            pw, ph = pr.size_from(self.doc.meta)
+            x, y = E.turn(pr.x, pr.y, (m.get("fx", 0.5) - 0.5) * pw, (m.get("fy", 0.5) - 0.5) * ph, pr.rot)
             tm = self.t_of({"line": b.get("line"), "at": m.get("at")}) if m.get("at") else t0 + 1.0
             self.film.add(E.PenMark(m.get("kind", "ellipse"), x, y, m.get("w", 0.35) * pw, m.get("h", 0.3) * ph, t_in=tm,
-                                    rot=rot, rgb=self.c.get("accent", (160, 22, 20)), width=16))
-        pw, ph = pr.size_from(self.doc.meta)
-        return self.zoom_for(max(pw * 1.3, CLUSTER_W * 0.8), max(ph * (1.6 if b.get("label") else 1.35), CLUSTER_H * 0.8))
+                                    rot=pr.rot, rgb=self.c.get("mark", self.c.get("accent", (160, 22, 20))), width=16))
+        if self.skin.get("accents") == "corners":
+            self.film.add(K.Accents("corners", cx, cy, pw * 1.12, ph * 1.12, t0 + 0.3, [self.c.get("accent")]))
+        if skin == "full":
+            return self.zoom_for(pw * 1.02, ph * 1.02)
+        if skin == "polaroid":
+            ph += pw * 0.22         # the white foot hangs under the picture
+        return self.zoom_for(max(pw * 1.3, CLUSTER_W * 0.8), max(ph * (1.6 if label else 1.35), CLUSTER_H * 0.8))
 
     def scene_document(self, b, i, cx, cy, rot, t0, t1):
         if b.get("photo"):
@@ -407,28 +401,72 @@ class Builder:
         quoted = f"«{q}»" if is_rtl(q) else f"“{q}”"
         size = b.get("size", 170)
         res = self.doc.res()
-        qh = res.book.paragraph(quoted, size, "serif", ink, width=w * 0.84, align="center").Height
+        qh = res.book.paragraph(quoted, size, self.skin.get("quote_font", "serif"), ink, width=w * 0.84, align="center").Height
         who = " — ".join(x for x in (b.get("who"), b.get("when")) if x)
         gap, wsize = 110, 105
         total = qh + (gap + wsize * 1.3 if who else 0)
         h = max(h, total + 500)
-        self.film.add(Panel(cx, cy, w, h, t0, paper, rot=rot * 0.5, accent=self.c.get("accent")))
+        self.panel(cx, cy, w, h, t0, rot=rot * 0.5, accent=self.c.get("accent"), seed=i)
         top = cy - total / 2
-        self.film.add(TextBlock(quoted, cx, top, w * 0.84, size, t0 + 0.25, role="serif", rgb=ink, align="center"))
+        self.film.add(TextBlock(quoted, cx, top, w * 0.84, size, t0 + 0.25, role=self.skin.get("quote_font", "serif"), rgb=ink, align="center"))
         if who:
             self.film.add(TextBlock(who, cx, top + qh + gap, w * 0.8, wsize, t0 + 0.9, role="label", rgb=ink, align="center"))
         return self.zoom_for(w * 1.15, h * 1.15)
 
     def scene_big_number(self, b, i, cx, cy, rot, t0, t1):
         v = b["value"]
+        col = self.c.get("number", self.c.get("highlight"))
+        kind = self.skin["number"]
+        role = self.skin.get("number_font", "cond")
+        shadow = self.skin.get("shadow", 0.45)
+        shadow_rgb = self.c.get("shadow", (0, 0, 0))
+        cap_rgb = self.c.get(self.skin.get("caption_color", "number"), col)
+        size = b.get("size", 900 if kind == "counter" else 760)
         if isinstance(v, str):
-            self.film.add(E.BigText(v, cx, cy, self.fit(v, b.get("size", 900)), t0, rgb=self.c.get("highlight"), hit=0.9))
+            size = self.fit(v, size, role, 0.02)
+            self.film.add(E.BigText(v, cx, cy, size, t0, font=role, rgb=col, grunge=self.skin["title"] == "bar", hit=0.9,
+                                    shadow=shadow, shadow_rgb=shadow_rgb))
+            if b.get("caption"):
+                self.film.add(TextBlock(b["caption"], cx, cy + size * 0.22, CLUSTER_W * 0.8, max(130, size * 0.2), t0 + 0.5, role="label",
+                                        rgb=self.c.get("text")))
+            return None
+        share = b.get("share")
+        if share is None and b.get("of"):
+            share = float(v) / float(b["of"])
+        dec = None
+        frac = repr(float(v)).split(".")[1]
+        dec = 0 if frac == "0" else min(3, len(frac))
+        final = f"{b.get('prefix', '')}{float(v):,.{dec}f}{b.get('suffix', '')}"
+        caption = b.get("caption")
+        gap = 0.45
+        csize = min(200, max(120, size * 0.2))
+        ny = cy + size * 0.22
+        if kind == "ring":
+            r = size * 0.95
+            gy = cy - size * 0.12
+            self.film.add(K.Gauge(cx, gy, r, share if share is not None else 1.0, t0, self.c.get("accent"),
+                                  self.c.get("muted", (128, 128, 128)), "ring"))
+            # the number sits inside the ring; the caption goes under the ring
+            size = r * 0.62
+            tw = E.text_width(self.doc.res(), final, size, role, 0.02)
+            if tw > r * 1.5:
+                size *= r * 1.5 / tw
+            ny = gy + size * 0.36
+            gap = (gy + r + r * 0.3 - ny) / size
+        elif kind == "bar":
+            size = self.fit(final, size, role, 0.02, 0.8)
+            ny = cy + size * 0.22
+            tw = E.text_width(self.doc.res(), final, size, role, 0.02)
+            self.film.add(K.Gauge(cx, ny + size * 0.16, tw / 2.4, share if share is not None else 1.0, t0 + 0.2, self.c.get("accent"),
+                                  self.c.get("muted", (128, 128, 128)), "bar"))
+            gap = 0.75
         else:
-            self.film.add(E.Counter(cx, cy + 200, b.get("size", 900), v, t0, dur=b.get("dur", 1.3), prefix=b.get("prefix", ""),
-                                    suffix=b.get("suffix", ""), caption=b.get("caption"), rgb=self.c.get("highlight", (246, 206, 46))))
-        if b.get("caption") and isinstance(v, str):
-            self.film.add(E.BigText(b["caption"], cx, cy + 520, self.fit(b["caption"], 200, "label"), t0 + 0.5, font="label",
-                                    rgb=self.c.get("text"), grunge=False))
+            size = self.fit(final, size, role, 0.02)
+            ny = cy + size * 0.22
+        self.film.add(E.Counter(cx, ny, size, v, t0, dur=b.get("dur", 1.3), prefix=b.get("prefix", ""), suffix=b.get("suffix", ""),
+                                caption=caption.upper() if caption and self.skin.get("caps_captions", True) else caption,
+                                rgb=col, font=role, shadow=shadow, shadow_rgb=shadow_rgb, caption_font="label", caption_rgb=cap_rgb,
+                                caption_gap=gap, decimals=dec, caption_size=csize, caption_max=CLUSTER_W * 0.78))
         return None
 
     def scene_timeline(self, b, i, cx, cy, rot, t0, t1):
@@ -449,7 +487,7 @@ class Builder:
         for k, side in enumerate((b["left"], b["right"])):
             x, y = (cx, cy + (k - 0.5) * (ph + 160)) if tall else (cx + (k - 0.5) * (pw + 160), cy)
             tk = t0 + 0.1 + k * 0.6
-            self.film.add(Panel(x, y, pw, ph, tk, paper, accent=self.c.get("accent") if k else self.c.get("muted")))
+            self.panel(x, y, pw, ph, tk, accent=self.c.get("accent") if k else self.c.get("muted"), seed=i * 7 + k)
             ts = self.fit(side["title"], 260, "cond", frac=pw / CLUSTER_W * 0.85)
             body = "\n".join(side.get("lines", []))
             bh = self.doc.res().book.paragraph(body, 140, "label", ink, width=pw * 0.85, align="center").Height if body else 0
@@ -465,7 +503,7 @@ class Builder:
         row = 300
         h = 520 + row * len(items) + (260 if b.get("title") else 0)
         w = 3100
-        self.film.add(Panel(cx, cy, w, h, t0, paper, rot=rot * 0.4, accent=self.c.get("accent")))
+        self.panel(cx, cy, w, h, t0, rot=rot * 0.4, accent=self.c.get("accent"), seed=i)
         y = cy - h / 2 + 230
         if b.get("title"):
             self.film.add(TextBlock(b["title"], cx, y, w * 0.86, 200, t0 + 0.2, role="cond", rgb=ink, align="start"))
@@ -489,13 +527,14 @@ class Builder:
         return None
 
     def scene_lower_third(self, b, i, cx, cy, rot, t0, t1):
-        self.film.overlay(LowerThird(b["name"], b.get("role", ""), t0, b.get("until", t0 + 5.0), self.c.get("label", (176, 24, 20))))
+        self.film.overlay(K.NameTag(b["name"], b.get("role", ""), t0, b.get("until", t0 + 5.0), self.skin["lower_third"],
+                                    self.c.get("label", self.c.get("accent")), self.c.get("lt_fg", (250, 248, 244)), self.c.get("lt_panel", (20, 20, 20))))
         return None
 
     def scene_end(self, b, i, cx, cy, rot, t0, t1):
-        self.film.add(E.BigText(b.get("text", ""), cx, cy - 200, b.get("size", 420), t0, rgb=self.c.get("text"), type_on=0.6, hit=0.5))
+        size = self.headline(b.get("text", ""), cx, cy - 150, b.get("size", 440), t0)
         if b.get("sub"):
-            self.film.add(TextBlock(b["sub"], cx, cy + 250, 3000, 130, t0 + 0.8, role="label", rgb=self.c.get("text")))
+            self.film.add(TextBlock(b["sub"], cx, cy - 150 + size * 0.5, 3000, 130, t0 + 0.8, role="label", rgb=self.c.get("muted", self.c.get("text"))))
         return None
 
 
@@ -520,8 +559,17 @@ def build(proj: pathlib.Path, fmt: str | None = None):
     style = S.load(plan.get("style", "evidence-board"), proj, channel_file(proj))
     fmt = fmt or plan.get("format", "16:9")
     doc = E.Doc(proj)
-    from .assets import textures
-    textures(doc.prep, extra=[style['finish']['board']])
+    from .assets import prep_photos, textures
+    if style.get("ground", {}).get("kind", "texture") == "texture":
+        textures(doc.prep, extra=[style["finish"]["board"]])
+    gfile = doc.prep / "photos" / "grade.txt"
+    spec = proj / "photos.json"
+    if spec.exists():          # photos follow the style's grade; re-grade when the style changed
+        want = json.loads(spec.read_text(encoding="utf-8")).get("grade")
+        want = want if want not in (None, "auto") else style.get("photo_grade", "bw")
+        if not gfile.exists() or gfile.read_text(encoding="utf-8") != want:
+            prep_photos(proj, want)
+            doc._meta = None
     b = Builder(doc, plan, style, fmt)
     film = b.build()
     return film, b, doc, style

@@ -1,0 +1,181 @@
+{
+  "label": "Clean flat explainer",
+  "summary": "Bright off-white ground with a dot grid, rounded cards with soft shadows, bold geometric type, springy pop-ins and progress rings.",
+  "use_for": [
+    "science and how-it-works",
+    "business and finance basics",
+    "education for all ages"
+  ],
+  "camera": "world",
+  "layout": {
+    "spacing": 5400,
+    "row": 4,
+    "jitter_deg": 0
+  },
+  "camera_feel": {
+    "handheld": 0.0,
+    "travel": 0.6,
+    "push": 1.03
+  },
+  "tokens": {
+    "color": {
+      "bg": [
+        245,
+        246,
+        250
+      ],
+      "ink": [
+        20,
+        27,
+        45
+      ],
+      "paper": [
+        255,
+        255,
+        255
+      ],
+      "accent": [
+        61,
+        90,
+        254
+      ],
+      "highlight": [
+        255,
+        107,
+        74
+      ],
+      "text": [
+        20,
+        27,
+        45
+      ],
+      "muted": [
+        138,
+        147,
+        168
+      ],
+      "label": [
+        61,
+        90,
+        254
+      ],
+      "number": [
+        61,
+        90,
+        254
+      ],
+      "on_accent": [
+        255,
+        255,
+        255
+      ],
+      "source_fg": [
+        255,
+        255,
+        255
+      ],
+      "source_bg": [
+        20,
+        27,
+        45
+      ],
+      "mark": [
+        255,
+        107,
+        74
+      ],
+      "lt_panel": [
+        20,
+        27,
+        45
+      ],
+      "extra1": [
+        255,
+        193,
+        69
+      ],
+      "extra2": [
+        16,
+        181,
+        165
+      ],
+      "shadow": [
+        0,
+        0,
+        0
+      ]
+    },
+    "font": {
+      "display": [
+        "Poppins"
+      ],
+      "title": [
+        "Poppins"
+      ],
+      "label": [
+        "Poppins Medium"
+      ],
+      "body": [
+        "DM Sans:500"
+      ],
+      "hand": [
+        "Caveat:700"
+      ]
+    }
+  },
+  "ground": {
+    "kind": "flat",
+    "color": [
+      245,
+      246,
+      250
+    ],
+    "pattern": "dots",
+    "pattern_rgb": [
+      27,
+      42,
+      74
+    ],
+    "pattern_alpha": 0.07,
+    "pattern_step": 200
+  },
+  "finish": {
+    "board": null,
+    "grade": [
+      1,
+      1,
+      1
+    ],
+    "grain": 0.0,
+    "glow": 0.0,
+    "vignette": 0.06,
+    "curve": 0.0,
+    "dim": [
+      0,
+      0,
+      0
+    ],
+    "spotlight": 0.0,
+    "bg": [
+      245,
+      246,
+      250
+    ]
+  },
+  "photo_grade": "natural",
+  "captions": "highlighter",
+  "skin": {
+    "panel": "card",
+    "photo": "frame",
+    "title": "kinetic",
+    "number": "ring",
+    "motion": "pop",
+    "accents": "shapes",
+    "source": "chip",
+    "lower_third": "chip",
+    "quote_font": "body",
+    "number_font": "display",
+    "shadow": 0.0
+  },
+  "map_look": "explainer"
+}

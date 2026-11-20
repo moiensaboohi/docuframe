@@ -1,0 +1,170 @@
+{
+  "label": "Bold poster",
+  "summary": "Neo-brutalist poster energy: saturated yellow ground, black ink outlines with hard offset shadows, giant black type, red hits.",
+  "use_for": [
+    "hot takes and rankings",
+    "internet culture",
+    "sport and music"
+  ],
+  "camera": "world",
+  "layout": {
+    "spacing": 5400,
+    "row": 4,
+    "jitter_deg": 1.5
+  },
+  "camera_feel": {
+    "handheld": 0.0,
+    "travel": 0.5,
+    "push": 1.03
+  },
+  "tokens": {
+    "color": {
+      "bg": [
+        255,
+        210,
+        63
+      ],
+      "ink": [
+        17,
+        17,
+        17
+      ],
+      "paper": [
+        255,
+        255,
+        255
+      ],
+      "accent": [
+        17,
+        17,
+        17
+      ],
+      "highlight": [
+        255,
+        59,
+        48
+      ],
+      "text": [
+        17,
+        17,
+        17
+      ],
+      "muted": [
+        61,
+        61,
+        61
+      ],
+      "label": [
+        255,
+        59,
+        48
+      ],
+      "number": [
+        17,
+        17,
+        17
+      ],
+      "on_accent": [
+        255,
+        210,
+        63
+      ],
+      "source_fg": [
+        255,
+        210,
+        63
+      ],
+      "source_bg": [
+        17,
+        17,
+        17
+      ],
+      "mark": [
+        255,
+        59,
+        48
+      ],
+      "lt_panel": [
+        17,
+        17,
+        17
+      ],
+      "extra1": [
+        255,
+        59,
+        48
+      ],
+      "extra2": [
+        255,
+        255,
+        255
+      ],
+      "shadow": [
+        255,
+        59,
+        48
+      ]
+    },
+    "font": {
+      "display": [
+        "Archivo Black"
+      ],
+      "title": [
+        "Archivo Black"
+      ],
+      "label": [
+        "Space Grotesk:700"
+      ],
+      "body": [
+        "Space Grotesk:600"
+      ]
+    }
+  },
+  "ground": {
+    "kind": "flat",
+    "color": [
+      255,
+      210,
+      63
+    ]
+  },
+  "finish": {
+    "board": null,
+    "grade": [
+      1,
+      1,
+      1
+    ],
+    "grain": 0.0,
+    "glow": 0.0,
+    "vignette": 0.06,
+    "curve": 0.0,
+    "dim": [
+      0,
+      0,
+      0
+    ],
+    "spotlight": 0.0,
+    "bg": [
+      255,
+      210,
+      63
+    ]
+  },
+  "photo_grade": "natural",
+  "captions": "highlighter",
+  "skin": {
+    "panel": "outline",
+    "photo": "outline",
+    "title": "kinetic",
+    "number": "counter",
+    "motion": "slap",
+    "accents": "shapes",
+    "source": "chip",
+    "lower_third": "bar",
+    "quote_font": "body",
+    "number_font": "display",
+    "shadow": 1.0
+  },
+  "map_look": "explainer"
+}

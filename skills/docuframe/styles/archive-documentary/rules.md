@@ -1,0 +1,14 @@
+# archive-documentary — Archive documentary
+
+**What it is:** Full-frame archive photographs with slow camera moves, warm film grain, elegant serif titles, typewriter labels and cinema bars.
+
+**Use for:** history, biography, war and politics of the past.
+**Avoid for:** Modern tech and product stories.
+
+**Recipe:** panel = paper, photo = full, title = serif, number = counter, motion = slide, accents = none, source = plain, lower_third = line, letterbox = True, shadow = 0.5.
+
+**Judge a still by:**
+- One hero per beat; everything else quieter.
+- Type never touches the frame edge; nothing important in the bottom 20% of a 9:16 frame.
+- Colours come only from this pack's tokens; numbers always carry their source.
+- Motion lands on the spoken word, then holds still long enough to read.

@@ -484,11 +484,13 @@ class BigText(Item):
     z, enter = 70, 0.35
 
     def __init__(self, text, x, y, size, t_in, t_out=None, font="cond", rgb=(246, 243, 236), track=0.04, type_on=0.0,
-                 shadow=True, grunge=True, bar=None, bar_h=0.9, hit=None, z=None, sfx=True, rules=False):
+                 shadow=True, grunge=True, bar=None, bar_h=0.9, hit=None, z=None, sfx=True, rules=False, shadow_rgb=(0, 0, 0)):
         self.x, self.y = x, y
         super().__init__(t_in, t_out, z, sfx)
         self.text, self.size, self.font, self.rgb, self.track = text, size, font, rgb, track
-        self.type_on, self.shadow, self.grunge, self.bar, self.bar_h, self.hit = type_on, shadow, grunge, bar, bar_h, hit
+        self.type_on, self.grunge, self.bar, self.bar_h, self.hit = type_on, grunge, bar, bar_h, hit
+        self.shadow = 0.5 if shadow is True else float(shadow or 0)
+        self.shadow_rgb = tuple(shadow_rgb)
         self.reach = len(text) * size * 0.7 + size * 3
 
     def cues(self):
@@ -508,7 +510,7 @@ class BigText(Item):
             c.drawRect(skia.Rect.MakeXYWH(self.x - width / 2 - pad, mid - tall / 2, (width + 2 * pad) * grow, tall), fill(self.bar, 0.95 * o))
         if self.shadow:
             draw_text(c, kit, self.text, self.x + self.size * 0.03, self.y + self.size * 0.04, self.size, self.font,
-                      (0, 0, 0), 0.5 * alpha, self.track, "center", shown)
+                      self.shadow_rgb, self.shadow * alpha, self.track, "center", shown)
         area = skia.Rect.MakeXYWH(self.x - width / 2 - self.size, mid - self.size, width + 2 * self.size, self.size * 2)
         if self.grunge:
             c.saveLayer(area, None)
@@ -523,8 +525,12 @@ class Counter(Item):
     z, enter = 70, 0.25
 
     def __init__(self, x, y, size, value, t_in, dur=1.3, prefix="", suffix="", caption=None, rgb=(246, 206, 46), t_out=None,
-                 font="cond", start=0, decimals=None, sfx=True):
+                 font="cond", start=0, decimals=None, sfx=True, shadow=0.45, shadow_rgb=(0, 0, 0), caption_font="cond",
+                 caption_rgb=None, caption_gap=0.45, caption_size=None, caption_max=None):
         self.x, self.y = x, y
+        self.shadow, self.shadow_rgb, self.caption_font = float(shadow or 0), tuple(shadow_rgb), caption_font
+        self.caption_rgb, self.caption_gap = caption_rgb, caption_gap
+        self.caption_size, self.caption_max = caption_size, caption_max
         super().__init__(t_in, t_out, None, sfx)
         self.size, self.value, self.dur, self.prefix, self.suffix = size, value, dur, prefix, suffix
         self.caption, self.rgb, self.font, self.start = caption, rgb, font, start
@@ -543,11 +549,18 @@ class Counter(Item):
             return
         now = self.start + (self.value - self.start) * ease_out(window(t, self.t_in, self.dur))
         label = f"{self.prefix}{now:,.{self.decimals}f}{self.suffix}"
-        for dx, dy, rgb, a in ((self.size * 0.03, self.size * 0.04, (0, 0, 0), 0.45), (0, 0, self.rgb, 1.0)):
+        layers = ((self.size * 0.03, self.size * 0.04, self.shadow_rgb, self.shadow),) if self.shadow > 0 else ()
+        for dx, dy, rgb, a in layers + ((0, 0, self.rgb, 1.0),):
             draw_text(c, kit, label, self.x + dx, self.y + dy, self.size, self.font, rgb, a * alpha, 0.02, "center")
         if self.caption:
             under = alpha * window(t, self.t_in + 0.4, 0.4)
-            draw_text(c, kit, self.caption, self.x, self.y + self.size * 0.45, self.size * 0.24, "cond", self.rgb, 0.9 * under, 0.1, "center")
+            cs = self.caption_size or self.size * 0.24
+            if self.caption_max:
+                cw = text_width(kit, self.caption, cs, self.caption_font, 0.1)
+                if cw > self.caption_max:
+                    cs *= self.caption_max / cw
+            draw_text(c, kit, self.caption, self.x, self.y + self.size * self.caption_gap, cs, self.caption_font,
+                      self.caption_rgb or self.rgb, 0.9 * under, 0.1, "center")
 
 
 class PaperDoc(Item):
@@ -744,7 +757,8 @@ class Film:
     def __init__(self, duration, fps=30, look=None):
         self.duration, self.fps = duration, fps
         self.look = {"board": "cork_dark.png", **(look or {})}
-        self.items = [Board(self.look["board"])]
+        self.items = [Board(self.look["board"])] if self.look.get("board") else []
+        self.handheld = float(self.look.get("handheld", 1.0))
         self.overlays, self.cuts, self.jolts, self.sfx = [], [], [], []
         self.cam_keys, self.focus_keys = [], []
         self.fade_in, self.fade_out, self.auto_cues = 0.8, 2.0, True
@@ -814,13 +828,14 @@ class Film:
         x, y, logz, roll = (k(t) for k in self._stretch(0, t))
         zoom = math.exp(logz)
         dx, dy, dr = self._hand
-        sx, sy = 9 * dx(t), 7 * dy(t)               # hand-held drift, in 4K screen pixels
+        hh = self.handheld
+        sx, sy = 9 * hh * dx(t), 7 * hh * dy(t)     # hand-held drift, in 4K screen pixels
         for start, amp, length in self.jolts:
             if start <= t < start + length:
                 left = amp * (1 - (t - start) / length) ** 2
                 sx += left * math.sin(70 * (t - start))
                 sy += left * math.cos(55 * (t - start))
-        return x + sx / zoom, y + sy / zoom, zoom, roll + 0.15 * dr(0.7 * t)
+        return x + sx / zoom, y + sy / zoom, zoom, roll + 0.15 * hh * dr(0.7 * t)
 
     def focus_at(self, t):
         curves = self._stretch(1, t) if self.focus_keys else None
@@ -909,6 +924,10 @@ class Renderer:
         m, kit.screen_scale, kit.view = self.view_matrix(t)
         with self.world as c:
             c.clear(colour(f.look.get("bg", (10, 10, 10))))
+            if f.look.get("bg2"):            # soft radial light behind everything (screen space)
+                glow = skia.GradientShader.MakeRadial(skia.Point(self.W * 0.5, self.H * 0.42), max(self.W, self.H) * 0.75,
+                                                      [colour(f.look["bg2"]), colour(f.look["bg"])], [0.0, 1.0])
+                c.drawPaint(skia.Paint(Shader=glow))
             c.save()
             c.concat(m)
             for it in self.items:
@@ -917,9 +936,10 @@ class Renderer:
                     if box is None or skia.Rect.Intersects(box, kit.view):
                         it.draw(c, kit, t)
             c.restore()
-            spot = f.focus_at(t)
+            spot = f.focus_at(t) if f.look.get("spotlight", 1.0) > 0 else None
             if spot:                      # spotlight in screen space, around the projected focus point
                 fx, fy, radius, strength = spot
+                strength *= f.look.get("spotlight", 1.0)
                 centre = m.mapXY(fx, fy)
                 r = max(10.0, radius * 2.5 * kit.screen_scale)
                 tint = f.look.get("dim", (6, 5, 4))

@@ -32,7 +32,10 @@ installed on the user's machine or a file fetched on first use. Licences verifie
 
 All SIL Open Font License 1.1: Oswald, Libre Baskerville, Courier Prime, Homemade Apple (Apache-2.0),
 Montserrat, Inter, Space Mono, Playfair Display, Special Elite (Apache-2.0), Noto Sans, Noto Sans
-Arabic, Hebrew, Devanagari, Bengali, Tamil, Thai, SC, JP, KR, Noto Nastaliq Urdu, Vazirmatn.
+Arabic, Hebrew, Devanagari, Bengali, Tamil, Thai, SC, JP, KR, Noto Nastaliq Urdu, Vazirmatn,
+Archivo Black, DM Serif Display, Caveat, Space Grotesk, Poppins, DM Sans, Anton, IBM Plex Mono,
+Fraunces, Syne, Bricolage Grotesque, Instrument Serif. Variable fonts are cut to static weights
+locally with fontTools; the OFL allows this, and the cut files keep the original names and licence.
 
 ## Data sources the skill can fetch for a user's film
 

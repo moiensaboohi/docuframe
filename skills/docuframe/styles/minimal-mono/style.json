@@ -1,0 +1,165 @@
+{
+  "label": "Minimal monochrome",
+  "summary": "Near-black ground, white type, nothing else: large kinetic headlines, hairline frames and slow wipes. Lets the words carry it.",
+  "use_for": [
+    "essays and opinion",
+    "technology",
+    "philosophy and big ideas"
+  ],
+  "camera": "world",
+  "layout": {
+    "spacing": 5200,
+    "row": 4,
+    "jitter_deg": 0
+  },
+  "camera_feel": {
+    "handheld": 0.2,
+    "travel": 0.9,
+    "push": 1.04
+  },
+  "tokens": {
+    "color": {
+      "bg": [
+        14,
+        14,
+        14
+      ],
+      "ink": [
+        242,
+        242,
+        242
+      ],
+      "paper": [
+        23,
+        23,
+        23
+      ],
+      "accent": [
+        242,
+        242,
+        242
+      ],
+      "highlight": [
+        242,
+        242,
+        242
+      ],
+      "text": [
+        242,
+        242,
+        242
+      ],
+      "muted": [
+        140,
+        140,
+        140
+      ],
+      "label": [
+        242,
+        242,
+        242
+      ],
+      "number": [
+        242,
+        242,
+        242
+      ],
+      "on_accent": [
+        14,
+        14,
+        14
+      ],
+      "source_fg": [
+        189,
+        189,
+        189
+      ],
+      "source_bg": [
+        14,
+        14,
+        14
+      ],
+      "mark": [
+        242,
+        242,
+        242
+      ],
+      "lt_panel": [
+        242,
+        242,
+        242
+      ],
+      "lt_fg": [
+        242,
+        242,
+        242
+      ],
+      "shadow": [
+        0,
+        0,
+        0
+      ]
+    },
+    "font": {
+      "display": [
+        "Inter:800"
+      ],
+      "title": [
+        "Inter:800"
+      ],
+      "label": [
+        "Inter:500"
+      ],
+      "body": [
+        "Inter:400"
+      ]
+    }
+  },
+  "ground": {
+    "kind": "flat",
+    "color": [
+      14,
+      14,
+      14
+    ]
+  },
+  "finish": {
+    "board": null,
+    "grade": [
+      1,
+      1,
+      1
+    ],
+    "grain": 0.012,
+    "glow": 0.0,
+    "vignette": 0.25,
+    "curve": 0.0,
+    "dim": [
+      0,
+      0,
+      0
+    ],
+    "spotlight": 0.35,
+    "bg": [
+      14,
+      14,
+      14
+    ]
+  },
+  "photo_grade": "bw",
+  "captions": "clean",
+  "skin": {
+    "panel": "glass",
+    "photo": "frame",
+    "title": "kinetic",
+    "number": "counter",
+    "motion": "wipe",
+    "accents": "none",
+    "source": "plain",
+    "lower_third": "line",
+    "quote_font": "body",
+    "number_font": "display",
+    "shadow": 0.0
+  },
+  "map_look": "explainer"
+}

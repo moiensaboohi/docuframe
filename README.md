@@ -80,9 +80,27 @@ Windows, macOS or Linux.
 
 ## Styles
 
-| Style | For |
-|---|---|
-| `evidence-board` — one camera over a cork wall of pinned photos, string and stamps | true stories, history, crime |
+Fifteen built-in looks, all drawn by code. Same film, same facts — pick the look:
+
+<p align="center"><img src="docs/media/style-gallery.jpg" width="720" alt="The same short film rendered in fifteen docuframe styles: title, big number and photo frames for each"></p>
+
+| Style | Look | Best for |
+|---|---|---|
+| `evidence-board` | One continuous camera glides across a dark cork wall of pinned photos, clippings and red string. | true crime, history, investigations, biographies |
+| `editorial-collage` | Torn paper, duotone cut-out photos, bold condensed type slapped onto a warm paper ground; scraps of colour around every idea. | culture and history explainers, politics and economics, people and ideas |
+| `flat-explainer` | Bright off-white ground with a dot grid, rounded cards with soft shadows, bold geometric type, springy pop-ins and progress rings. | science and how-it-works, business and finance basics, education for all ages |
+| `minimal-mono` | Near-black ground, white type, nothing else: large kinetic headlines, hairline frames and slow wipes. Lets the words carry it. | essays and opinion, technology, philosophy and big ideas |
+| `archive-documentary` | Full-frame archive photographs with slow camera moves, warm film grain, elegant serif titles, typewriter labels and cinema bars. | history, biography, war and politics of the past |
+| `briefing-room` | Deep navy situation-room look: glowing grid, glass panels with cyan edges, viewfinder brackets, monospace data and amber numbers. | geopolitics and conflict, intelligence and investigations, cyber and space |
+| `vintage-atlas` | Old printed-map feel: parchment ground with a faint graticule, sepia photos taped in, elegant serif headings, oxblood ink. | exploration and geography, empires and trade routes, historical journeys |
+| `newsroom` | Broadcast-news clarity: crisp light ground, heavy red title bars, framed photos, source chips and lower thirds, hard cuts. | news explainers, current affairs, fact-checks |
+| `case-file` | A detective's desk: manila folder ground, Polaroids, typewritten labels on torn paper, red stamps and red string between clues. | true crime, mysteries and cold cases, heists and scandals |
+| `lab-notebook` | Graph-paper ground, sticky notes, taped-in photos, handwritten headings and blue-ink circles: a scientist's notebook come alive. | science and medicine, inventions, how experiments worked |
+| `tech-gradient` | Deep violet gradient, glowing glass cards, mint data rings and tight geometric type. Premium, modern, made for tech and money. | technology and AI, finance and markets, startups and products |
+| `pastel-pop` | Soft peach ground, white cards, chunky friendly type with label chips, coral and violet shapes and bouncy motion. | lifestyle and culture, kids and family learning, food, travel and fun facts |
+| `bold-poster` | Neo-brutalist poster energy: saturated yellow ground, black ink outlines with hard offset shadows, giant black type, red hits. | hot takes and rankings, internet culture, sport and music |
+| `cinematic-dark` | Premium feature-documentary look: near-black warm gradient, full-frame photographs, slow drifting camera, thin gold serif titles, cinema bars. | prestige documentary, biography, brand and founder stories |
+| `riso-print` | Two-ink riso zine: blue-and-pink duotone photos on cream stock, halftone dots, slightly off-register energy, condensed blue type. | art, music and design history, subculture stories, city and place portraits |
 
 More packs ship as data (`styles/<name>/style.json`) — see the roadmap and `community-styles/`.
 
@@ -95,7 +113,7 @@ Chinese; for other languages use your own recording (other languages work as acc
 
 ## Honest limits (0.1 preview)
 
-- One style pack so far. Map scenes need map data built with `docuframe map`.
+- Map scenes need map data built with `docuframe map`.
 - Rendering is CPU-only. On a 2-vCPU cloud VM a 1080p frame takes ~0.3 s per worker; a 4-core laptop runs 3 workers.
 - Word timing without `docuframe align` is estimated from letter counts (~150–250 ms).
 - Archive search covers Wikimedia Commons; other archives need the item link and its rights line.

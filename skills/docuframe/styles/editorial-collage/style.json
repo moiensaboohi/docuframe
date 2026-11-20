@@ -1,0 +1,180 @@
+{
+  "label": "Editorial paper collage",
+  "summary": "Torn paper, duotone cut-out photos, bold condensed type slapped onto a warm paper ground; scraps of colour around every idea.",
+  "use_for": [
+    "culture and history explainers",
+    "politics and economics",
+    "people and ideas"
+  ],
+  "camera": "world",
+  "layout": {
+    "spacing": 5400,
+    "row": 4,
+    "jitter_deg": 2.5
+  },
+  "camera_feel": {
+    "handheld": 0.5,
+    "travel": 0.7,
+    "push": 1.05
+  },
+  "tokens": {
+    "color": {
+      "bg": [
+        239,
+        232,
+        218
+      ],
+      "ink": [
+        31,
+        42,
+        68
+      ],
+      "paper": [
+        251,
+        247,
+        238
+      ],
+      "accent": [
+        228,
+        87,
+        46
+      ],
+      "highlight": [
+        228,
+        87,
+        46
+      ],
+      "text": [
+        31,
+        42,
+        68
+      ],
+      "muted": [
+        90,
+        98,
+        117
+      ],
+      "label": [
+        31,
+        42,
+        68
+      ],
+      "number": [
+        228,
+        87,
+        46
+      ],
+      "on_accent": [
+        251,
+        247,
+        238
+      ],
+      "source_fg": [
+        31,
+        42,
+        68
+      ],
+      "source_bg": [
+        251,
+        247,
+        238
+      ],
+      "photo_paper": [
+        251,
+        247,
+        238
+      ],
+      "mark": [
+        228,
+        87,
+        46
+      ],
+      "lt_panel": [
+        31,
+        42,
+        68
+      ],
+      "extra1": [
+        242,
+        177,
+        52
+      ],
+      "extra2": [
+        42,
+        157,
+        143
+      ],
+      "shadow": [
+        31,
+        42,
+        68
+      ]
+    },
+    "font": {
+      "display": [
+        "Anton"
+      ],
+      "title": [
+        "Anton"
+      ],
+      "label": [
+        "DM Sans:700"
+      ],
+      "body": [
+        "Fraunces:500"
+      ],
+      "hand": [
+        "Caveat:700"
+      ]
+    }
+  },
+  "ground": {
+    "kind": "flat",
+    "color": [
+      239,
+      232,
+      218
+    ],
+    "pattern": "paper",
+    "pattern_alpha": 0.08
+  },
+  "finish": {
+    "board": null,
+    "grade": [
+      1,
+      1,
+      1
+    ],
+    "grain": 0.02,
+    "glow": 0.0,
+    "vignette": 0.18,
+    "curve": 0.08,
+    "dim": [
+      0,
+      0,
+      0
+    ],
+    "spotlight": 0.0,
+    "bg": [
+      239,
+      232,
+      218
+    ]
+  },
+  "photo_grade": "duotone:#1f2a44:#f3ebdd",
+  "captions": "highlighter",
+  "skin": {
+    "panel": "torn",
+    "photo": "cutout",
+    "title": "torn",
+    "number": "counter",
+    "motion": "slap",
+    "accents": "scraps",
+    "source": "chip",
+    "lower_third": "bar",
+    "quote_font": "serif",
+    "number_font": "display",
+    "shadow": 0.9
+  },
+  "map_look": "explainer"
+}

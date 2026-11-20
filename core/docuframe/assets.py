@@ -50,6 +50,10 @@ def grade(im, kind, look):
         out = ImageEnhance.Color(ImageOps.autocontrast(rgb, cutoff=0.5)).enhance(0.92 if look == "natural" else 1.0)
         warm = Image.new("RGB", out.size, (255, 236, 214))
         return Image.blend(out, ImageChops.multiply(out, warm), 0.35)
+    if look.startswith("duotone"):          # "duotone:#20304a:#f2e8d5" — a style's own two inks
+        _, dark, light = look.split(":")
+        return ImageOps.colorize(ImageEnhance.Contrast(ImageOps.autocontrast(ImageOps.grayscale(rgb), cutoff=1.0)).enhance(1.12),
+                                 black=dark, white=light)
     shadow, paper = INKS.get(look, INKS["bw"])
     if kind == "doc":           # records and forms: keep a hint of the paper's colour
         return ImageEnhance.Color(rgb).enhance(0.4)
@@ -60,9 +64,9 @@ def grade(im, kind, look):
     return ImageOps.colorize(punchy, black=shadow, white=paper, mid="#7d7a74" if look == "bw" else "#8a7458")
 
 
-def prep_photos(proj, look):
+def prep_photos(proj, look, style_grade=None):
     spec = json.loads((proj / "photos.json").read_text(encoding="utf-8"))
-    look = look or spec.get("grade", "bw")
+    look = look or (spec.get("grade") if spec.get("grade") not in (None, "auto") else None) or style_grade or "bw"
     folder = proj / "assets" / "prep" / "photos"
     folder.mkdir(parents=True, exist_ok=True)
     sizes, waiting = {}, []
@@ -77,6 +81,7 @@ def prep_photos(proj, look):
         done.save(folder / f"{entry['id']}.jpg", quality=92)
         sizes[entry["id"]] = {"w": done.width, "h": done.height, "kind": entry.get("kind", "photo")}
     (folder / "meta.json").write_text(json.dumps(sizes, indent=1), encoding="utf-8")
+    (folder / "grade.txt").write_text(look, encoding="utf-8")
     note = f"; waiting for files: {', '.join(waiting)} (docuframe archive fetch)" if waiting else ""
     print(f"photos: {len(sizes)} prepared ({look}){note}")
     return not waiting
@@ -169,10 +174,12 @@ def main(argv=None):
     ap.add_argument("--grade", default=None, choices=["bw", "sepia", "natural"])
     a = ap.parse_args(argv)
     proj = pathlib.Path(a.project).resolve()
-    if (proj / "photos.json").exists():
-        prep_photos(proj, a.grade)
     plan = proj / "film.json"
+    st = None
     if plan.exists():
         from . import styles as S
         st = S.load(json.loads(plan.read_text(encoding="utf-8")).get("style", "evidence-board"), proj)
+    if (proj / "photos.json").exists():
+        prep_photos(proj, a.grade, st.get("photo_grade") if st else None)
+    if st and st.get("ground", {}).get("kind", "texture") == "texture":
         textures(proj / "assets" / "prep", extra=[st["finish"]["board"]])

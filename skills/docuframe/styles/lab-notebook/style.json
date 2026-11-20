@@ -1,0 +1,186 @@
+{
+  "label": "Science lab notebook",
+  "summary": "Graph-paper ground, sticky notes, taped-in photos, handwritten headings and blue-ink circles: a scientist's notebook come alive.",
+  "use_for": [
+    "science and medicine",
+    "inventions",
+    "how experiments worked"
+  ],
+  "camera": "world",
+  "layout": {
+    "spacing": 5400,
+    "row": 4,
+    "jitter_deg": 2.0
+  },
+  "camera_feel": {
+    "handheld": 0.4,
+    "travel": 0.7,
+    "push": 1.04
+  },
+  "tokens": {
+    "color": {
+      "bg": [
+        251,
+        250,
+        245
+      ],
+      "ink": [
+        30,
+        42,
+        68
+      ],
+      "paper": [
+        255,
+        246,
+        168
+      ],
+      "accent": [
+        47,
+        111,
+        219
+      ],
+      "highlight": [
+        47,
+        111,
+        219
+      ],
+      "text": [
+        30,
+        42,
+        68
+      ],
+      "muted": [
+        107,
+        118,
+        144
+      ],
+      "label": [
+        47,
+        111,
+        219
+      ],
+      "number": [
+        47,
+        111,
+        219
+      ],
+      "on_accent": [
+        255,
+        255,
+        255
+      ],
+      "source_fg": [
+        30,
+        42,
+        68
+      ],
+      "source_bg": [
+        255,
+        255,
+        255
+      ],
+      "mark": [
+        47,
+        111,
+        219
+      ],
+      "photo_paper": [
+        255,
+        255,
+        255
+      ],
+      "lt_panel": [
+        30,
+        42,
+        68
+      ],
+      "extra1": [
+        47,
+        111,
+        219
+      ],
+      "extra2": [
+        255,
+        107,
+        107
+      ],
+      "shadow": [
+        0,
+        0,
+        0
+      ]
+    },
+    "font": {
+      "display": [
+        "Caveat:700"
+      ],
+      "title": [
+        "Caveat:700"
+      ],
+      "label": [
+        "DM Sans:600"
+      ],
+      "body": [
+        "DM Sans:500"
+      ],
+      "hand": [
+        "Caveat:700"
+      ]
+    }
+  },
+  "ground": {
+    "kind": "flat",
+    "color": [
+      251,
+      250,
+      245
+    ],
+    "pattern": "grid",
+    "pattern_rgb": [
+      74,
+      123,
+      208
+    ],
+    "pattern_alpha": 0.12,
+    "pattern_step": 160
+  },
+  "finish": {
+    "board": null,
+    "grade": [
+      1,
+      1,
+      1
+    ],
+    "grain": 0.0,
+    "glow": 0.0,
+    "vignette": 0.06,
+    "curve": 0.0,
+    "dim": [
+      0,
+      0,
+      0
+    ],
+    "spotlight": 0.0,
+    "bg": [
+      251,
+      250,
+      245
+    ]
+  },
+  "photo_grade": "natural",
+  "captions": "clean",
+  "skin": {
+    "panel": "sticky",
+    "photo": "tape",
+    "title": "kinetic",
+    "number": "counter",
+    "motion": "pop",
+    "accents": "shapes",
+    "source": "chip",
+    "lower_third": "chip",
+    "quote_font": "hand",
+    "number_font": "display",
+    "shadow": 0.0
+  },
+  "map_look": "explainer"
+}

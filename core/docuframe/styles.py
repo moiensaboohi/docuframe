@@ -35,10 +35,14 @@ DEFAULTS = {
     "pacing": {"visual_change_s": [4, 8], "interrupt_s": [30, 60], "hook_s": 10},
     "layout": {"spacing": 5200, "row": 4, "jitter_deg": 3.0},
     "scenes": {},
+    "ground": {"kind": "texture"},
+    "camera_feel": {"handheld": 1.0, "travel": 0.85, "push": 1.05},
+    "skin": {"panel": "paper", "photo": "pinned", "title": "bar", "number": "counter", "motion": "drop", "accents": "none",
+             "source": "plain", "lower_third": "bar", "letterbox": False, "strings": False, "quote_font": "serif", "number_font": "cond"},
 }
 
 # font token -> engine role
-ROLE_OF = {"title": "cond", "body": "serif", "mono": "mono", "hand": "hand", "label": "label"}
+ROLE_OF = {"title": "cond", "body": "serif", "mono": "mono", "hand": "hand", "label": "label", "display": "display", "text": "body"}
 
 
 def search_paths(project: pathlib.Path | None = None) -> list[pathlib.Path]:
@@ -87,6 +91,11 @@ def roles(style: dict) -> dict[str, list[str]]:
     for tok, role in ROLE_OF.items():
         out[role] = list(style["tokens"]["font"].get(tok, [])) + FONT_ROLES.get(role, [])
     out["labelm"] = out["label"]
+    out.setdefault("display", out["cond"])
+    if not style["tokens"]["font"].get("display"):
+        out["display"] = out["cond"]
+    if not style["tokens"]["font"].get("text"):
+        out["body"] = out["label"]
     return out
 
 

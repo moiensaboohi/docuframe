@@ -21,7 +21,7 @@ import skia
 from . import fonts as F
 
 RLI, PDI = "⁧", "⁩"
-ROLE_WEIGHT = {"cond": 600, "label": 700, "labelm": 500, "serif": 400, "mono": 700, "hand": 400}
+ROLE_WEIGHT = {"cond": 600, "label": 700, "labelm": 500, "serif": 400, "mono": 700, "hand": 400, "display": 700, "body": 500}
 
 
 def _tag(s: str) -> int:
@@ -82,9 +82,13 @@ class FontBook:
                     break
         for cand in self.roles.get(role, []) if fam is None else []:
             name = cand if isinstance(cand, str) else cand[0]
+            weight = ROLE_WEIGHT.get(role)
+            if ":" in name:                      # "Inter:800" picks a weight of a variable face
+                name, w = name.rsplit(":", 1)
+                weight = int(w)
             if name in F.REGISTRY:
                 try:
-                    fam = self._registry_family(name, ROLE_WEIGHT.get(role))
+                    fam = self._registry_family(name, weight)
                 except RuntimeError as e:
                     self.notes.append(f"font {name}: {e}")
                     fam = None

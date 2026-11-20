@@ -1,0 +1,167 @@
+{
+  "label": "Risograph print",
+  "summary": "Two-ink riso zine: blue-and-pink duotone photos on cream stock, halftone dots, slightly off-register energy, condensed blue type.",
+  "use_for": [
+    "art, music and design history",
+    "subculture stories",
+    "city and place portraits"
+  ],
+  "camera": "world",
+  "layout": {
+    "spacing": 5400,
+    "row": 4,
+    "jitter_deg": 2.0
+  },
+  "camera_feel": {
+    "handheld": 0.4,
+    "travel": 0.7,
+    "push": 1.05
+  },
+  "tokens": {
+    "color": {
+      "bg": [
+        246,
+        241,
+        231
+      ],
+      "ink": [
+        43,
+        89,
+        195
+      ],
+      "paper": [
+        251,
+        248,
+        241
+      ],
+      "accent": [
+        255,
+        79,
+        121
+      ],
+      "highlight": [
+        255,
+        79,
+        121
+      ],
+      "text": [
+        43,
+        89,
+        195
+      ],
+      "muted": [
+        125,
+        143,
+        196
+      ],
+      "label": [
+        43,
+        89,
+        195
+      ],
+      "number": [
+        255,
+        79,
+        121
+      ],
+      "on_accent": [
+        251,
+        248,
+        241
+      ],
+      "source_fg": [
+        43,
+        89,
+        195
+      ],
+      "source_bg": [
+        251,
+        248,
+        241
+      ],
+      "mark": [
+        255,
+        79,
+        121
+      ],
+      "photo_paper": [
+        251,
+        248,
+        241
+      ],
+      "lt_panel": [
+        43,
+        89,
+        195
+      ],
+      "shadow": [
+        43,
+        89,
+        195
+      ]
+    },
+    "font": {
+      "display": [
+        "Anton"
+      ],
+      "title": [
+        "Anton"
+      ],
+      "label": [
+        "Space Grotesk:700"
+      ],
+      "body": [
+        "Fraunces:500"
+      ]
+    }
+  },
+  "ground": {
+    "kind": "flat",
+    "color": [
+      246,
+      241,
+      231
+    ],
+    "pattern": "paper",
+    "pattern_alpha": 0.07
+  },
+  "finish": {
+    "board": null,
+    "grade": [
+      1,
+      1,
+      1
+    ],
+    "grain": 0.035,
+    "glow": 0.0,
+    "vignette": 0.12,
+    "curve": 0.0,
+    "dim": [
+      0,
+      0,
+      0
+    ],
+    "spotlight": 0.0,
+    "bg": [
+      246,
+      241,
+      231
+    ]
+  },
+  "photo_grade": "duotone:#2b59c3:#f6f1e7",
+  "captions": "highlighter",
+  "skin": {
+    "panel": "paper",
+    "photo": "cutout",
+    "title": "kinetic",
+    "number": "counter",
+    "motion": "slap",
+    "accents": "halftone",
+    "source": "chip",
+    "lower_third": "bar",
+    "quote_font": "body",
+    "number_font": "display",
+    "shadow": 0.85
+  },
+  "map_look": "explainer"
+}

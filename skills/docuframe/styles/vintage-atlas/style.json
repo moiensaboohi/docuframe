@@ -1,0 +1,176 @@
+{
+  "label": "Vintage atlas",
+  "summary": "Old printed-map feel: parchment ground with a faint graticule, sepia photos taped in, elegant serif headings, oxblood ink.",
+  "use_for": [
+    "exploration and geography",
+    "empires and trade routes",
+    "historical journeys"
+  ],
+  "camera": "world",
+  "layout": {
+    "spacing": 5000,
+    "row": 4,
+    "jitter_deg": 2.0
+  },
+  "camera_feel": {
+    "handheld": 0.5,
+    "travel": 0.95,
+    "push": 1.05
+  },
+  "tokens": {
+    "color": {
+      "bg": [
+        233,
+        220,
+        192
+      ],
+      "ink": [
+        59,
+        42,
+        26
+      ],
+      "paper": [
+        244,
+        234,
+        210
+      ],
+      "accent": [
+        156,
+        47,
+        31
+      ],
+      "highlight": [
+        156,
+        47,
+        31
+      ],
+      "text": [
+        59,
+        42,
+        26
+      ],
+      "muted": [
+        122,
+        100,
+        72
+      ],
+      "label": [
+        156,
+        47,
+        31
+      ],
+      "number": [
+        156,
+        47,
+        31
+      ],
+      "on_accent": [
+        244,
+        234,
+        210
+      ],
+      "source_fg": [
+        59,
+        42,
+        26
+      ],
+      "source_bg": [
+        244,
+        234,
+        210
+      ],
+      "mark": [
+        156,
+        47,
+        31
+      ],
+      "photo_paper": [
+        246,
+        238,
+        219
+      ],
+      "lt_panel": [
+        59,
+        42,
+        26
+      ],
+      "shadow": [
+        0,
+        0,
+        0
+      ]
+    },
+    "font": {
+      "display": [
+        "Playfair Display:800"
+      ],
+      "title": [
+        "Playfair Display:800"
+      ],
+      "label": [
+        "Fraunces:600"
+      ],
+      "body": [
+        "Fraunces:400"
+      ],
+      "hand": [
+        "Homemade Apple"
+      ]
+    }
+  },
+  "ground": {
+    "kind": "flat",
+    "color": [
+      233,
+      220,
+      192
+    ],
+    "pattern": "grid",
+    "pattern_rgb": [
+      122,
+      90,
+      54
+    ],
+    "pattern_alpha": 0.06,
+    "pattern_step": 420
+  },
+  "finish": {
+    "board": null,
+    "grade": [
+      1.02,
+      1.0,
+      0.95
+    ],
+    "grain": 0.025,
+    "glow": 0.0,
+    "vignette": 0.45,
+    "curve": 0.15,
+    "dim": [
+      0,
+      0,
+      0
+    ],
+    "spotlight": 0.0,
+    "bg": [
+      233,
+      220,
+      192
+    ]
+  },
+  "photo_grade": "sepia",
+  "captions": "clean",
+  "map_look": "period",
+  "skin": {
+    "panel": "paper",
+    "photo": "tape",
+    "title": "serif",
+    "number": "counter",
+    "motion": "drop",
+    "accents": "none",
+    "source": "plain",
+    "lower_third": "line",
+    "quote_font": "body",
+    "number_font": "display",
+    "shadow": 0.0
+  }
+}

@@ -1,27 +1,134 @@
 {
   "label": "Cinematic evidence board",
   "summary": "One continuous camera glides across a dark cork wall of pinned photos, clippings and cards joined by red string; every stamp and highlight lands on the spoken word.",
-  "use_for": ["true stories", "history", "crime and investigations", "biographies"],
+  "use_for": [
+    "true stories",
+    "history",
+    "crime and investigations",
+    "biographies"
+  ],
   "camera": "world",
   "tokens": {
     "color": {
-      "bg": [12, 9, 7], "ink": [40, 30, 22], "paper": [239, 230, 212], "accent": [168, 28, 24],
-      "highlight": [246, 206, 46], "text": [246, 243, 236], "muted": [196, 186, 170], "label": [176, 24, 20]
+      "bg": [
+        12,
+        9,
+        7
+      ],
+      "ink": [
+        40,
+        30,
+        22
+      ],
+      "paper": [
+        239,
+        230,
+        212
+      ],
+      "accent": [
+        168,
+        28,
+        24
+      ],
+      "highlight": [
+        246,
+        206,
+        46
+      ],
+      "text": [
+        246,
+        243,
+        236
+      ],
+      "muted": [
+        196,
+        186,
+        170
+      ],
+      "label": [
+        176,
+        24,
+        20
+      ]
     },
     "font": {
-      "title": ["Oswald"], "body": ["Libre Baskerville"], "mono": ["Courier Prime"],
-      "hand": ["Homemade Apple"], "label": ["Montserrat"]
+      "title": [
+        "Oswald"
+      ],
+      "body": [
+        "Libre Baskerville"
+      ],
+      "mono": [
+        "Courier Prime"
+      ],
+      "hand": [
+        "Homemade Apple"
+      ],
+      "label": [
+        "Montserrat"
+      ]
     }
   },
-  "finish": {"board": "cork_dark.png", "bg": [12, 9, 7], "grade": [1.015, 1.0, 0.975], "grain": 0.026,
-             "glow": 0.24, "vignette": 0.75, "curve": 0.25, "dim": [6, 4, 3]},
+  "finish": {
+    "board": "cork_dark.png",
+    "bg": [
+      12,
+      9,
+      7
+    ],
+    "grade": [
+      1.015,
+      1.0,
+      0.975
+    ],
+    "grain": 0.026,
+    "glow": 0.24,
+    "vignette": 0.75,
+    "curve": 0.25,
+    "dim": [
+      6,
+      4,
+      3
+    ]
+  },
   "map_look": "period",
   "photo_grade": "bw",
   "captions": "highlighter",
-  "layout": {"spacing": 5000, "row": 4, "jitter_deg": 2.5},
+  "layout": {
+    "spacing": 5000,
+    "row": 4,
+    "jitter_deg": 2.5
+  },
   "scenes": {
-    "title": {"grunge": true, "bar": "label", "bar_h": 0.92, "color": "text", "type_on": 0.6},
-    "photo": {"pin": true, "strings": true, "border": 0.035},
-    "chapter": {"grunge": true}
+    "title": {
+      "grunge": true,
+      "bar": "label",
+      "bar_h": 0.92,
+      "color": "text",
+      "type_on": 0.6
+    },
+    "photo": {
+      "pin": true,
+      "border": 0.035
+    },
+    "chapter": {
+      "grunge": true
+    }
+  },
+  "skin": {
+    "panel": "paper",
+    "photo": "pinned",
+    "title": "bar",
+    "number": "counter",
+    "motion": "drop",
+    "accents": "none",
+    "source": "plain",
+    "lower_third": "bar",
+    "strings": true
+  },
+  "camera_feel": {
+    "handheld": 1.0,
+    "travel": 0.85,
+    "push": 1.05
   }
 }

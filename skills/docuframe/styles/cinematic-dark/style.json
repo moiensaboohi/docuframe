@@ -1,0 +1,171 @@
+{
+  "label": "Cinematic dark",
+  "summary": "Premium feature-documentary look: near-black warm gradient, full-frame photographs, slow drifting camera, thin gold serif titles, cinema bars.",
+  "use_for": [
+    "prestige documentary",
+    "biography",
+    "brand and founder stories"
+  ],
+  "camera": "world",
+  "layout": {
+    "spacing": 5600,
+    "row": 3,
+    "jitter_deg": 0
+  },
+  "camera_feel": {
+    "handheld": 0.5,
+    "travel": 1.2,
+    "push": 1.08
+  },
+  "tokens": {
+    "color": {
+      "bg": [
+        5,
+        5,
+        5
+      ],
+      "ink": [
+        243,
+        238,
+        230
+      ],
+      "paper": [
+        20,
+        18,
+        16
+      ],
+      "accent": [
+        200,
+        163,
+        90
+      ],
+      "highlight": [
+        230,
+        207,
+        154
+      ],
+      "text": [
+        243,
+        238,
+        230
+      ],
+      "muted": [
+        154,
+        145,
+        134
+      ],
+      "label": [
+        200,
+        163,
+        90
+      ],
+      "number": [
+        230,
+        207,
+        154
+      ],
+      "on_accent": [
+        5,
+        5,
+        5
+      ],
+      "source_fg": [
+        191,
+        182,
+        168
+      ],
+      "source_bg": [
+        5,
+        5,
+        5
+      ],
+      "mark": [
+        200,
+        163,
+        90
+      ],
+      "lt_panel": [
+        5,
+        5,
+        5
+      ],
+      "lt_fg": [
+        243,
+        238,
+        230
+      ],
+      "shadow": [
+        0,
+        0,
+        0
+      ]
+    },
+    "font": {
+      "display": [
+        "Instrument Serif"
+      ],
+      "title": [
+        "Instrument Serif"
+      ],
+      "label": [
+        "Inter:500"
+      ],
+      "body": [
+        "Instrument Serif"
+      ]
+    }
+  },
+  "ground": {
+    "kind": "gradient",
+    "color": [
+      5,
+      5,
+      5
+    ],
+    "color2": [
+      28,
+      23,
+      18
+    ]
+  },
+  "finish": {
+    "board": null,
+    "grade": [
+      1.03,
+      1.0,
+      0.95
+    ],
+    "grain": 0.02,
+    "glow": 0.2,
+    "vignette": 0.6,
+    "curve": 0.2,
+    "dim": [
+      0,
+      0,
+      0
+    ],
+    "spotlight": 0.7,
+    "bg": [
+      5,
+      5,
+      5
+    ]
+  },
+  "photo_grade": "natural",
+  "captions": "clean",
+  "skin": {
+    "panel": "glass",
+    "photo": "full",
+    "title": "serif",
+    "number": "counter",
+    "motion": "slide",
+    "accents": "none",
+    "source": "plain",
+    "lower_third": "line",
+    "letterbox": true,
+    "quote_font": "body",
+    "number_font": "display",
+    "shadow": 0.0
+  },
+  "map_look": "explainer"
+}

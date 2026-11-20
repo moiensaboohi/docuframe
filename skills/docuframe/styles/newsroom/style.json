@@ -1,0 +1,179 @@
+{
+  "label": "Newsroom bulletin",
+  "summary": "Broadcast-news clarity: crisp light ground, heavy red title bars, framed photos, source chips and lower thirds, hard cuts.",
+  "use_for": [
+    "news explainers",
+    "current affairs",
+    "fact-checks"
+  ],
+  "camera": "cuts",
+  "layout": {
+    "spacing": 5000,
+    "row": 4,
+    "jitter_deg": 0
+  },
+  "camera_feel": {
+    "handheld": 0.0,
+    "travel": 0.5,
+    "push": 1.04
+  },
+  "tokens": {
+    "color": {
+      "bg": [
+        242,
+        242,
+        240
+      ],
+      "ink": [
+        17,
+        17,
+        17
+      ],
+      "paper": [
+        255,
+        255,
+        255
+      ],
+      "accent": [
+        215,
+        38,
+        30
+      ],
+      "highlight": [
+        215,
+        38,
+        30
+      ],
+      "text": [
+        17,
+        17,
+        17
+      ],
+      "muted": [
+        92,
+        92,
+        92
+      ],
+      "label": [
+        215,
+        38,
+        30
+      ],
+      "number": [
+        215,
+        38,
+        30
+      ],
+      "on_accent": [
+        255,
+        255,
+        255
+      ],
+      "source_fg": [
+        255,
+        255,
+        255
+      ],
+      "source_bg": [
+        17,
+        17,
+        17
+      ],
+      "mark": [
+        215,
+        38,
+        30
+      ],
+      "lt_panel": [
+        17,
+        17,
+        17
+      ],
+      "shadow": [
+        0,
+        0,
+        0
+      ]
+    },
+    "font": {
+      "display": [
+        "Archivo Black"
+      ],
+      "title": [
+        "Archivo Black"
+      ],
+      "label": [
+        "Inter:600"
+      ],
+      "body": [
+        "Inter:500"
+      ]
+    }
+  },
+  "ground": {
+    "kind": "flat",
+    "color": [
+      242,
+      242,
+      240
+    ],
+    "pattern": "lines",
+    "pattern_rgb": [
+      17,
+      17,
+      17
+    ],
+    "pattern_alpha": 0.035,
+    "pattern_step": 220
+  },
+  "finish": {
+    "board": null,
+    "grade": [
+      1,
+      1,
+      1
+    ],
+    "grain": 0.0,
+    "glow": 0.0,
+    "vignette": 0.06,
+    "curve": 0.0,
+    "dim": [
+      0,
+      0,
+      0
+    ],
+    "spotlight": 0.0,
+    "bg": [
+      242,
+      242,
+      240
+    ]
+  },
+  "photo_grade": "natural",
+  "captions": "bar",
+  "scenes": {
+    "title": {
+      "bar": "label",
+      "bar_h": 1.0,
+      "grunge": false,
+      "shadow": false,
+      "type_on": 0.0,
+      "color": "on_accent",
+      "hit": 0.6
+    }
+  },
+  "skin": {
+    "panel": "card",
+    "photo": "frame",
+    "title": "bar",
+    "number": "bar",
+    "motion": "slide",
+    "accents": "none",
+    "source": "chip",
+    "lower_third": "bar",
+    "quote_font": "body",
+    "number_font": "display",
+    "shadow": 0.0
+  },
+  "map_look": "explainer"
+}

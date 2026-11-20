@@ -1,0 +1,171 @@
+{
+  "label": "True-crime case file",
+  "summary": "A detective's desk: manila folder ground, Polaroids, typewritten labels on torn paper, red stamps and red string between clues.",
+  "use_for": [
+    "true crime",
+    "mysteries and cold cases",
+    "heists and scandals"
+  ],
+  "camera": "world",
+  "layout": {
+    "spacing": 5400,
+    "row": 4,
+    "jitter_deg": 3.0
+  },
+  "camera_feel": {
+    "handheld": 0.8,
+    "travel": 0.85,
+    "push": 1.05
+  },
+  "tokens": {
+    "color": {
+      "bg": [
+        196,
+        160,
+        110
+      ],
+      "ink": [
+        42,
+        32,
+        24
+      ],
+      "paper": [
+        244,
+        234,
+        213
+      ],
+      "accent": [
+        179,
+        38,
+        30
+      ],
+      "highlight": [
+        179,
+        38,
+        30
+      ],
+      "text": [
+        42,
+        32,
+        24
+      ],
+      "muted": [
+        91,
+        70,
+        50
+      ],
+      "label": [
+        179,
+        38,
+        30
+      ],
+      "number": [
+        179,
+        38,
+        30
+      ],
+      "on_accent": [
+        244,
+        234,
+        213
+      ],
+      "source_fg": [
+        42,
+        32,
+        24
+      ],
+      "source_bg": [
+        244,
+        234,
+        213
+      ],
+      "mark": [
+        179,
+        38,
+        30
+      ],
+      "photo_paper": [
+        247,
+        243,
+        234
+      ],
+      "lt_panel": [
+        42,
+        32,
+        24
+      ],
+      "shadow": [
+        0,
+        0,
+        0
+      ]
+    },
+    "font": {
+      "display": [
+        "Special Elite"
+      ],
+      "title": [
+        "Special Elite"
+      ],
+      "label": [
+        "Courier Prime"
+      ],
+      "body": [
+        "Courier Prime"
+      ],
+      "hand": [
+        "Caveat:700"
+      ]
+    }
+  },
+  "ground": {
+    "kind": "flat",
+    "color": [
+      196,
+      160,
+      110
+    ],
+    "pattern": "paper",
+    "pattern_alpha": 0.1
+  },
+  "finish": {
+    "board": null,
+    "grade": [
+      1.02,
+      1.0,
+      0.96
+    ],
+    "grain": 0.03,
+    "glow": 0.0,
+    "vignette": 0.55,
+    "curve": 0.18,
+    "dim": [
+      0,
+      0,
+      0
+    ],
+    "spotlight": 0.6,
+    "bg": [
+      196,
+      160,
+      110
+    ]
+  },
+  "photo_grade": "bw",
+  "captions": "clean",
+  "skin": {
+    "panel": "paper",
+    "photo": "polaroid",
+    "title": "torn",
+    "number": "counter",
+    "motion": "drop",
+    "accents": "none",
+    "source": "plain",
+    "lower_third": "bar",
+    "strings": true,
+    "quote_font": "body",
+    "number_font": "display",
+    "shadow": 0.35
+  },
+  "map_look": "explainer"
+}

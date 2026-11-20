@@ -1,0 +1,159 @@
+{
+  "label": "Archive documentary",
+  "summary": "Full-frame archive photographs with slow camera moves, warm film grain, elegant serif titles, typewriter labels and cinema bars.",
+  "use_for": [
+    "history",
+    "biography",
+    "war and politics of the past"
+  ],
+  "camera": "world",
+  "layout": {
+    "spacing": 5600,
+    "row": 3,
+    "jitter_deg": 0
+  },
+  "camera_feel": {
+    "handheld": 0.6,
+    "travel": 1.1,
+    "push": 1.08
+  },
+  "tokens": {
+    "color": {
+      "bg": [
+        18,
+        17,
+        16
+      ],
+      "ink": [
+        42,
+        36,
+        28
+      ],
+      "paper": [
+        232,
+        223,
+        200
+      ],
+      "accent": [
+        201,
+        162,
+        39
+      ],
+      "highlight": [
+        233,
+        217,
+        168
+      ],
+      "text": [
+        237,
+        230,
+        214
+      ],
+      "muted": [
+        164,
+        156,
+        140
+      ],
+      "label": [
+        140,
+        28,
+        19
+      ],
+      "number": [
+        233,
+        217,
+        168
+      ],
+      "on_accent": [
+        18,
+        17,
+        16
+      ],
+      "source_fg": [
+        217,
+        208,
+        189
+      ],
+      "source_bg": [
+        18,
+        17,
+        16
+      ],
+      "mark": [
+        201,
+        162,
+        39
+      ],
+      "lt_panel": [
+        18,
+        17,
+        16
+      ],
+      "shadow": [
+        0,
+        0,
+        0
+      ]
+    },
+    "font": {
+      "display": [
+        "DM Serif Display"
+      ],
+      "title": [
+        "DM Serif Display"
+      ],
+      "label": [
+        "IBM Plex Mono"
+      ],
+      "body": [
+        "Fraunces:400"
+      ],
+      "mono": [
+        "Special Elite"
+      ]
+    }
+  },
+  "ground": {
+    "kind": "texture"
+  },
+  "finish": {
+    "board": "charcoal.png",
+    "bg": [
+      12,
+      11,
+      10
+    ],
+    "grade": [
+      1.03,
+      1.0,
+      0.94
+    ],
+    "grain": 0.035,
+    "glow": 0.15,
+    "vignette": 0.7,
+    "curve": 0.25,
+    "dim": [
+      4,
+      3,
+      2
+    ],
+    "spotlight": 1.0
+  },
+  "photo_grade": "sepia",
+  "captions": "clean",
+  "skin": {
+    "panel": "paper",
+    "photo": "full",
+    "title": "serif",
+    "number": "counter",
+    "motion": "slide",
+    "accents": "none",
+    "source": "plain",
+    "lower_third": "line",
+    "letterbox": true,
+    "quote_font": "body",
+    "number_font": "display",
+    "shadow": 0.5
+  },
+  "map_look": "explainer"
+}

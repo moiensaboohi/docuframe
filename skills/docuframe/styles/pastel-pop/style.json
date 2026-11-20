@@ -1,0 +1,178 @@
+{
+  "label": "Pastel pop",
+  "summary": "Soft peach ground, white cards, chunky friendly type with label chips, coral and violet shapes and bouncy motion.",
+  "use_for": [
+    "lifestyle and culture",
+    "kids and family learning",
+    "food, travel and fun facts"
+  ],
+  "camera": "world",
+  "layout": {
+    "spacing": 5400,
+    "row": 4,
+    "jitter_deg": 0
+  },
+  "camera_feel": {
+    "handheld": 0.0,
+    "travel": 0.55,
+    "push": 1.03
+  },
+  "tokens": {
+    "color": {
+      "bg": [
+        255,
+        244,
+        236
+      ],
+      "ink": [
+        43,
+        33,
+        64
+      ],
+      "paper": [
+        255,
+        255,
+        255
+      ],
+      "accent": [
+        255,
+        122,
+        89
+      ],
+      "highlight": [
+        124,
+        92,
+        255
+      ],
+      "text": [
+        43,
+        33,
+        64
+      ],
+      "muted": [
+        140,
+        128,
+        158
+      ],
+      "label": [
+        124,
+        92,
+        255
+      ],
+      "number": [
+        124,
+        92,
+        255
+      ],
+      "on_accent": [
+        255,
+        255,
+        255
+      ],
+      "source_fg": [
+        255,
+        255,
+        255
+      ],
+      "source_bg": [
+        43,
+        33,
+        64
+      ],
+      "mark": [
+        255,
+        122,
+        89
+      ],
+      "lt_panel": [
+        43,
+        33,
+        64
+      ],
+      "extra1": [
+        255,
+        201,
+        60
+      ],
+      "extra2": [
+        46,
+        196,
+        182
+      ],
+      "shadow": [
+        0,
+        0,
+        0
+      ]
+    },
+    "font": {
+      "display": [
+        "Bricolage Grotesque:800"
+      ],
+      "title": [
+        "Bricolage Grotesque:800"
+      ],
+      "label": [
+        "DM Sans:700"
+      ],
+      "body": [
+        "DM Sans:500"
+      ]
+    }
+  },
+  "ground": {
+    "kind": "flat",
+    "color": [
+      255,
+      244,
+      236
+    ],
+    "pattern": "dots",
+    "pattern_rgb": [
+      255,
+      122,
+      89
+    ],
+    "pattern_alpha": 0.09,
+    "pattern_step": 220
+  },
+  "finish": {
+    "board": null,
+    "grade": [
+      1,
+      1,
+      1
+    ],
+    "grain": 0.0,
+    "glow": 0.0,
+    "vignette": 0.06,
+    "curve": 0.0,
+    "dim": [
+      0,
+      0,
+      0
+    ],
+    "spotlight": 0.0,
+    "bg": [
+      255,
+      244,
+      236
+    ]
+  },
+  "photo_grade": "natural",
+  "captions": "highlighter",
+  "skin": {
+    "panel": "card",
+    "photo": "frame",
+    "title": "stack",
+    "number": "bar",
+    "motion": "pop",
+    "accents": "shapes",
+    "source": "chip",
+    "lower_third": "chip",
+    "quote_font": "body",
+    "number_font": "display",
+    "shadow": 0.0
+  },
+  "map_look": "explainer"
+}
