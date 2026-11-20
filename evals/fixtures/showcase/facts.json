@@ -1,0 +1,18 @@
+{
+ "topic": "The Great Molasses Flood, Boston, 1919",
+ "checked": "2026-11-20",
+ "facts": [
+  {"id": "F1", "claim": "A molasses storage tank burst in Boston's North End on January 15, 1919.",
+   "sources": [{"title": "Great Molasses Flood", "publisher": "Encyclopaedia Britannica", "url": "https://www.britannica.com/topic/Great-Molasses-Flood"}]},
+  {"id": "F2", "claim": "The tank held about 2.3 million US gallons of molasses.",
+   "sources": [{"title": "100 years ago today: Molasses crashes through Boston's North End", "publisher": "City of Boston", "url": "https://www.boston.gov/news/100-years-ago-today-molasses-crashes-through-bostons-north-end"}]},
+  {"id": "F3", "claim": "The tank was about 50 feet tall.",
+   "sources": [{"title": "100 years ago today: Molasses crashes through Boston's North End", "publisher": "City of Boston", "url": "https://www.boston.gov/news/100-years-ago-today-molasses-crashes-through-bostons-north-end"},
+               {"title": "Great Molasses Flood", "publisher": "Encyclopaedia Britannica", "url": "https://www.britannica.com/topic/Great-Molasses-Flood"}]},
+  {"id": "F4", "claim": "The wave moved at an estimated 35 miles per hour.",
+   "sources": [{"title": "Great Boston Molasses Flood of 1919 killed 21", "publisher": "NBC News", "url": "https://www.nbcnews.com/news/us-news/great-boston-molasses-flood-1919-killed-21-after-2-million-n958326"}]},
+  {"id": "F5", "claim": "21 people were killed and about 150 injured.",
+   "sources": [{"title": "100 years ago today: Molasses crashes through Boston's North End", "publisher": "City of Boston", "url": "https://www.boston.gov/news/100-years-ago-today-molasses-crashes-through-bostons-north-end"},
+               {"title": "Great Molasses Flood", "publisher": "Encyclopaedia Britannica", "url": "https://www.britannica.com/topic/Great-Molasses-Flood"}]}
+ ]
+}

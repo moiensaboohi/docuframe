@@ -1,0 +1,142 @@
+{
+ "style": "studio-light",
+ "format": "16:9",
+ "lang": "en",
+ "beats": [
+  {
+   "line": 1,
+   "scene": "title",
+   "text": "The Sticky Tsunami",
+   "sub": "Boston, January 15, 1919"
+  },
+  {
+   "line": 1,
+   "scene": "map",
+   "at": 2.2,
+   "map": "newengland",
+   "fill": [
+    "Massachusetts"
+   ],
+   "pins": [
+    {
+     "lon": -71.06,
+     "lat": 42.36,
+     "label": "Boston",
+     "at": 2.7
+    }
+   ],
+   "source": "Map: Natural Earth (public domain)"
+  },
+  {
+   "line": 1,
+   "scene": "photo",
+   "photo": "P01",
+   "at": 4.2,
+   "label": "North End, 1919",
+   "caption": "A storage tank burst on the Boston waterfront.",
+   "mark": {
+    "kind": "ellipse",
+    "fx": 0.55,
+    "fy": 0.55,
+    "w": 0.4,
+    "h": 0.32
+   },
+   "source": "Photo: Boston City Archives (public domain)"
+  },
+  {
+   "line": 1,
+   "scene": "lower-third",
+   "at": 4.6,
+   "until": 6.6,
+   "name": "Wilfred Bolster",
+   "role": "Chief Judge, Boston Municipal Court"
+  },
+  {
+   "line": 2,
+   "scene": "big-number",
+   "value": 2.3,
+   "suffix": "M gal",
+   "kicker": "Inside the tank",
+   "caption": "of molasses, released at once",
+   "source": "City of Boston"
+  },
+  {
+   "line": 3,
+   "scene": "timeline",
+   "title": "The tank's short life",
+   "events": [
+    {
+     "when": "1915",
+     "label": "Tank built"
+    },
+    {
+     "when": "1919",
+     "label": "Tank bursts"
+    },
+    {
+     "when": "1925",
+     "label": "Court rules on the case"
+    }
+   ],
+   "source": "Britannica; City of Boston"
+  },
+  {
+   "line": 4,
+   "scene": "big-number",
+   "value": 35,
+   "suffix": " mph",
+   "caption": "Estimated speed of the wave",
+   "source": "NBC News"
+  },
+  {
+   "line": 4,
+   "scene": "list",
+   "at": 2.4,
+   "title": "Why it was so deadly",
+   "items": [
+    "2.3 million gallons released at once",
+    "A wave at about 35 mph",
+    "Streets packed with people at midday"
+   ]
+  },
+  {
+   "line": 5,
+   "scene": "comparison",
+   "title": "The toll",
+   "left": {
+    "title": "21",
+    "lines": [
+     "people killed"
+    ]
+   },
+   "right": {
+    "title": "~150",
+    "lines": [
+     "people injured"
+    ]
+   },
+   "source": "City of Boston; Britannica"
+  },
+  {
+   "line": 5,
+   "scene": "chapter",
+   "at": 2.6,
+   "number": 2,
+   "title": "The aftermath"
+  },
+  {
+   "line": 6,
+   "scene": "quote",
+   "text": "Slow as molasses.",
+   "who": "An old saying",
+   "title": "The irony"
+  },
+  {
+   "line": 6,
+   "scene": "end",
+   "at": 2.4,
+   "text": "Slow as molasses?",
+   "sub": "Sources in the description"
+  }
+ ]
+}

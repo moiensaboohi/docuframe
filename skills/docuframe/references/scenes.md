@@ -16,7 +16,7 @@ world (style camera `world`) or cut between (`cuts`); vertical formats stack clu
 | `timeline` | `events` [{`when`, `label`, `at`}] | dates that tick on as they are spoken |
 | `comparison` | `left`/`right` {`title`, `lines`} | two sides; stacked in vertical formats |
 | `list` | `title`, `items` [{`text`, `at`}], `numbered` | steps, causes, results |
-| `map` | `map` (name from map.json via `docuframe map`), `fill` [regions], `scale` | places, borders |
+| `map` | `map` (name from map.json via `docuframe map`), `fill` [regions], `pins` [{`lon`, `lat`, `label`, `at`}], `scale` (optional; the map fits the frame by default) | places, borders, where it happened |
 | `lower-third` | `name`, `role`, `until` | name a person on screen (overlay) |
 | `end` | `text`, `sub` | closing card; the camera pulls back over the whole world under it |
 

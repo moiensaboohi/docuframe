@@ -930,3 +930,31 @@ class Backdrop(E.Item):
         c.drawImageRect(img, dst, E.SMOOTH, p)
         c.drawRect(dst, E.fill(self.wash, self.wash_a * o))
         c.restore()
+
+
+class MapPin(E.Item):
+    """A place on a map: a dot that lands with a soft ring, and its name beside it."""
+    z = 30
+
+    def __init__(self, x, y, label, t_in, rgb, ink, size=120.0, side=1):
+        self.x, self.y = x, y
+        super().__init__(t_in, None, None, True)
+        self.label, self.rgb, self.ink, self.size, self.side = label, rgb, ink, size, side
+        self.reach = size * 20
+
+    def cues(self):
+        return [("tick", self.t_in, 0.5, {})]
+
+    def paint(self, c, kit, t, o):
+        u = window(t, self.t_in, 0.6)
+        if u <= 0:
+            return
+        e = 1 - (1 - u) ** 3
+        r = self.size * 0.16
+        c.drawCircle(self.x, self.y, r * 3.2 * e, E.fill(self.rgb, 0.22 * o * (1.2 - e)))
+        c.drawCircle(self.x, self.y, r * (0.6 + 0.4 * e), E.fill(self.rgb, o))
+        c.drawCircle(self.x, self.y, r * (0.6 + 0.4 * e), E.line((255, 255, 255), 0.9 * o, r * 0.35))
+        if self.label:
+            a = o * window(t, self.t_in + 0.2, 0.4)
+            E.draw_text(c, kit, self.label, self.x + self.side * r * 2.4, self.y + self.size * 0.33, self.size, "label", self.ink, a, 0.01,
+                        "left" if self.side > 0 else "right")

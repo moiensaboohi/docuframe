@@ -1,0 +1,27 @@
+{
+ "grade": "auto",
+ "photos": [
+  {
+   "id": "P01",
+   "what": "Wreckage after the molasses flood, North End, 1919",
+   "kind": "photo",
+   "commons": "File:Boston Molasses Disaster.jpg",
+   "file": "P01.jpg",
+   "license": "CC0 (test placeholder)",
+   "credit": "docuframe test placeholder",
+   "license_ok": true,
+   "placeholder": true
+  },
+  {
+   "id": "P02",
+   "what": "Damage to the elevated railway, 1919",
+   "kind": "photo",
+   "commons": "File:Boston Molasses Disaster 2.jpg",
+   "file": "P02.jpg",
+   "license": "CC0 (test placeholder)",
+   "credit": "docuframe test placeholder",
+   "license_ok": true,
+   "placeholder": true
+  }
+ ]
+}

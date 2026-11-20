@@ -201,7 +201,11 @@ class Builder(EditorialScenes):
         if not beats:
             raise SystemExit("film.json has no beats")
         starts = [self.t_of(b) for b in beats]
-        ends = starts[1:] + [self.doc.duration]
+        # a beat lasts until the next beat that takes the screen; overlays (lower thirds) don't
+        ends = []
+        for k in range(len(beats)):
+            nxt = [starts[j] for j in range(k + 1, len(beats)) if beats[j]["scene"] != "lower-third"]
+            ends.append(nxt[0] if nxt else self.doc.duration)
         world = self.st["camera"] != "cuts"
         f = self.film
         prev_center = None
@@ -542,13 +546,22 @@ class Builder(EditorialScenes):
 
     def scene_map(self, b, i, cx, cy, rot, t0, t1):
         data = self.doc.map(b["map"])
-        K = b.get("scale", 9000)
-        gm = E.GeoMap(data, K, origin=(cx - K * (data["frame"][0] + data["frame"][2]) / 2 if data.get("frame") else cx,
-                                       cy - K * (data["frame"][1] + data["frame"][3]) / 2 if data.get("frame") else cy),
+        x0, y0, x1, y1 = data["frame"]
+        # fit the map to the frame unless the beat sets a scale
+        sk = b.get("scale") or min(getattr(self, "vis_w", CLUSTER_W) * 0.84 / max(1e-6, x1 - x0),
+                                  getattr(self, "vis_h", CLUSTER_H) * 0.80 / max(1e-6, y1 - y0))
+        gm = E.GeoMap(data, sk, origin=(cx - sk * (x0 + x1) / 2, cy - sk * (y0 + y1) / 2),
                       look=self.st.get("map_look", "explainer"), t_in=t0 - 0.5)
         self.film.add(gm)
         if b.get("fill"):
             self.film.add(E.RegionFill(gm, b["fill"], self.c.get("accent"), t0 + 0.6))
+        from .maps import project
+        pj = data.get("projection", {"kind": "equirect", "lon0": 0.0})
+        for k, pin in enumerate(b.get("pins", [])):
+            px, py = gm.w(project(pin["lon"], pin["lat"], pj["kind"], pj["lon0"]))
+            tp = self.t_of({"line": b.get("line"), "at": pin["at"]}) if pin.get("at") and b.get("line") else t0 + 1.0 + 0.4 * k
+            self.film.add(K.MapPin(px, py, pin.get("label", ""), tp, self.c.get("mark", self.c.get("accent")),
+                                   self.c.get("text", (20, 20, 20)), size=getattr(self, "px", 2.0) * 34, side=pin.get("side", 1)))
         return None
 
     def scene_lower_third(self, b, i, cx, cy, rot, t0, t1):

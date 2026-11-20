@@ -680,8 +680,9 @@ class GeoMap(Item):
         if self._picture is None:
             rec = skia.PictureRecorder()
             pc = rec.beginRecording(self.rect.makeOutset(400, 400))
-            look, stroke = self.look, max(2.0, self.K * 0.0015)
-            pc.drawRect(self.rect.makeOffset(30, 50), fill((0, 0, 0), 0.4, 60))
+            # line weights follow the map's size in the frame, not its scale (a small region must not get fat borders)
+            look, stroke = self.look, max(2.0, self.rect.width() * 0.0011)
+            pc.drawRect(self.rect.makeOffset(0, self.rect.height() * 0.02), fill((0, 0, 0), 0.18, self.rect.width() * 0.02))
             pc.drawRect(self.rect, fill(look["water"]))
             pc.save()
             pc.clipRect(self.rect)
@@ -690,7 +691,7 @@ class GeoMap(Item):
                 pc.drawPath(shape, fill(look["land"]))
                 pc.drawPath(shape, line(look["line"], 0.9, stroke))
             pc.restore()
-            pc.drawRect(self.rect, line(look["frame"], 1.0, stroke * 3))
+            pc.drawRect(self.rect, line(look["frame"], 1.0, stroke * 1.6))
             self._picture = rec.finishRecordingAsPicture()
         c.drawPicture(self._picture)
 
