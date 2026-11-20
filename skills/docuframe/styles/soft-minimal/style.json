@@ -1,0 +1,175 @@
+{
+  "label": "Soft editorial minimal",
+  "summary": "Calm magazine minimalism: warm paper-white ground, elegant serif headlines, quiet sans text, terracotta details and generous white space.",
+  "use_for": [
+    "culture, food and travel",
+    "biography and people",
+    "slow, thoughtful essays"
+  ],
+  "camera": "world",
+  "layout": {
+    "spacing": 6000,
+    "row": 4,
+    "jitter_deg": 0
+  },
+  "camera_feel": {
+    "handheld": 0.0,
+    "travel": 0.75,
+    "push": 1.02
+  },
+  "tokens": {
+    "color": {
+      "bg": [
+        246,
+        242,
+        236
+      ],
+      "ink": [
+        43,
+        38,
+        34
+      ],
+      "paper": [
+        255,
+        253,
+        249
+      ],
+      "accent": [
+        194,
+        100,
+        60
+      ],
+      "highlight": [
+        194,
+        100,
+        60
+      ],
+      "text": [
+        43,
+        38,
+        34
+      ],
+      "muted": [
+        133,
+        124,
+        114
+      ],
+      "label": [
+        194,
+        100,
+        60
+      ],
+      "number": [
+        43,
+        38,
+        34
+      ],
+      "on_accent": [
+        255,
+        253,
+        249
+      ],
+      "source_fg": [
+        133,
+        124,
+        114
+      ],
+      "source_bg": [
+        246,
+        242,
+        236
+      ],
+      "mark": [
+        194,
+        100,
+        60
+      ],
+      "lt_panel": [
+        43,
+        38,
+        34
+      ],
+      "lt_fg": [
+        43,
+        38,
+        34
+      ],
+      "shadow": [
+        0,
+        0,
+        0
+      ]
+    },
+    "font": {
+      "display": [
+        "Newsreader:500"
+      ],
+      "number": [
+        "Newsreader:400"
+      ],
+      "label": [
+        "Instrument Sans:600"
+      ],
+      "text": [
+        "Instrument Sans:400"
+      ],
+      "body": [
+        "Newsreader:400"
+      ]
+    }
+  },
+  "ground": {
+    "kind": "flat",
+    "color": [
+      246,
+      242,
+      236
+    ]
+  },
+  "finish": {
+    "board": null,
+    "grade": [
+      1,
+      1,
+      1
+    ],
+    "grain": 0.0,
+    "glow": 0.0,
+    "vignette": 0.0,
+    "curve": 0.0,
+    "dim": [
+      0,
+      0,
+      0
+    ],
+    "spotlight": 0.0,
+    "bg": [
+      246,
+      242,
+      236
+    ]
+  },
+  "photo_grade": "natural",
+  "captions": "clean",
+  "skin": {
+    "motion": "rise",
+    "source": "quiet",
+    "lower_third": "line",
+    "accents": "none",
+    "panel": "none",
+    "photo": "rounded",
+    "title": "kinetic",
+    "number": "counter",
+    "quote_font": "serif",
+    "number_font": "number",
+    "layout": "editorial",
+    "align": "start",
+    "shadow": 0.0
+  },
+  "type": {
+    "title": 100,
+    "number": 220,
+    "quote": 54
+  },
+  "map_look": "explainer"
+}

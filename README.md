@@ -80,9 +80,29 @@ Windows, macOS or Linux.
 
 ## Styles
 
-Fifteen built-in looks, all drawn by code. Same film, same facts — pick the look:
+Twenty-four built-in looks, all drawn by code, in two families. Same film, same facts — pick the look.
 
-<p align="center"><img src="docs/media/style-gallery.jpg" width="720" alt="The same short film rendered in fifteen docuframe styles: title, big number and photo frames for each"></p>
+### Modern minimal
+
+<p align="center"><img src="docs/media/style-gallery-modern.jpg" width="760" alt="The same film in nine modern minimal docuframe styles: keynote-like light and dark, frosted glass light and dark, two slide styles, Swiss grid, soft serif and midnight"></p>
+
+Small confident type on a real grid, soft blur-in motion, numbers that count up with a thin meter, real frosted glass that blurs the light behind it.
+
+| Style | Look | Best for |
+|---|---|---|
+| `studio-light` | Product-keynote calm: soft light-grey stage, centred tight headlines in a modern sans, lots of air, photos with rounded corners, every element rising in with a soft blur. | technology and products, business and strategy, clean explainers of any kind |
+| `studio-dark` | A black keynote stage: centred white headlines, big numbers in a blue-to-violet gradient, quiet grey supporting lines and photos that glow softly out of the dark. | technology launches and AI, space and science, big-number stories |
+| `liquid-glass` | Frosted glass cards that really blur the soft colour light drifting behind them, bright specular edges, rounded type and calm centred layouts. | technology and design, lifestyle and wellbeing, product and app explainers |
+| `liquid-glass-night` | Dark glass over slow neon colour light: translucent cards with bright rims, white type, mint and violet accents; premium and modern. | technology and AI, music and culture, finance and crypto |
+| `slides-classic` | Clean presentation slides: white pages, a left-aligned header with a short blue bar, simple grey cards, plain photos, page numbers, hard cuts between slides. | lessons and courses, work and business explainers, step-by-step how-tos |
+| `slides-color` | Bold presentation slides: title and chapter slides on a full indigo colour field with white type, content slides on white with soft cards and indigo accents. | courses and workshops, company and team updates, pitch-style explainers |
+| `swiss-grid` | International-style minimalism: off-white page, strict left alignment, tight bold sans headlines, light oversized numbers, hairline rules and one red accent. | design, architecture and art, economics and data, essays with a clear argument |
+| `soft-minimal` | Calm magazine minimalism: warm paper-white ground, elegant serif headlines, quiet sans text, terracotta details and generous white space. | culture, food and travel, biography and people, slow, thoughtful essays |
+| `midnight-minimal` | Quiet dark interface look: deep blue-black ground, crisp white type, mint accents, hairline-edged surfaces and left-aligned compositions. | technology and software, science and space, finance and data |
+
+### Classic
+
+<p align="center"><img src="docs/media/style-gallery.jpg" width="720" alt="The same short film rendered in fifteen classic docuframe styles"></p>
 
 | Style | Look | Best for |
 |---|---|---|

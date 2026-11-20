@@ -127,10 +127,10 @@ class FontBook:
 
     # -- layout
     def paragraph(self, text: str, size: float, role: str, rgb=(0, 0, 0), track: float = 0.0,
-                  width: float = 1e6, align: str = "left") -> skia.textlayout.Paragraph:
+                  width: float = 1e6, align: str = "left", leading: float | None = None) -> skia.textlayout.Paragraph:
         rtl = F.is_rtl(text)
         shaped = rtl or bool(F.detect_scripts(text) - {"latin"})
-        key = (text, round(size, 2), role, tuple(rgb), round(track, 4), round(width), align)
+        key = (text, round(size, 2), role, tuple(rgb), round(track, 4), round(width), align, leading)
         p = self._para_cache.get(key)
         if p is not None:
             return p
@@ -146,6 +146,9 @@ class FontBook:
             ts.setLetterSpacing(track * size)
         if self.lang:
             ts.setLocale(self.lang)
+        if leading:                   # tight display leading (line height as a multiple of size)
+            ts.setHeightOverride(True)
+            ts.setHeight(leading)
         ps.setTextStyle(ts)
         b = skia.textlayout.ParagraphBuilder.make(ps, self.collection, self.unicode)
         b.pushStyle(ts)

@@ -255,6 +255,128 @@ STYLES = {
 }
 
 
+# ---------------------------------------------------------------- modern minimal (editorial / deck layouts)
+CLEAN = {"board": None, "grade": [1, 1, 1], "grain": 0.0, "glow": 0.0, "vignette": 0.0, "curve": 0.0, "dim": [0, 0, 0]}
+
+
+def modern(label, summary, use_for, avoid, colors_, fonts, skin, ground, finish=None, type_=None, camera="world",
+           feel=None, grade="natural", extra=None):
+    st = dict(label=label, summary=summary, use_for=use_for, avoid=avoid, camera=camera,
+              layout={"spacing": 6000, "row": 4, "jitter_deg": 0},
+              camera_feel={"handheld": 0.0, "travel": 0.75, "push": 1.02, **(feel or {})},
+              tokens={"color": colors(**colors_), "font": fonts}, ground=ground, finish={**CLEAN, **(finish or {})},
+              photo_grade=grade, captions="clean",
+              skin={"motion": "rise", "source": "quiet", "lower_third": "line", "accents": "none", "panel": "none",
+                    "photo": "rounded", "title": "kinetic", "number": "counter", "quote_font": "text", "number_font": "number", **skin})
+    if type_:
+        st["type"] = type_
+    st.update(extra or {})
+    return st
+
+
+MODERN = {
+    "studio-light": modern(
+        "Studio light (keynote minimal)",
+        "Product-keynote calm: soft light-grey stage, centred tight headlines in a modern sans, lots of air, photos with rounded corners, every element rising in with a soft blur.",
+        ["technology and products", "business and strategy", "clean explainers of any kind"], "Gritty true crime and archive-heavy history.",
+        dict(bg="#f4f4f6", ink="#111114", paper="#ffffff", accent="#2b6cff", highlight="#2b6cff", text="#111114", muted="#6c6c75",
+             label="#2b6cff", number="#111114", on_accent="#ffffff", source_fg="#6c6c75", source_bg="#f4f4f6", mark="#2b6cff",
+             lt_panel="#111114", lt_fg="#111114"),
+        {"display": ["Inter Tight:600"], "number": ["Inter Tight:600"], "label": ["Inter:500"], "text": ["Inter:400"], "body": ["Inter:400"]},
+        {"layout": "editorial", "align": "center", "eyebrow_sub": True},
+        {"kind": "flat", "color": [244, 244, 246]}, type_={"quote": 60, "title": 100}),
+    "studio-dark": modern(
+        "Studio dark (keynote stage)",
+        "A black keynote stage: centred white headlines, big numbers in a blue-to-violet gradient, quiet grey supporting lines and photos that glow softly out of the dark.",
+        ["technology launches and AI", "space and science", "big-number stories"], "Warm human stories that need a light touch.",
+        dict(bg="#000000", ink="#f5f5f7", paper="#151518", accent="#6aa1ff", highlight="#b88cff", text="#f5f5f7", muted="#8d8d96",
+             label="#6aa1ff", number="#ffffff", on_accent="#000000", source_fg="#8d8d96", source_bg="#000000", mark="#6aa1ff",
+             grad1="#5aa0ff", grad2="#c47dff", lt_panel="#000000", lt_fg="#f5f5f7"),
+        {"display": ["Inter Tight:600"], "number": ["Inter Tight:700"], "label": ["Inter:500"], "text": ["Inter:400"], "body": ["Inter:400"]},
+        {"layout": "editorial", "align": "center", "eyebrow_sub": True, "number_gradient": ["grad1", "grad2"]},
+        {"kind": "gradient", "color": [0, 0, 0], "color2": [16, 16, 22]}, finish={"vignette": 0.25, "glow": 0.12},
+        type_={"quote": 60, "title": 100}),
+    "liquid-glass": modern(
+        "Liquid glass (light)",
+        "Frosted glass cards that really blur the soft colour light drifting behind them, bright specular edges, rounded type and calm centred layouts.",
+        ["technology and design", "lifestyle and wellbeing", "product and app explainers"], "Hard news, conflict and grief.",
+        dict(bg="#eef0f7", ink="#10121f", paper="#ffffff", glass="#ffffff", accent="#3a5bff", highlight="#ff5c8a", text="#10121f",
+             muted="#5b6078", label="#3a5bff", number="#10121f", on_accent="#ffffff", source_fg="#5b6078", source_bg="#eef0f7",
+             mark="#3a5bff", blob1="#8fb2ff", blob2="#ffb0cf", blob3="#9ff0d6", blob4="#ffd79a", lt_panel="#10121f", lt_fg="#10121f"),
+        {"display": ["Geist:600"], "number": ["Geist:600"], "label": ["Geist:500"], "text": ["Geist:400"], "body": ["Geist:400"]},
+        {"layout": "editorial", "align": "center", "panel": "liquid", "wrap": True, "photo": "liquid", "accents": "blobs",
+         "eyebrow_sub": True},
+        {"kind": "gradient", "color": [238, 240, 247], "color2": [229, 232, 244]}, extra={"radius": 40, "glass_alpha": 0.30, "blob_alpha": 0.95}),
+    "liquid-glass-night": modern(
+        "Liquid glass (night)",
+        "Dark glass over slow neon colour light: translucent cards with bright rims, white type, mint and violet accents; premium and modern.",
+        ["technology and AI", "music and culture", "finance and crypto"], "History before colour photography.",
+        dict(bg="#07080f", ink="#f4f5ff", paper="#1a1d2e", glass="#ffffff", accent="#7ea0ff", highlight="#5ff2c8", text="#f4f5ff",
+             muted="#a4a9c6", label="#7ea0ff", number="#ffffff", on_accent="#07080f", source_fg="#a4a9c6", source_bg="#07080f",
+             mark="#5ff2c8", blob1="#3256ff", blob2="#a234ff", blob3="#00b89c", blob4="#ff4f86", grad1="#9fb8ff", grad2="#6ff5d2",
+             lt_panel="#07080f", lt_fg="#f4f5ff"),
+        {"display": ["Geist:600"], "number": ["Geist:600"], "label": ["Geist:500"], "text": ["Geist:400"], "body": ["Geist:400"]},
+        {"layout": "editorial", "align": "center", "panel": "liquid", "wrap": True, "photo": "liquid", "accents": "blobs",
+         "eyebrow_sub": True, "number_gradient": ["grad1", "grad2"]},
+        {"kind": "gradient", "color": [7, 8, 15], "color2": [14, 16, 32]}, finish={"glow": 0.15},
+        extra={"radius": 40, "glass_alpha": 0.10, "blob_alpha": 0.75}),
+    "slides-classic": modern(
+        "Classic slides",
+        "Clean presentation slides: white pages, a left-aligned header with a short blue bar, simple grey cards, plain photos, page numbers, hard cuts between slides.",
+        ["lessons and courses", "work and business explainers", "step-by-step how-tos"], "Cinematic storytelling.",
+        dict(bg="#ffffff", ink="#1f2328", paper="#f2f4f7", accent="#2f6fed", highlight="#2f6fed", text="#1f2328", muted="#61666e",
+             label="#2f6fed", number="#2f6fed", on_accent="#ffffff", source_fg="#61666e", source_bg="#ffffff", mark="#e8453c",
+             lt_panel="#1f2328", lt_fg="#1f2328"),
+        {"display": ["Roboto:500"], "number": ["Roboto:500"], "label": ["Roboto:500"], "text": ["Roboto:400"], "body": ["Roboto:400"]},
+        {"layout": "deck", "align": "start", "panel": "surface", "flat": True, "photo": "rounded"},
+        {"kind": "flat", "color": [255, 255, 255]}, camera="cuts", feel={"push": 1.0},
+        type_={"title": 84, "slide": 48, "body": 32, "number": 170}, extra={"radius": 16}),
+    "slides-color": modern(
+        "Colour-block slides",
+        "Bold presentation slides: title and chapter slides on a full indigo colour field with white type, content slides on white with soft cards and indigo accents.",
+        ["courses and workshops", "company and team updates", "pitch-style explainers"], "Slow, atmospheric documentary.",
+        dict(bg="#ffffff", ink="#191a2e", paper="#f1f2fb", accent="#3b44c9", highlight="#ff8a3d", text="#191a2e", muted="#5f6280",
+             label="#3b44c9", number="#3b44c9", on_accent="#ffffff", source_fg="#5f6280", source_bg="#ffffff", mark="#ff8a3d",
+             lt_panel="#191a2e", lt_fg="#191a2e"),
+        {"display": ["Plus Jakarta Sans:700"], "number": ["Plus Jakarta Sans:700"], "label": ["Plus Jakarta Sans:600"],
+         "text": ["Plus Jakarta Sans:400"], "body": ["Plus Jakarta Sans:400"]},
+        {"layout": "deck", "align": "start", "panel": "surface", "flat": True, "title_fill": True, "photo": "rounded"},
+        {"kind": "flat", "color": [255, 255, 255]}, camera="cuts", feel={"push": 1.0}, extra={"radius": 20}),
+    "swiss-grid": modern(
+        "Swiss grid",
+        "International-style minimalism: off-white page, strict left alignment, tight bold sans headlines, light oversized numbers, hairline rules and one red accent.",
+        ["design, architecture and art", "economics and data", "essays with a clear argument"], "Kids' content.",
+        dict(bg="#f7f6f2", ink="#111111", paper="#ffffff", accent="#e5322d", highlight="#e5322d", text="#111111", muted="#6b6b6b",
+             label="#e5322d", number="#111111", on_accent="#ffffff", source_fg="#6b6b6b", source_bg="#f7f6f2", mark="#e5322d",
+             lt_panel="#111111", lt_fg="#111111"),
+        {"display": ["Inter Tight:700"], "number": ["Inter Tight:300"], "label": ["Inter Tight:600"], "text": ["Inter:400"], "body": ["Inter:400"]},
+        {"layout": "editorial", "align": "start", "photo": "plain"},
+        {"kind": "flat", "color": [247, 246, 242]}, type_={"title": 104, "number": 240}),
+    "soft-minimal": modern(
+        "Soft editorial minimal",
+        "Calm magazine minimalism: warm paper-white ground, elegant serif headlines, quiet sans text, terracotta details and generous white space.",
+        ["culture, food and travel", "biography and people", "slow, thoughtful essays"], "Fast news and hype.",
+        dict(bg="#f6f2ec", ink="#2b2622", paper="#fffdf9", accent="#c2643c", highlight="#c2643c", text="#2b2622", muted="#857c72",
+             label="#c2643c", number="#2b2622", on_accent="#fffdf9", source_fg="#857c72", source_bg="#f6f2ec", mark="#c2643c",
+             lt_panel="#2b2622", lt_fg="#2b2622"),
+        {"display": ["Newsreader:500"], "number": ["Newsreader:400"], "label": ["Instrument Sans:600"], "text": ["Instrument Sans:400"],
+         "body": ["Newsreader:400"]},
+        {"layout": "editorial", "align": "start", "photo": "rounded", "quote_font": "serif"},
+        {"kind": "flat", "color": [246, 242, 236]}, type_={"title": 100, "number": 220, "quote": 54}, grade="natural"),
+    "midnight-minimal": modern(
+        "Midnight minimal",
+        "Quiet dark interface look: deep blue-black ground, crisp white type, mint accents, hairline-edged surfaces and left-aligned compositions.",
+        ["technology and software", "science and space", "finance and data"], "Rustic or archival subjects.",
+        dict(bg="#0b0d12", ink="#e9ebf1", paper="#141821", accent="#5fe3b0", highlight="#5fe3b0", text="#e9ebf1", muted="#8b91a1",
+             label="#5fe3b0", number="#e9ebf1", on_accent="#0b0d12", source_fg="#8b91a1", source_bg="#0b0d12", mark="#5fe3b0",
+             lt_panel="#0b0d12", lt_fg="#e9ebf1"),
+        {"display": ["Geist:600"], "number": ["Geist:500"], "label": ["Geist:500"], "text": ["Geist:400"], "body": ["Geist:400"]},
+        {"layout": "editorial", "align": "start", "panel": "surface", "hairline": True, "photo": "rounded", "wrap": False},
+        {"kind": "gradient", "color": [11, 13, 18], "color2": [16, 20, 30]}),
+}
+STYLES.update(MODERN)
+
+
 # offset shadow behind big type: (alpha, colour). 0 = clean flat type.
 SHADOW = {"editorial-collage": (0.9, "#1f2a44"), "bold-poster": (1.0, "#ff3b30"), "riso-print": (0.85, "#2b59c3"),
           "case-file": (0.35, "#000000"), "archive-documentary": (0.5, "#000000"), "vintage-atlas": (0.0, "#000000")}

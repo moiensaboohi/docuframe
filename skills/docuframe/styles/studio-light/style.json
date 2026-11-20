@@ -1,0 +1,175 @@
+{
+  "label": "Studio light (keynote minimal)",
+  "summary": "Product-keynote calm: soft light-grey stage, centred tight headlines in a modern sans, lots of air, photos with rounded corners, every element rising in with a soft blur.",
+  "use_for": [
+    "technology and products",
+    "business and strategy",
+    "clean explainers of any kind"
+  ],
+  "camera": "world",
+  "layout": {
+    "spacing": 6000,
+    "row": 4,
+    "jitter_deg": 0
+  },
+  "camera_feel": {
+    "handheld": 0.0,
+    "travel": 0.75,
+    "push": 1.02
+  },
+  "tokens": {
+    "color": {
+      "bg": [
+        244,
+        244,
+        246
+      ],
+      "ink": [
+        17,
+        17,
+        20
+      ],
+      "paper": [
+        255,
+        255,
+        255
+      ],
+      "accent": [
+        43,
+        108,
+        255
+      ],
+      "highlight": [
+        43,
+        108,
+        255
+      ],
+      "text": [
+        17,
+        17,
+        20
+      ],
+      "muted": [
+        108,
+        108,
+        117
+      ],
+      "label": [
+        43,
+        108,
+        255
+      ],
+      "number": [
+        17,
+        17,
+        20
+      ],
+      "on_accent": [
+        255,
+        255,
+        255
+      ],
+      "source_fg": [
+        108,
+        108,
+        117
+      ],
+      "source_bg": [
+        244,
+        244,
+        246
+      ],
+      "mark": [
+        43,
+        108,
+        255
+      ],
+      "lt_panel": [
+        17,
+        17,
+        20
+      ],
+      "lt_fg": [
+        17,
+        17,
+        20
+      ],
+      "shadow": [
+        0,
+        0,
+        0
+      ]
+    },
+    "font": {
+      "display": [
+        "Inter Tight:600"
+      ],
+      "number": [
+        "Inter Tight:600"
+      ],
+      "label": [
+        "Inter:500"
+      ],
+      "text": [
+        "Inter:400"
+      ],
+      "body": [
+        "Inter:400"
+      ]
+    }
+  },
+  "ground": {
+    "kind": "flat",
+    "color": [
+      244,
+      244,
+      246
+    ]
+  },
+  "finish": {
+    "board": null,
+    "grade": [
+      1,
+      1,
+      1
+    ],
+    "grain": 0.0,
+    "glow": 0.0,
+    "vignette": 0.0,
+    "curve": 0.0,
+    "dim": [
+      0,
+      0,
+      0
+    ],
+    "spotlight": 0.0,
+    "bg": [
+      244,
+      244,
+      246
+    ]
+  },
+  "photo_grade": "natural",
+  "captions": "clean",
+  "skin": {
+    "motion": "rise",
+    "source": "quiet",
+    "lower_third": "line",
+    "accents": "none",
+    "panel": "none",
+    "photo": "rounded",
+    "title": "kinetic",
+    "number": "counter",
+    "quote_font": "text",
+    "number_font": "number",
+    "layout": "editorial",
+    "align": "center",
+    "eyebrow_sub": true,
+    "shadow": 0.0
+  },
+  "type": {
+    "quote": 60,
+    "title": 100
+  },
+  "map_look": "explainer"
+}

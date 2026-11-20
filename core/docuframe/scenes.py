@@ -35,6 +35,7 @@ import skia
 from . import engine as E
 from . import skins as K
 from . import styles as S
+from .layouts import EditorialScenes
 
 FORMATS = {"16:9": (1920, 1080), "9:16": (1080, 1920), "1:1": (1080, 1080), "4:5": (1080, 1350)}
 CLUSTER_W, CLUSTER_H = 3600, 2300
@@ -136,7 +137,7 @@ def _jit(i, deg):
     return ((i * 37) % 7 - 3) / 3.0 * deg
 
 
-class Builder:
+class Builder(EditorialScenes):
     def __init__(self, doc: E.Doc, plan: dict, style: dict, fmt: str):
         self.doc, self.plan, self.st, self.fmt = doc, plan, style, fmt
         self.W, self.H = FORMATS[fmt]
@@ -165,6 +166,7 @@ class Builder:
         self.sources = []        # every source line shown, for the manifest
         self.photos_used = []
         self.marks = []          # (t, label) timing anchors for the timing check
+        self.ed_init()
 
     # -- time
     def t_of(self, beat, key="at"):
@@ -208,6 +210,8 @@ class Builder:
             rot = _jit(i, self.st["layout"].get("jitter_deg", 0))
             kind = b["scene"]
             fn = getattr(self, "scene_" + kind.replace("-", "_"), None)
+            if self.layout != "center":
+                fn = getattr(self, "ed_" + kind.replace("-", "_"), None) or fn
             if fn is None:
                 raise SystemExit(f"beat {i + 1}: unknown scene {kind!r}. Scenes: " + ", ".join(
                     n[6:].replace("_", "-") for n in dir(self) if n.startswith("scene_")))
@@ -311,6 +315,15 @@ class Builder:
 
     def decorate(self, b, i, cx, cy, t0):
         kind = self.skin.get("accents", "none")
+        if kind == "blobs":         # colour light behind glass, on every beat so the camera never leaves it
+            pal = [self.c[k] for k in ("blob1", "blob2", "blob3", "blob4") if k in self.c] or \
+                  [self.c.get(k) for k in ("accent", "highlight", "label") if self.c.get(k)]
+            w = getattr(self, "vis_w", CLUSTER_W) * 1.25
+            h = getattr(self, "vis_h", CLUSTER_H) * 1.25
+            self.film.add(K.Blobs(cx, cy, w, h, pal, seed=i, alpha=self.st.get("blob_alpha", 0.85)))
+            return
+        if self.layout != "center":
+            return
         if kind == "none" or b["scene"] in ("lower-third", "map", "photo") and kind != "corners":
             return
         if kind in ("shapes", "scraps", "halftone") and i % 2:      # every other beat: variety, not clutter

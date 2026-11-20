@@ -42,7 +42,8 @@ DEFAULTS = {
 }
 
 # font token -> engine role
-ROLE_OF = {"title": "cond", "body": "serif", "mono": "mono", "hand": "hand", "label": "label", "display": "display", "text": "body"}
+ROLE_OF = {"title": "cond", "body": "serif", "mono": "mono", "hand": "hand", "label": "label", "display": "display", "text": "body",
+           "number": "number"}
 
 
 def search_paths(project: pathlib.Path | None = None) -> list[pathlib.Path]:
@@ -96,6 +97,8 @@ def roles(style: dict) -> dict[str, list[str]]:
         out["display"] = out["cond"]
     if not style["tokens"]["font"].get("text"):
         out["body"] = out["label"]
+    if not style["tokens"]["font"].get("number"):
+        out["number"] = out["display"]
     return out
 
 

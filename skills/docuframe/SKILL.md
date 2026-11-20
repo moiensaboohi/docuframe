@@ -100,6 +100,22 @@ The manifest keeps it as proof of human creative direction.
 One line each; pick by subject and tone. `styles` lists every installed pack; each has stills in
 `styles/<name>/stills/` to show the user. If they can't decide, show two or three that fit and let them pick.
 
+**Modern minimal** — small calm type on a grid, soft blur-in motion, lots of space:
+
+| Style | Look | Best for |
+|---|---|---|
+| `studio-light` | Product-keynote calm | technology and products, business and strategy, clean explainers of any kind |
+| `studio-dark` | A black keynote stage | technology launches and AI, space and science, big-number stories |
+| `liquid-glass` | Frosted glass cards that really blur the soft colour light drifting behind them, bright specular edges, rounded type and calm centred layouts | technology and design, lifestyle and wellbeing, product and app explainers |
+| `liquid-glass-night` | Dark glass over slow neon colour light | technology and AI, music and culture, finance and crypto |
+| `slides-classic` | Clean presentation slides | lessons and courses, work and business explainers, step-by-step how-tos |
+| `slides-color` | Bold presentation slides | courses and workshops, company and team updates, pitch-style explainers |
+| `swiss-grid` | International-style minimalism | design, architecture and art, economics and data, essays with a clear argument |
+| `soft-minimal` | Calm magazine minimalism | culture, food and travel, biography and people, slow, thoughtful essays |
+| `midnight-minimal` | Quiet dark interface look | technology and software, science and space, finance and data |
+
+**Classic** — one big hero per beat, textured and characterful:
+
 | Style | Look | Best for |
 |---|---|---|
 | `evidence-board` | dark cork wall, pinned photos, red string, one continuous camera | true crime, history, investigations, biographies |
@@ -119,7 +135,13 @@ One line each; pick by subject and tone. `styles` lists every installed pack; ea
 | `riso-print` | Two-ink riso zine | art, music and design history, subculture stories, city and place portraits |
 
 Every pack works in 16:9, 9:16 and 1:1 and in every script (RTL and Indic included). Users can ask
-for a look in plain words ("paper cut-out", "clean flat", "dark and premium") — map it to the nearest pack.
+for a look in plain words — map it to the nearest pack: "keynote / product launch / minimal" → `studio-light` or
+`studio-dark`; "glass / frosted / glassmorphism" → `liquid-glass` or `liquid-glass-night`; "slides / presentation /
+course" → `slides-classic` or `slides-color`; "paper cut-out" → `editorial-collage`; "clean flat" → `flat-explainer`.
+Never name the look after a company or product in anything you write for the user's film.
+
+Modern styles compose each beat on a grid, so beats can carry a little more: `kicker` (small line above a title or
+number), `caption` beside a photo, `title` on list/comparison/timeline/quote beats (the slide header in slide styles).
 
 More packs are added as data in `styles/<name>/style.json`; their `rules.md` says when to use them.
 If the user names a look you don't have, pick the nearest pack and say so — never imitate a named

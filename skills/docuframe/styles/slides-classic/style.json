@@ -1,0 +1,178 @@
+{
+  "label": "Classic slides",
+  "summary": "Clean presentation slides: white pages, a left-aligned header with a short blue bar, simple grey cards, plain photos, page numbers, hard cuts between slides.",
+  "use_for": [
+    "lessons and courses",
+    "work and business explainers",
+    "step-by-step how-tos"
+  ],
+  "camera": "cuts",
+  "layout": {
+    "spacing": 6000,
+    "row": 4,
+    "jitter_deg": 0
+  },
+  "camera_feel": {
+    "handheld": 0.0,
+    "travel": 0.75,
+    "push": 1.0
+  },
+  "tokens": {
+    "color": {
+      "bg": [
+        255,
+        255,
+        255
+      ],
+      "ink": [
+        31,
+        35,
+        40
+      ],
+      "paper": [
+        242,
+        244,
+        247
+      ],
+      "accent": [
+        47,
+        111,
+        237
+      ],
+      "highlight": [
+        47,
+        111,
+        237
+      ],
+      "text": [
+        31,
+        35,
+        40
+      ],
+      "muted": [
+        97,
+        102,
+        110
+      ],
+      "label": [
+        47,
+        111,
+        237
+      ],
+      "number": [
+        47,
+        111,
+        237
+      ],
+      "on_accent": [
+        255,
+        255,
+        255
+      ],
+      "source_fg": [
+        97,
+        102,
+        110
+      ],
+      "source_bg": [
+        255,
+        255,
+        255
+      ],
+      "mark": [
+        232,
+        69,
+        60
+      ],
+      "lt_panel": [
+        31,
+        35,
+        40
+      ],
+      "lt_fg": [
+        31,
+        35,
+        40
+      ],
+      "shadow": [
+        0,
+        0,
+        0
+      ]
+    },
+    "font": {
+      "display": [
+        "Roboto:500"
+      ],
+      "number": [
+        "Roboto:500"
+      ],
+      "label": [
+        "Roboto:500"
+      ],
+      "text": [
+        "Roboto:400"
+      ],
+      "body": [
+        "Roboto:400"
+      ]
+    }
+  },
+  "ground": {
+    "kind": "flat",
+    "color": [
+      255,
+      255,
+      255
+    ]
+  },
+  "finish": {
+    "board": null,
+    "grade": [
+      1,
+      1,
+      1
+    ],
+    "grain": 0.0,
+    "glow": 0.0,
+    "vignette": 0.0,
+    "curve": 0.0,
+    "dim": [
+      0,
+      0,
+      0
+    ],
+    "spotlight": 0.0,
+    "bg": [
+      255,
+      255,
+      255
+    ]
+  },
+  "photo_grade": "natural",
+  "captions": "clean",
+  "skin": {
+    "motion": "rise",
+    "source": "quiet",
+    "lower_third": "line",
+    "accents": "none",
+    "panel": "surface",
+    "photo": "rounded",
+    "title": "kinetic",
+    "number": "counter",
+    "quote_font": "text",
+    "number_font": "number",
+    "layout": "deck",
+    "align": "start",
+    "flat": true,
+    "shadow": 0.0
+  },
+  "type": {
+    "title": 84,
+    "slide": 48,
+    "body": 32,
+    "number": 170
+  },
+  "radius": 16,
+  "map_look": "explainer"
+}

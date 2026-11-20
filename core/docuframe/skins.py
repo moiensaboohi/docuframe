@@ -2,12 +2,13 @@
 
   ground   texture | flat | gradient, plus an optional pattern: grid | dots | halftone | lines | paper
   panel    paper | card | torn | outline | glass | sticky
-  photo    pinned | cutout | frame | polaroid | full | tape
+  photo    pinned | cutout | frame | polaroid | full | tape | outline | glass | rounded | liquid | plain
   title    bar | kinetic | stack | serif | torn
   number   counter | ring | bar
-  motion   drop | pop | slide | wipe | slap       (how things enter)
+  motion   drop | pop | slide | wipe | slap | rise (how things enter)
+  layout   center | editorial | deck  (editorial/deck: small type, grid margins, see scenes.py)
   accents  none | shapes | scraps | halftone | corners
-  source   plain | chip          lower_third  bar | chip | line        letterbox  true | false
+  source   plain | chip | quiet          lower_third  bar | chip | line        letterbox  true | false
 
 Every item here is drawn in code and follows the same rules as the engine's items: entrance motion
 from the style, colours from the style's tokens, text through the shaping layer (any script).
@@ -29,6 +30,12 @@ def enter(c, motion, u, w, h):
     Returns the opacity to use; u is the entrance progress 0..1."""
     if u >= 1:
         return 1.0
+    if motion == "rise":
+        e = 1 - (1 - clamp(u)) ** 4
+        k = 0.97 + 0.03 * e
+        c.translate(0, (1 - e) * h * 0.05)
+        c.scale(k, k)
+        return min(1.0, u * 1.8)
     if motion == "pop":
         k = 0.86 + 0.14 * overshoot(u, 2.2)
         c.scale(k, k)
@@ -229,6 +236,17 @@ class Photo(E.Item):
             c.drawImageRect(img, pic, E.SMOOTH, ip)
             c.restore()
             c.drawRRect(rr, E.line((255, 255, 255), 0.25 * o, 4))
+        elif s in ("rounded", "liquid", "plain"):
+            rad = 0 if s == "plain" else max(24.0, w * 0.028)
+            if s == "liquid":          # the picture sits inside a glass slab
+                pad = w * 0.028
+                glass_slab(c, pic.makeOutset(pad, pad), rad + pad, o, self.paper, 0.22, 40.0, sum(self.paper[:3]) < 300)
+            else:
+                c.drawRRect(skia.RRect.MakeRectXY(pic.makeOffset(0, h * 0.035), rad, rad), E.fill((0, 0, 0), 0.16 * o, w * 0.035))
+            c.save()
+            c.clipRRect(skia.RRect.MakeRectXY(pic, rad, rad), True)
+            c.drawImageRect(img, pic, E.SMOOTH, ip)
+            c.restore()
         elif s == "outline":           # neo-brutal: thick ink border, solid offset block shadow
             bw = max(14.0, w * 0.012)
             off = w * 0.03
@@ -558,6 +576,9 @@ class SourceTag(E.Item):
         bottom = H - (H * 0.24 if tall else (max(0.0, (H - W / 2.39) / 2) + 34 if self.letterbox else 56))
         width = E.text_width(kit, self.text, size, "label", 0.02)
         x = W / 2 if tall else W - 60 - width / 2
+        if self.skin == "quiet":      # small muted line, no box, no shadow
+            E.draw_text(c, kit, self.text, x, bottom, 22, "label", self.fg, 0.75 * a, 0.01, "center")
+            return
         if self.skin == "chip":
             pad = 18
             c.drawRRect(skia.RRect.MakeRectXY(skia.Rect.MakeXYWH(x - width / 2 - pad, bottom - size * 1.15, width + 2 * pad, size * 1.7),
@@ -606,3 +627,280 @@ class NameTag(E.Item):
             c.drawRect(skia.Rect.MakeXYWH(x, y + 22, rw * u, 50), E.fill(self.panel, 0.88 * u))
             if u > 0.7:
                 E.draw_text(c, kit, self.role, x + 25, y + 56, 28, "label", (235, 235, 235), (u - 0.7) / 0.3)
+
+
+# ================================================================ modern minimal vocabulary
+# Used by the "editorial" and "deck" layouts: small confident type, real glass, soft surfaces.
+
+def rise(u):
+    """Entrance curve for modern motion: quick start, long soft landing (no overshoot)."""
+    u = clamp(u)
+    return 1 - (1 - u) ** 4
+
+
+def glass_slab(c, rect, radius, o, tint=(255, 255, 255), tint_a=0.18, blur=40.0, dark=False, edge=1.0, shadow=True):
+    """Frosted glass: blurs whatever is behind it, tints it, then adds a specular rim that is
+    brightest at the top-left (light from above) and a soft inner sheen."""
+    rr = skia.RRect.MakeRectXY(rect, radius, radius)
+    if shadow:
+        c.drawRRect(skia.RRect.MakeRectXY(rect.makeOffset(0, rect.height() * 0.04 + 10), radius, radius),
+                    E.fill((0, 0, 0), (0.30 if dark else 0.10) * o, max(20.0, rect.height() * 0.06)))
+    c.save()
+    c.clipRRect(rr, skia.ClipOp.kIntersect, True)
+    # keep every object the layer record points at alive until saveLayer returns (it holds raw pointers)
+    lp = skia.Paint(Alphaf=clamp(o))
+    bf = skia.ImageFilters.Blur(blur, blur)
+    bounds = skia.Rect(rect.left(), rect.top(), rect.right(), rect.bottom())
+    rec = skia.Canvas.SaveLayerRec(bounds, lp, bf, 0)
+    c.saveLayer(rec)
+    c.drawRRect(rr, E.fill(tint, tint_a))
+    # inner sheen: light falling on the upper part of the slab
+    sheen = skia.GradientShader.MakeLinear([skia.Point(rect.left(), rect.top()), skia.Point(rect.left(), rect.top() + rect.height() * 0.6)],
+                                           [skia.Color4f(1, 1, 1, 0.16 if dark else 0.28).toColor(), skia.Color4f(1, 1, 1, 0).toColor()])
+    c.drawRect(rect, skia.Paint(Shader=sheen, AntiAlias=True))
+    c.restore()
+    c.restore()
+    if edge > 0:
+        rim = skia.GradientShader.MakeLinear([skia.Point(rect.left(), rect.top()), skia.Point(rect.right(), rect.bottom())],
+                                             [skia.Color4f(1, 1, 1, 0.95 * o * edge).toColor(), skia.Color4f(1, 1, 1, 0.12 * o * edge).toColor(),
+                                              skia.Color4f(1, 1, 1, 0.55 * o * edge).toColor()], [0.0, 0.55, 1.0])
+        w = max(2.0, min(rect.width(), rect.height()) * 0.006)
+        p = skia.Paint(Shader=rim, AntiAlias=True, Style=skia.Paint.kStroke_Style, StrokeWidth=w)
+        c.drawRRect(rr.makeOffset(0, 0) if hasattr(rr, "makeOffset") else rr, p)
+
+
+class Type(E.Item):
+    """A wrapped block of shaped text that enters with a soft rise and a blur that clears.
+    (x, y) is the top-left of its box; align 'start' follows reading direction (right for RTL),
+    'center' centres each line in the box. gradient: two colours run across the text."""
+    z = 72
+
+    def __init__(self, text, x, y, w, size, t_in, role="body", rgb=(20, 20, 20), align="start", motion="rise", gradient=None,
+                 track=0.0, leading=None, dur=0.8, t_out=None, sfx=False):
+        self.x, self.y = x, y
+        super().__init__(t_in, t_out, None, sfx)
+        from .fonts import is_rtl
+        self.text, self.w, self.size, self.role, self.rgb, self.motion = text, w, size, role, rgb, motion
+        self.align = ("right" if is_rtl(text) else "left") if align == "start" else align
+        self.gradient, self.track, self.leading, self.dur = gradient, track, leading, dur
+
+    def text_at(self, t):
+        return self.text
+
+    def para(self, kit, text=None):
+        return kit.book.paragraph(text if text is not None else self.text, self.size, self.role, self.rgb, self.track,
+                                  width=self.w, align=self.align, leading=self.leading)
+
+    def height(self, kit):
+        return self.para(kit).Height
+
+    def line_width(self, kit):
+        return self.para(kit).LongestLine
+
+    def bounds(self, kit):
+        return skia.Rect.MakeLTRB(self.x - self.size, self.y - self.size * 2, self.x + self.w + self.size, self.y + self.size * 12)
+
+    def paint(self, c, kit, t, o):
+        u = window(t, self.t_in, self.dur)
+        if u <= 0:
+            return
+        e = rise(u)
+        a = o * min(1.0, u * 1.6)
+        p = self.para(kit, self.text_at(t))
+        c.save()
+        dy = (1 - e) * self.size * (0.55 if self.motion == "rise" else 0.0)
+        c.translate(self.x, self.y + dy)
+        box = skia.Rect.MakeLTRB(-self.size, -self.size, self.w + self.size, p.Height + self.size)
+        lp = skia.Paint(Alphaf=clamp(a))
+        sigma = (1 - e) * self.size * 0.09 if self.motion in ("rise", "focus") else 0.0
+        if sigma > 0.4:
+            lp.setImageFilter(skia.ImageFilters.Blur(sigma, sigma))
+        layered = a < 0.999 or sigma > 0.4 or self.gradient
+        if layered:
+            c.saveLayer(box, lp)
+        p.paint(c, 0, 0)
+        if self.gradient:
+            g0, g1 = self.gradient
+            L = max(1.0, p.LongestLine)
+            gx = (self.w - L) / 2 if self.align == "center" else (self.w - L if self.align == "right" else 0.0)
+            sh = skia.GradientShader.MakeLinear([skia.Point(gx, 0), skia.Point(gx + L, p.Height * 0.6)],
+                                                [E.colour(g0), E.colour(g1)])
+            c.drawRect(box, skia.Paint(Shader=sh, BlendMode=skia.BlendMode.kSrcIn))
+        if layered:
+            c.restore()
+        c.restore()
+
+
+class CountType(Type):
+    """A number that counts up to its value inside a Type block."""
+
+    def __init__(self, value, prefix, suffix, decimals, x, y, w, size, t_in, count=1.4, **kw):
+        self.value, self.prefix, self.suffix, self.decimals, self.count = float(value), prefix, suffix, decimals, count
+        super().__init__(self.fmt(self.value), x, y, w, size, t_in, **kw)
+
+    def fmt(self, v):
+        return f"{self.prefix}{v:,.{self.decimals}f}{self.suffix}"
+
+    def cues(self):
+        return [("roll", self.t_in, 0.35, {"dur": self.count})]
+
+    def text_at(self, t):
+        k = rise(window(t, self.t_in, self.count))
+        return self.fmt(self.value * k) if k < 1 else self.text
+
+
+class Surface(E.Item):
+    """A quiet modern surface: rounded, soft shadow, optional hairline. kind 'liquid' is glass."""
+    z = 12
+
+    def __init__(self, x, y, w, h, t_in, rgb, radius=48, kind="surface", stroke=None, tint_a=0.18, dark=False, blur=40.0,
+                 shadow=0.10, t_out=None):
+        self.x, self.y = x, y          # top-left
+        super().__init__(t_in, t_out, None, False)
+        self.w, self.h, self.rgb, self.radius, self.kind, self.stroke = w, h, rgb, radius, kind, stroke
+        self.tint_a, self.dark, self.blur, self.shadow = tint_a, dark, blur, shadow
+
+    def bounds(self, kit):
+        return skia.Rect.MakeXYWH(self.x - 200, self.y - 200, self.w + 400, self.h + 400)
+
+    def paint(self, c, kit, t, o):
+        u = window(t, self.t_in, 0.7)
+        if u <= 0:
+            return
+        e = rise(u)
+        o *= min(1.0, u * 1.8)
+        c.save()
+        cx, cy = self.x + self.w / 2, self.y + self.h / 2
+        k = 0.97 + 0.03 * e
+        c.translate(cx, cy + (1 - e) * self.h * 0.04)
+        c.scale(k, k)
+        rect = skia.Rect.MakeXYWH(-self.w / 2, -self.h / 2, self.w, self.h)
+        if self.kind == "liquid":
+            glass_slab(c, rect, self.radius, o, self.rgb, self.tint_a, self.blur, self.dark)
+        elif self.kind == "fill":       # flat colour block, no shadow (slides, colour fields)
+            c.drawRRect(skia.RRect.MakeRectXY(rect, self.radius, self.radius), E.fill(self.rgb, o))
+        else:
+            rr = skia.RRect.MakeRectXY(rect, self.radius, self.radius)
+            if self.shadow:
+                c.drawRRect(skia.RRect.MakeRectXY(rect.makeOffset(0, self.h * 0.03 + 8), self.radius, self.radius),
+                            E.fill((0, 0, 0), self.shadow * o, max(18.0, self.h * 0.05)))
+            c.drawRRect(rr, E.fill(self.rgb, o))
+            if self.stroke:
+                c.drawRRect(rr, E.line(self.stroke[0], self.stroke[1] * o, self.stroke[2]))
+        c.restore()
+
+
+class Blobs(E.Item):
+    """Soft colour fields that drift slowly: the light behind glass. Drawn with radial gradients."""
+    z = -80
+
+    def __init__(self, cx, cy, w, h, palette, seed=0, alpha=0.9):
+        self.x, self.y = cx, cy
+        super().__init__(0.0, None, None, False)
+        rnd = np.random.default_rng(seed + 11)
+        self.w, self.h, self.alpha = w, h, alpha
+        spots = [(-0.30, -0.22), (0.32, -0.12), (-0.05, 0.30), (0.38, 0.34), (-0.42, 0.20)]
+        self.bits = []
+        for k, (fx, fy) in enumerate(spots[: max(3, len(palette) + 1)]):
+            self.bits.append((fx * w + rnd.uniform(-0.06, 0.06) * w, fy * h + rnd.uniform(-0.06, 0.06) * h,
+                              rnd.uniform(0.32, 0.46) * w, palette[k % len(palette)], rnd.uniform(0, 6.28)))
+        self.reach = max(w, h) * 1.2
+
+    def paint(self, c, kit, t, o):
+        for fx, fy, r, col, ph in self.bits:
+            x = self.x + fx + math.sin(t * 0.21 + ph) * r * 0.12
+            y = self.y + fy + math.cos(t * 0.17 + ph) * r * 0.10
+            sh = skia.GradientShader.MakeRadial(skia.Point(x, y), r, [E.colour(col, self.alpha * o), E.colour(col, 0.0)])
+            c.drawCircle(x, y, r, skia.Paint(Shader=sh, AntiAlias=True))
+
+
+class Meter(E.Item):
+    """A thin progress bar: hairline track, rounded fill that grows to its share."""
+    z = 70
+
+    def __init__(self, x, y, w, share, t_in, rgb, track_rgb, thick=10.0, dur=1.3, rtl=False):
+        self.x, self.y = x, y
+        super().__init__(t_in, None, None, False)
+        self.w, self.share, self.rgb, self.track_rgb, self.thick, self.dur, self.rtl = w, clamp(share), rgb, track_rgb, thick, dur, rtl
+
+    def bounds(self, kit):
+        return skia.Rect.MakeXYWH(self.x - 100, self.y - 100, self.w + 200, 200)
+
+    def paint(self, c, kit, t, o):
+        u = window(t, self.t_in, 0.5)
+        if u <= 0:
+            return
+        o *= u
+        r = self.thick / 2
+        c.drawRRect(skia.RRect.MakeRectXY(skia.Rect.MakeXYWH(self.x, self.y, self.w, self.thick), r, r), E.fill(self.track_rgb, 0.18 * o))
+        k = rise(window(t, self.t_in + 0.2, self.dur)) * self.share
+        if k > 0:
+            fw = max(self.thick, self.w * k)
+            x0 = self.x + self.w - fw if self.rtl else self.x
+            c.drawRRect(skia.RRect.MakeRectXY(skia.Rect.MakeXYWH(x0, self.y, fw, self.thick), r, r), E.fill(self.rgb, o))
+
+
+class Hairline(E.Item):
+    """A thin rule that draws itself from its start."""
+    z = 60
+
+    def __init__(self, x, y, w, t_in, rgb, alpha=0.2, thick=3.0, rtl=False, dur=0.8):
+        self.x, self.y = x, y
+        super().__init__(t_in, None, None, False)
+        self.w, self.rgb, self.alpha, self.thick, self.rtl, self.dur = w, rgb, alpha, thick, rtl, dur
+
+    def bounds(self, kit):
+        return skia.Rect.MakeXYWH(self.x - 100, self.y - 100, self.w + 200, 200)
+
+    def paint(self, c, kit, t, o):
+        k = rise(window(t, self.t_in, self.dur))
+        if k <= 0:
+            return
+        lw = self.w * k
+        x0 = self.x + self.w - lw if self.rtl else self.x
+        c.drawRect(skia.Rect.MakeXYWH(x0, self.y - self.thick / 2, lw, self.thick), E.fill(self.rgb, self.alpha * o))
+
+
+class DotLine(E.Item):
+    """A minimal timeline: a hairline across, a dot per event; the year above, a short label under."""
+    z = 60
+
+    def __init__(self, x, y, w, events, times, t_in, rgb, accent, muted, year_size, label_size, year_role="display", label_role="body",
+                 rtl=False):
+        self.x, self.y = x, y
+        super().__init__(t_in, None, None, False)
+        self.w, self.events, self.times, self.rgb, self.accent, self.muted = w, events, times, rgb, accent, muted
+        self.ys, self.ls, self.yr, self.lr, self.rtl = year_size, label_size, year_role, label_role, rtl
+
+    def bounds(self, kit):
+        return skia.Rect.MakeXYWH(self.x - 200, self.y - self.ys * 4, self.w + 400, self.ys * 10)
+
+    def cues(self):
+        return [("tick", t, 0.3, {}) for t in self.times]
+
+    def paint(self, c, kit, t, o):
+        k = rise(window(t, self.t_in, 1.0))
+        if k <= 0:
+            return
+        th = max(2.0, self.ys * 0.04)
+        c.drawRect(skia.Rect.MakeXYWH(self.x, self.y - th / 2, self.w * k, th), E.fill(self.muted, 0.45 * o))
+        n = len(self.events)
+        slot = self.w / n
+        for i, (ev, te) in enumerate(zip(self.events, self.times)):
+            j = n - 1 - i if self.rtl else i
+            u = rise(window(t, te, 0.6))
+            if u <= 0:
+                continue
+            ex = self.x + slot * (j + 0.5)
+            c.drawCircle(ex, self.y, self.ys * 0.16 * (0.6 + 0.4 * u), E.fill(self.accent, o * u))
+            c.drawCircle(ex, self.y, self.ys * 0.30 * u, E.line(self.accent, 0.35 * o * u, th))
+            a = o * min(1.0, u * 1.5)
+            E.draw_text(c, kit, str(ev.get("when", "")), ex, self.y - self.ys * 0.75 + (1 - u) * self.ys * 0.3, self.ys, self.yr, self.rgb, a, -0.01, "center")
+            if ev.get("label"):
+                p = kit.book.paragraph(ev["label"], self.ls, self.lr, self.muted, 0.0, width=slot * 0.86, align="center", leading=1.3)
+                c.save()
+                c.translate(ex - slot * 0.43, self.y + self.ys * 0.6 + (1 - u) * self.ys * 0.3)
+                c.saveLayerAlpha(skia.Rect.MakeXYWH(-50, -50, slot + 100, p.Height + 100), int(255 * clamp(a)))
+                p.paint(c, 0, 0)
+                c.restore()
+                c.restore()

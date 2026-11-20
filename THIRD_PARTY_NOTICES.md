@@ -34,7 +34,8 @@ All SIL Open Font License 1.1: Oswald, Libre Baskerville, Courier Prime, Homemad
 Montserrat, Inter, Space Mono, Playfair Display, Special Elite (Apache-2.0), Noto Sans, Noto Sans
 Arabic, Hebrew, Devanagari, Bengali, Tamil, Thai, SC, JP, KR, Noto Nastaliq Urdu, Vazirmatn,
 Archivo Black, DM Serif Display, Caveat, Space Grotesk, Poppins, DM Sans, Anton, IBM Plex Mono,
-Fraunces, Syne, Bricolage Grotesque, Instrument Serif. Variable fonts are cut to static weights
+Fraunces, Syne, Bricolage Grotesque, Instrument Serif, Geist, Inter Tight, Roboto, Figtree, Instrument Sans,
+Manrope, Plus Jakarta Sans, Newsreader. Variable fonts are cut to static weights
 locally with fontTools; the OFL allows this, and the cut files keep the original names and licence.
 
 ## Data sources the skill can fetch for a user's film

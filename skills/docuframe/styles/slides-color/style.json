@@ -1,0 +1,173 @@
+{
+  "label": "Colour-block slides",
+  "summary": "Bold presentation slides: title and chapter slides on a full indigo colour field with white type, content slides on white with soft cards and indigo accents.",
+  "use_for": [
+    "courses and workshops",
+    "company and team updates",
+    "pitch-style explainers"
+  ],
+  "camera": "cuts",
+  "layout": {
+    "spacing": 6000,
+    "row": 4,
+    "jitter_deg": 0
+  },
+  "camera_feel": {
+    "handheld": 0.0,
+    "travel": 0.75,
+    "push": 1.0
+  },
+  "tokens": {
+    "color": {
+      "bg": [
+        255,
+        255,
+        255
+      ],
+      "ink": [
+        25,
+        26,
+        46
+      ],
+      "paper": [
+        241,
+        242,
+        251
+      ],
+      "accent": [
+        59,
+        68,
+        201
+      ],
+      "highlight": [
+        255,
+        138,
+        61
+      ],
+      "text": [
+        25,
+        26,
+        46
+      ],
+      "muted": [
+        95,
+        98,
+        128
+      ],
+      "label": [
+        59,
+        68,
+        201
+      ],
+      "number": [
+        59,
+        68,
+        201
+      ],
+      "on_accent": [
+        255,
+        255,
+        255
+      ],
+      "source_fg": [
+        95,
+        98,
+        128
+      ],
+      "source_bg": [
+        255,
+        255,
+        255
+      ],
+      "mark": [
+        255,
+        138,
+        61
+      ],
+      "lt_panel": [
+        25,
+        26,
+        46
+      ],
+      "lt_fg": [
+        25,
+        26,
+        46
+      ],
+      "shadow": [
+        0,
+        0,
+        0
+      ]
+    },
+    "font": {
+      "display": [
+        "Plus Jakarta Sans:700"
+      ],
+      "number": [
+        "Plus Jakarta Sans:700"
+      ],
+      "label": [
+        "Plus Jakarta Sans:600"
+      ],
+      "text": [
+        "Plus Jakarta Sans:400"
+      ],
+      "body": [
+        "Plus Jakarta Sans:400"
+      ]
+    }
+  },
+  "ground": {
+    "kind": "flat",
+    "color": [
+      255,
+      255,
+      255
+    ]
+  },
+  "finish": {
+    "board": null,
+    "grade": [
+      1,
+      1,
+      1
+    ],
+    "grain": 0.0,
+    "glow": 0.0,
+    "vignette": 0.0,
+    "curve": 0.0,
+    "dim": [
+      0,
+      0,
+      0
+    ],
+    "spotlight": 0.0,
+    "bg": [
+      255,
+      255,
+      255
+    ]
+  },
+  "photo_grade": "natural",
+  "captions": "clean",
+  "skin": {
+    "motion": "rise",
+    "source": "quiet",
+    "lower_third": "line",
+    "accents": "none",
+    "panel": "surface",
+    "photo": "rounded",
+    "title": "kinetic",
+    "number": "counter",
+    "quote_font": "text",
+    "number_font": "number",
+    "layout": "deck",
+    "align": "start",
+    "flat": true,
+    "title_fill": true,
+    "shadow": 0.0
+  },
+  "radius": 20,
+  "map_look": "explainer"
+}

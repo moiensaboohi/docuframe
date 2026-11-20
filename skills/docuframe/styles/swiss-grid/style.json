@@ -1,0 +1,174 @@
+{
+  "label": "Swiss grid",
+  "summary": "International-style minimalism: off-white page, strict left alignment, tight bold sans headlines, light oversized numbers, hairline rules and one red accent.",
+  "use_for": [
+    "design, architecture and art",
+    "economics and data",
+    "essays with a clear argument"
+  ],
+  "camera": "world",
+  "layout": {
+    "spacing": 6000,
+    "row": 4,
+    "jitter_deg": 0
+  },
+  "camera_feel": {
+    "handheld": 0.0,
+    "travel": 0.75,
+    "push": 1.02
+  },
+  "tokens": {
+    "color": {
+      "bg": [
+        247,
+        246,
+        242
+      ],
+      "ink": [
+        17,
+        17,
+        17
+      ],
+      "paper": [
+        255,
+        255,
+        255
+      ],
+      "accent": [
+        229,
+        50,
+        45
+      ],
+      "highlight": [
+        229,
+        50,
+        45
+      ],
+      "text": [
+        17,
+        17,
+        17
+      ],
+      "muted": [
+        107,
+        107,
+        107
+      ],
+      "label": [
+        229,
+        50,
+        45
+      ],
+      "number": [
+        17,
+        17,
+        17
+      ],
+      "on_accent": [
+        255,
+        255,
+        255
+      ],
+      "source_fg": [
+        107,
+        107,
+        107
+      ],
+      "source_bg": [
+        247,
+        246,
+        242
+      ],
+      "mark": [
+        229,
+        50,
+        45
+      ],
+      "lt_panel": [
+        17,
+        17,
+        17
+      ],
+      "lt_fg": [
+        17,
+        17,
+        17
+      ],
+      "shadow": [
+        0,
+        0,
+        0
+      ]
+    },
+    "font": {
+      "display": [
+        "Inter Tight:700"
+      ],
+      "number": [
+        "Inter Tight:300"
+      ],
+      "label": [
+        "Inter Tight:600"
+      ],
+      "text": [
+        "Inter:400"
+      ],
+      "body": [
+        "Inter:400"
+      ]
+    }
+  },
+  "ground": {
+    "kind": "flat",
+    "color": [
+      247,
+      246,
+      242
+    ]
+  },
+  "finish": {
+    "board": null,
+    "grade": [
+      1,
+      1,
+      1
+    ],
+    "grain": 0.0,
+    "glow": 0.0,
+    "vignette": 0.0,
+    "curve": 0.0,
+    "dim": [
+      0,
+      0,
+      0
+    ],
+    "spotlight": 0.0,
+    "bg": [
+      247,
+      246,
+      242
+    ]
+  },
+  "photo_grade": "natural",
+  "captions": "clean",
+  "skin": {
+    "motion": "rise",
+    "source": "quiet",
+    "lower_third": "line",
+    "accents": "none",
+    "panel": "none",
+    "photo": "plain",
+    "title": "kinetic",
+    "number": "counter",
+    "quote_font": "text",
+    "number_font": "number",
+    "layout": "editorial",
+    "align": "start",
+    "shadow": 0.0
+  },
+  "type": {
+    "title": 104,
+    "number": 240
+  },
+  "map_look": "explainer"
+}
