@@ -4,7 +4,7 @@
 
 Each tile is one style showing a different kind of scene (photo, number, title, timeline, map,
 quote, list, comparison, chapter, lower third), rendered from the showcase project at a time when
-that scene is settled. The last tile says how many more styles there are. Text is set with the
+that scene is settled. The last tile says there are many more styles, or make your own. Text is set with the
 engine's own font book, so every script in the language block is shaped properly.
 """
 import json
@@ -103,20 +103,16 @@ def main():
         c.drawRRect(skia.RRect.MakeRectXY(chip, 7, 7), E.fill((255, 255, 255), 0.94))
         p.paint(c, chip.left() + 10, chip.top() + (30 - p.Height) / 2)
         print(f"tile {k + 1}: {style} — {what}")
-    shown = {s for s, *_ in TILES}
-    more = [s for s in all_styles() if s not in shown]
     k = len(TILES)
     x = gx0 + (k % 3) * (fw + gap)
     y = gy0 + (k // 3) * (fh + gap)
     r = skia.Rect.MakeXYWH(x, y, fw, fh)
     c.drawRRect(skia.RRect.MakeRectXY(r, 12, 12), E.fill(INK))
-    p = para(book, f"+{len(more)}", 64, "display", (255, 255, 255), fw - 48, track=-0.02)
-    p.paint(c, x + 24, y + 20)
-    p = para(book, "more styles, or make your own", 21, "label", (255, 255, 255), fw - 48)
-    p.paint(c, x + 26, y + 100)
-    names = " · ".join(more[:6]) + " · …"
-    p = para(book, names, 14, "mono", (150, 150, 158), fw - 52, leading=1.5)
-    p.paint(c, x + 26, y + 142)
+    p = para(book, "+ lots more styles", 40, "display", (255, 255, 255), fw - 48, track=-0.02)
+    q = para(book, "or make your own", 24, "label", (170, 170, 178), fw - 48)
+    ty = y + (fh - p.Height - 10 - q.Height) / 2
+    p.paint(c, x + 28, ty)
+    q.paint(c, x + 29, ty + p.Height + 10)
 
     # ---- text column, aligned to the grid's top and bottom edges
     L, colw = 110, 900
