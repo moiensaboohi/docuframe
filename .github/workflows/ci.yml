@@ -47,8 +47,8 @@ jobs:
         run: |
           cd "work dir/فیلم"
           rm -rf first/out/chunks
-          (timeout 40 docuframe render --project first --draft --chunk 4 || true)
-          docuframe render --project first --draft --chunk 4 | tee resume.log
+          python ../../tools/interrupt_render.py first --draft --chunk 2 --workers 1
+          docuframe render --project first --draft --chunk 2 --workers 1 | tee resume.log
           grep -Eq "[1-9][0-9]* already done" resume.log
       - name: Right-to-left and Indic fixtures
         run: |
