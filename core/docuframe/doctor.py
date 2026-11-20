@@ -63,7 +63,11 @@ def run_checks():
                       "linux": "sudo apt install -y python3 python3-pip"}[OS]))
     for mod, pkg, label in (("skia", "skia-python", "render engine (skia-python)"), ("numpy", "numpy", "numpy"), ("PIL", "pillow", "pillow")):
         ok, d = has_module(mod)
-        res.append(check(label, ok, d, f"{PIP} {pkg}"))
+        fix = f"{PIP} {pkg}"
+        if not ok and mod == "skia" and ("libEGL" in str(d) or "libGL" in str(d)):
+            # the package is installed; the system graphics library it loads is missing (common on servers and slim Linux)
+            fix = "sudo apt-get install -y libegl1 libgl1   (Fedora: sudo dnf install -y mesa-libEGL mesa-libGL)"
+        res.append(check(label, ok, d, fix))
     for exe in ("ffmpeg", "ffprobe"):
         vv = tool_version(exe)
         res.append(check(exe, vv, vv or "not found", FFMPEG_FIX[OS]))

@@ -28,6 +28,9 @@ and you have told them, in plain words, what you checked and anything you could 
 
 ## First run
 
+0. If `python scripts/docuframe.py doctor` says the engine is not installed (a skill added with
+   `npx skills add` has only this folder), run the one command it prints:
+   `python -m pip install "docuframe[voice] @ https://github.com/moiensaboohi/docuframe/archive/refs/heads/main.zip"`. It needs no git.
 1. `python scripts/docuframe.py doctor` — checks Python, the engine, ffmpeg, fonts, voice, disk,
    memory, and paths with spaces or non-Latin letters. Every ✗ line comes with the exact command to fix
    it for the user's system. Run the command (ask first for system installs such as ffmpeg), then

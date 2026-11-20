@@ -1,6 +1,4 @@
-<h1 align="center">docuframe</h1>
-
-<p align="center"><b>Give it a topic or a script, get a finished documentary or explainer film in the style you pick.</b></p>
+<p align="center"><img src="docs/media/banner.png" width="100%" alt="docuframe. Give it a topic or a script. Get a finished documentary. 24 styles, 16:9, 9:16 and 1:1, any language including right-to-left, every fact sourced."></p>
 
 <p align="center">
   <img src="https://img.shields.io/badge/license-MIT-24292f" alt="MIT">
@@ -8,8 +6,8 @@
   <img src="https://img.shields.io/badge/version-0.1.0%20preview-orange" alt="version">
 </p>
 
-<p align="center"><img src="docs/media/hero-stills.jpg" alt="Three frames made by docuframe: a big sourced number in English, a Persian title set right to left, and a Hindi vertical short with two comparison cards"></p>
-<p align="center"><sub>English 16:9 · Persian right-to-left · Hindi 9:16 — same project format, same engine. (Hero video lands with the first release.)</sub></p>
+<p align="center"><b>Research → script → narration → drawn motion graphics → captions → YouTube package.</b><br>
+Runs on your own computer. Free and open source. You own everything it makes.</p>
 
 ## Install
 
@@ -18,6 +16,8 @@ npx skills add moiensaboohi/docuframe
 ```
 
 Then ask your agent: *"Make a 3 minute documentary about the Great Molasses Flood."*
+On the first run the agent installs the engine (one `pip install`) and runs `docuframe doctor`,
+which checks Python, ffmpeg, fonts and the voice and prints the exact fix for anything missing.
 
 <details><summary>Claude Code plugin marketplace</summary>
 
@@ -30,8 +30,9 @@ Then ask your agent: *"Make a 3 minute documentary about the Great Molasses Floo
 <details><summary>Codex, Cursor, Gemini CLI, OpenCode</summary>
 
 The repo ships `.codex-plugin/`, `.cursor-plugin/`, `gemini-extension.json` and `AGENTS.md`.
-Or copy `skills/docuframe` into your agent's skills folder. The engine is a Python package:
-`pip install "git+https://github.com/moiensaboohi/docuframe"` (the skill tells you if it is missing).
+Or copy `skills/docuframe` into your agent's skills folder. The engine is a Python package; the
+skill prints this one command the first time if it is missing (no git needed):
+`python -m pip install "docuframe[voice] @ https://github.com/moiensaboohi/docuframe/archive/refs/heads/main.zip"`
 </details>
 
 <details><summary>Claude app (no terminal)</summary>
@@ -132,6 +133,8 @@ no shapes that mean nothing, real sourced photographs. `docuframe check` flags b
 warnings, both in a film's on-screen words and narration and in a style's settings.
 
 ## Languages
+
+<p align="center"><img src="docs/media/hero-stills.jpg" width="720" alt="Three frames made by docuframe: a big sourced number in English, a Persian title set right to left, and a Hindi vertical short with two comparison cards"></p>
 
 Text is shaped with HarfBuzz and ICU: Arabic, Persian, Urdu and Hebrew join and run right to left;
 Hindi, Bengali and Tamil conjuncts form; Chinese and Japanese captions break per character.
