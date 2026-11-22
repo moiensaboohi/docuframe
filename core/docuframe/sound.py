@@ -124,9 +124,12 @@ def main_mix(argv=None):
                   f"[mu][0:a]sidechaincompress=threshold=0.03:ratio=8:attack=20:release=400[duck];")
         mixed += "[duck]"
         n = 3
-    graph += f"{mixed}amix=inputs={n}:normalize=0:duration=first,loudnorm=I=-14:TP=-1.5:LRA=11[out]"
+    graph += f"{mixed}amix=inputs={n}:normalize=0:duration=first[out]"
+    raw = ad / "mix_raw.wav"
     run(["ffmpeg", "-v", "error", "-y", *inputs, "-filter_complex", graph, "-map", "[out]", "-t", f"{dur:.3f}",
-         "-ar", str(R), "-c:a", "aac", "-b:a", "192k", ad / "mix.m4a"], "Mixing the soundtrack failed")
+         "-ac", "2" if a.music else "1", "-ar", str(R), raw], "Mixing the soundtrack failed")
+    A.write(ad / "mix.m4a", A.level(A.read(raw, R, 2 if a.music else 1), -14.0, -1.5, R), R)
+    raw.unlink()
     print("mix: audio/mix.m4a (-14 LUFS)" + (" with music ducked under the voice" if a.music else ""))
 
 

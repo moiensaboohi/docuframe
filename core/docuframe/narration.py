@@ -72,11 +72,7 @@ def main(argv=None):
         parts.append(np.zeros(int(gap * A.RATE), np.float32))
         t += gap
     track = np.concatenate(parts)
-    raw = adir / "narration_raw.wav"
-    A.write(raw, track)
-    run(["ffmpeg", "-v", "error", "-y", "-i", raw, "-af", "loudnorm=I=-16:TP=-1.5:LRA=11", "-ar", str(A.RATE),
-         "-c:a", "aac", "-b:a", "192k", adir / "narration.m4a"], "Levelling the narration failed")
-    raw.unlink()
+    A.write(adir / "narration.m4a", A.level(track, -16.0, -1.5))
     voice = json.loads((adir / "voice.json").read_text(encoding="utf-8")) if (adir / "voice.json").exists() else {}
     total = round(len(track) / A.RATE, 3)
     (adir / "timing.json").write_text(json.dumps({"total_duration": total, "lead_in": a.lead, "tail_out": a.tail, "speed": round(speed, 4),
