@@ -1,6 +1,7 @@
 """Audio helpers shared by narration, line splitting and the mix: read and write mono float audio through ffmpeg."""
 from __future__ import annotations
 
+import os
 import subprocess
 
 import numpy as np
@@ -21,7 +22,12 @@ def write(path, samples: np.ndarray, rate=RATE, extra=()):
     codec = ["-c:a", "aac", "-b:a", "192k"] if str(path).endswith((".m4a", ".mp4")) else []
     p = popen(["ffmpeg", "-v", "error", "-y", "-f", "f32le", "-ac", "1", "-ar", str(rate), "-i", "-", *extra, *codec, str(path)],
               stdin=subprocess.PIPE)
-    p.communicate(np.ascontiguousarray(samples, np.float32).tobytes())
+    limit = float(os.environ.get("DOCUFRAME_TOOL_TIMEOUT", 1800))
+    try:
+        p.communicate(np.ascontiguousarray(samples, np.float32).tobytes(), timeout=limit)
+    except subprocess.TimeoutExpired:
+        p.kill()
+        raise SystemExit(f"Writing {path} took longer than {limit:.0f} s and was stopped (ffmpeg stopped responding). Run docuframe doctor.")
     if p.returncode:
         raise SystemExit(f"Writing {path} failed (ffmpeg exit {p.returncode}). Run docuframe doctor.")
 

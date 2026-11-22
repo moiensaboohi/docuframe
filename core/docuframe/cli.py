@@ -21,6 +21,7 @@
 from __future__ import annotations
 
 import importlib
+import os
 import sys
 
 COMMANDS = {
@@ -33,6 +34,9 @@ COMMANDS = {
 
 def main(argv=None):
     argv = list(sys.argv[1:] if argv is None else argv)
+    if os.environ.get("DOCUFRAME_HANG_DUMP"):      # CI: print where Python is stuck, then stop
+        import faulthandler
+        faulthandler.dump_traceback_later(float(os.environ["DOCUFRAME_HANG_DUMP"]), exit=True)
     if sys.platform == "win32":
         for s in (sys.stdout, sys.stderr):
             try:

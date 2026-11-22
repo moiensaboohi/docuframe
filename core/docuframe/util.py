@@ -35,14 +35,14 @@ def run(cmd, what: str = "", fix: str = "Run docuframe doctor, then try again.",
         kw.setdefault("stdin", subprocess.DEVNULL)          # never wait on a keyboard that isn't there
     if pathlib.Path(cmd[0]).stem.lower() == "ffmpeg" and "-nostdin" not in cmd:
         cmd.insert(1, "-nostdin")                           # ffmpeg reads stdin for keys; on Windows a shim can hang on it
-    kw.setdefault("timeout", 1800)
+    kw.setdefault("timeout", float(os.environ.get("DOCUFRAME_TOOL_TIMEOUT", 1800)))
     if sys.platform == "win32":
         kw.setdefault("creationflags", 0x08000000)       # CREATE_NO_WINDOW: no console flashing per call
     try:
         r = subprocess.run(cmd, **kw)
     except subprocess.TimeoutExpired:
-        raise StepError(f"{what or 'A step'} took longer than {kw['timeout']} s and was stopped "
-                        f"({pathlib.Path(cmd[0]).name} stopped responding).", fix)
+        raise StepError(f"{what or 'A step'} took longer than {kw['timeout']:.0f} s and was stopped "
+                        f"({pathlib.Path(cmd[0]).name} stopped responding).\n  command: {' '.join(cmd)[:400]}", fix)
     if r.returncode != 0:
         tail = (r.stderr or "")[-1200:]
         raise StepError(f"{what or 'A step failed'}: {pathlib.Path(str(cmd[0])).name} exited with {r.returncode}.\n{tail}", fix)

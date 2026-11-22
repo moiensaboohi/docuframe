@@ -43,6 +43,8 @@ jobs:
         timeout-minutes: 20
         env:
           PYTHONUTF8: "1"
+          DOCUFRAME_TOOL_TIMEOUT: "180"
+          DOCUFRAME_HANG_DUMP: "900"
         run: |
           start=$(date +%s)
           pip install -e ".[voice]"
