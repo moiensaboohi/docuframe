@@ -19,6 +19,10 @@ Runs on your own computer. Free and open source. You own everything it makes.</p
 a timeline and numbers, every figure sourced on screen. No stock footage, no generated video: all of it is
 drawn by code from a script and a fact sheet. Make the same film yourself in about two minutes:
 
+
+https://github.com/user-attachments/assets/e5b9d3bb-f093-4636-898c-f070bc85767a
+
+
 ```
 docuframe new demo --template suez-canal
 docuframe make --project demo
