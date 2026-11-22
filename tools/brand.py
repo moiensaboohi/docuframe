@@ -1,10 +1,9 @@
-"""The docuframe logo: a custom wordmark and a page-fold frame mark, drawn from one construction.
+"""The docuframe logo: a custom wordmark, every letter drawn from one frame construction.
 
   python tools/brand.py        # writes docs/media/logo/*.svg and *.png
 
 Wordmark: every letter is built from the same parts — one stroke weight, rounded frame corners,
 square joins where a stem meets a bowl — so "d", "o", "a" and "e" are all small frames.
-Mark: a 16:9 frame whose top-right corner is folded like a page: a document and a frame.
 Units: x-height = 100, ascender = 142. Everything scales from there.
 """
 import pathlib
@@ -153,35 +152,6 @@ def wordmark(text="docuframe"):
     return out, x - GAP
 
 
-# ---------------------------------------------------------------- mark
-def mark():
-    """A 16:9 frame with its top-right corner folded like a page. Bottom-left at (0, 0), height = ascender."""
-    h = ASC
-    w = h * 16 / 10.4
-    f = h * 0.34                                # fold size
-    rc = RC * 1.25
-    p = skia.Path()
-    p.moveTo(H + rc, -h + H)
-    p.lineTo(w - H - f, -h + H)
-    p.lineTo(w - H, -h + H + f)
-    p.lineTo(w - H, -H - rc)
-    p.arcTo(skia.Rect.MakeLTRB(w - H - 2 * rc, -H - 2 * rc, w - H, -H), 0, 90, False)
-    p.lineTo(H + rc, -H)
-    p.arcTo(skia.Rect.MakeLTRB(H, -H - 2 * rc, H + 2 * rc, -H), 90, 90, False)
-    p.lineTo(H, -h + H + rc)
-    p.arcTo(skia.Rect.MakeLTRB(H, -h + H, H + 2 * rc, -h + H + 2 * rc), 180, 90, False)
-    p.close()
-    fold = skia.Path()                          # the folded-over corner, solid
-    fold.moveTo(w - H - f, -h + H)
-    fold.lineTo(w - H - f, -h + H + f)
-    fold.lineTo(w - H, -h + H + f)
-    fold.close()
-    rnd = skia.Paint(Style=skia.Paint.kStroke_Style, StrokeWidth=T, StrokeJoin=skia.Paint.kRound_Join, AntiAlias=True)
-    fold_s = skia.Path()
-    rnd.getFillPath(fold, fold_s)               # round joins: closes the seams without miter spikes
-    return _union(_stroke(p), fold, fold_s), w
-
-
 # ---------------------------------------------------------------- drawing
 def _scaled(path, k, x, base):
     q = skia.Path(path)
@@ -196,21 +166,12 @@ def metrics(asc_px):
     return asc_px, T * k, XH * k
 
 
-def draw_mark(c, x, base, asc_px, rgb=ACCENT):
-    p, w = mark()
+def draw_wordmark(c, x, base, asc_px, ink=INK):
+    """The name on a baseline, its ascenders asc_px tall. Returns the width."""
     k = asc_px / ASC
-    c.drawPath(_scaled(p, k, x, base), skia.Paint(Color=skia.Color(*rgb), AntiAlias=True))
-    return w * k
-
-
-def draw_lockup(c, x, base, asc_px, ink=INK, mark_rgb=ACCENT):
-    """Mark + name on one baseline, the mark as tall as the ascenders. Returns the total width."""
-    k = asc_px / ASC
-    mw = draw_mark(c, x, base, asc_px, mark_rgb)
     wp, ww = wordmark()
-    gap = 34 * k
-    c.drawPath(_scaled(wp, k, x + mw + gap, base), skia.Paint(Color=skia.Color(*ink), AntiAlias=True))
-    return mw + gap + ww * k
+    c.drawPath(_scaled(wp, k, x, base), skia.Paint(Color=skia.Color(*ink), AntiAlias=True))
+    return ww * k
 
 
 # ---------------------------------------------------------------- SVG
@@ -243,21 +204,11 @@ def _svg_d(path, dx=0.0):
     return " ".join(out)
 
 
-def svg(kind="lockup", ink=INK, mark_rgb=ACCENT):
-    mp, mw = mark()
+def svg(ink=INK):
+    wp, ww = wordmark()
     pad = 14.0
-    parts = [f'<path fill-rule="evenodd" d="{_svg_d(mp)}" fill="{_hex(mark_rgb)}"/>']
-    width = mw
-    if kind == "lockup":
-        wp, ww = wordmark()
-        parts.append(f'<path fill-rule="evenodd" d="{_svg_d(wp, mw + 34)}" fill="{_hex(ink)}"/>')
-        width = mw + 34 + ww
-    elif kind == "wordmark":
-        wp, ww = wordmark()
-        parts = [f'<path fill-rule="evenodd" d="{_svg_d(wp)}" fill="{_hex(ink)}"/>']
-        width = ww
-    return (f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="{-pad:.2f} {-ASC - pad:.2f} {width + 2 * pad:.2f} {ASC + 2 * pad:.2f}" '
-            f'role="img" aria-label="docuframe">' + "".join(parts) + "</svg>\n")
+    return (f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="{-pad:.2f} {-ASC - pad:.2f} {ww + 2 * pad:.2f} {ASC + 2 * pad:.2f}" '
+            f'role="img" aria-label="docuframe"><path fill-rule="evenodd" d="{_svg_d(wp)}" fill="{_hex(ink)}"/></svg>\n')
 
 
 def main():
@@ -265,30 +216,17 @@ def main():
     out.mkdir(parents=True, exist_ok=True)
     for old in out.glob("*"):
         old.unlink()
-    files = {"docuframe-logo.svg": svg("lockup"),
-             "docuframe-logo-dark.svg": svg("lockup", ink=(245, 245, 243)),
-             "docuframe-wordmark.svg": svg("wordmark"),
-             "docuframe-mark.svg": svg("mark"),
-             "docuframe-mark-mono.svg": svg("mark", mark_rgb=INK)}
+    files = {"docuframe-logo.svg": svg(), "docuframe-logo-dark.svg": svg(ink=(245, 245, 243))}
     for name, text in files.items():
         (out / name).write_text(text, encoding="utf-8")
     for name, bg, ink in (("docuframe-logo.png", PAPER, INK), ("docuframe-logo-dark.png", (14, 14, 16), (245, 245, 243))):
         s = skia.Surface(1600, 400)
         c = s.getCanvas()
         c.clear(skia.Color(*bg))
-        probe = skia.Surface(10, 10).getCanvas()
-        w = draw_lockup(probe, 0, 0, 150)
-        draw_lockup(c, (1600 - w) / 2, 200 + 150 / 2, 150, ink=ink)
+        w = wordmark()[1] * 150 / ASC
+        draw_wordmark(c, (1600 - w) / 2, 200 + 150 / 2, 150, ink=ink)
         s.makeImageSnapshot().save(str(out / name), skia.kPNG)
-    s = skia.Surface(512, 512)
-    c = s.getCanvas()
-    c.clear(skia.Color(0, 0, 0, 0))
-    c.drawRRect(skia.RRect.MakeRectXY(skia.Rect.MakeWH(512, 512), 112, 112), skia.Paint(Color=skia.Color(*ACCENT), AntiAlias=True))
-    _, mw = mark()
-    k = 300 / mw
-    draw_mark(c, (512 - mw * k) / 2, 256 + ASC * k / 2, ASC * k, (255, 255, 255))
-    s.makeImageSnapshot().save(str(out / "docuframe-icon.png"), skia.kPNG)
-    print("wrote", ", ".join(sorted(files) + ["docuframe-logo.png", "docuframe-logo-dark.png", "docuframe-icon.png"]))
+    print("wrote", ", ".join(sorted(files) + ["docuframe-logo.png", "docuframe-logo-dark.png"]))
 
 
 if __name__ == "__main__":

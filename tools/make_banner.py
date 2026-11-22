@@ -117,12 +117,11 @@ def main():
     # ---- text column, aligned to the grid's top and bottom edges
     L, colw = 110, 900
     top, bottom = gy0, gy0 + 4 * fh + 3 * gap
-    # name: the hero. Page-fold frame mark + the custom frame-built wordmark (tools/brand.py)
+    # name: the hero. The custom frame-built wordmark (tools/brand.py), no mark
     import brand
-    probe = skia.Surface(10, 10).getCanvas()
-    asc = 100 * (colw - 80) / brand.draw_lockup(probe, 0, 0, 100)     # lockup width = column width - 80
+    asc = 100 * (colw - 200) / (brand.wordmark()[1] * 100 / brand.ASC)
     base = top + asc
-    brand.draw_lockup(c, L, base, asc, ink=INK, mark_rgb=ACCENT)
+    brand.draw_wordmark(c, L, base, asc, ink=INK)
     y = base + 96
     lines = ["Give it a topic or a script.", "Get a finished documentary."]
     size = 56
