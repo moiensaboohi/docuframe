@@ -29,7 +29,8 @@ jobs:
             macOS)   brew install ffmpeg ;;
             Windows)
               # Chocolatey's server is sometimes down (503): retry, then fall back to the LGPL build on GitHub
-              for i in 1 2 3; do choco install ffmpeg -y --no-progress && break || sleep 15; done
+              # pinned: the 9.1 build hangs when encoding AAC (docuframe doctor detects it and says how to fix)
+              for i in 1 2 3; do choco install ffmpeg --version 9.0.2 -y --no-progress && break || sleep 15; done
               if ! command -v ffmpeg >/dev/null; then
                 curl -fsSL -o ff.zip https://github.com/BtbN/FFmpeg-Builds/releases/download/latest/ffmpeg-master-latest-win64-lgpl.zip
                 unzip -q ff.zip -d "$RUNNER_TEMP/ff"

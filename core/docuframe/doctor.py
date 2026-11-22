@@ -43,6 +43,26 @@ def has_module(mod):
     except Exception as e:      # noqa: BLE001
         return False, str(e).splitlines()[0][:120]
 
+AAC_FIX = {
+    "windows": "This ffmpeg build stops responding when it encodes AAC (seen with 9.1 on Windows). Install 9.0:  "
+               "choco install ffmpeg --version 9.0.2 --allow-downgrade -y   (then open a new terminal)",
+    "macos": "Reinstall ffmpeg:  brew reinstall ffmpeg",
+    "linux": "Reinstall ffmpeg from your package manager:  sudo apt install --reinstall -y ffmpeg",
+}
+
+
+def aac_encodes():
+    """Encode two seconds of tone to AAC. Some ffmpeg builds hang here, which would freeze every film."""
+    from .util import StepError, run
+    with tempfile.TemporaryDirectory() as td:
+        out = pathlib.Path(td) / "t.m4a"
+        try:
+            run(["ffmpeg", "-v", "error", "-y", "-f", "lavfi", "-i", "sine=f=440:d=2", "-c:a", "aac", "-b:a", "128k", out],
+                "AAC test", timeout=30)
+        except StepError:
+            return False, "stopped responding or failed"
+        return out.exists() and out.stat().st_size > 1000, "ok"
+
 
 def tool_version(exe):
     p = shutil.which(exe)
@@ -71,6 +91,9 @@ def run_checks():
     for exe in ("ffmpeg", "ffprobe"):
         vv = tool_version(exe)
         res.append(check(exe, vv, vv or "not found", FFMPEG_FIX[OS]))
+    if shutil.which("ffmpeg"):
+        ok, d = aac_encodes()
+        res.append(check("ffmpeg encodes AAC audio", ok, d, AAC_FIX[OS]))
     ok, d = has_module("kokoro_onnx")
     res.append(check("local voice (kokoro-onnx)", ok, d if ok else "not installed — your own recording still works",
                      f'{PIP} kokoro-onnx soundfile', optional=True))

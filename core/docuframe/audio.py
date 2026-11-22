@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import os
+import pathlib
 import subprocess
 
 import numpy as np
@@ -21,7 +22,18 @@ def read(path, rate=RATE, channels=1) -> np.ndarray:
 
 def write(path, samples: np.ndarray, rate=RATE, extra=()):
     """Write float samples, (n,) mono or (n, ch); the format follows the file extension (wav, m4a…)."""
-    codec = ["-c:a", "aac", "-b:a", "192k"] if str(path).endswith((".m4a", ".mp4")) else []
+    if str(path).endswith((".m4a", ".mp4")):
+        # PCM through the pipe first, then encode from a file: an encoder that hangs then stops with a clear
+        # error (run() has a time limit and stops the whole process tree) instead of blocking the pipe forever.
+        wav = pathlib.Path(str(path) + ".tmp.wav")
+        write(wav, samples, rate, extra)
+        try:
+            run(["ffmpeg", "-v", "error", "-y", "-i", wav, "-c:a", "aac", "-b:a", "192k", path],
+                f"Encoding {pathlib.Path(path).name} failed", "Run docuframe doctor: it tests whether your ffmpeg encodes AAC.")
+        finally:
+            wav.unlink(missing_ok=True)
+        return
+    codec = []
     ch = 1 if np.ndim(samples) == 1 else np.shape(samples)[1]
     p = popen(["ffmpeg", "-v", "error", "-y", "-f", "f32le", "-ac", str(ch), "-ar", str(rate), "-i", "-", *extra, *codec, str(path)],
               stdin=subprocess.PIPE)
