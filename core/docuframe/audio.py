@@ -6,7 +6,7 @@ import subprocess
 
 import numpy as np
 
-from .util import popen, run
+from .util import kill_tree, popen, run
 
 RATE = 48000
 
@@ -26,7 +26,7 @@ def write(path, samples: np.ndarray, rate=RATE, extra=()):
     try:
         p.communicate(np.ascontiguousarray(samples, np.float32).tobytes(), timeout=limit)
     except subprocess.TimeoutExpired:
-        p.kill()
+        kill_tree(p)
         raise SystemExit(f"Writing {path} took longer than {limit:.0f} s and was stopped (ffmpeg stopped responding). Run docuframe doctor.")
     if p.returncode:
         raise SystemExit(f"Writing {path} failed (ffmpeg exit {p.returncode}). Run docuframe doctor.")
