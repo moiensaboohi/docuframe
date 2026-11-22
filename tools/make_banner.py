@@ -117,13 +117,13 @@ def main():
     # ---- text column, aligned to the grid's top and bottom edges
     L, colw = 110, 900
     top, bottom = gy0, gy0 + 4 * fh + 3 * gap
-    # name: the hero. The d-frame mark and the Instrument Sans wordmark (tools/brand.py)
+    # name: the hero. Page-fold frame mark + the custom frame-built wordmark (tools/brand.py)
     import brand
-    nsize = 124
-    asc = brand.metrics(nsize)[0]
+    probe = skia.Surface(10, 10).getCanvas()
+    asc = 100 * (colw - 80) / brand.draw_lockup(probe, 0, 0, 100)     # lockup width = column width - 80
     base = top + asc
-    brand.draw_lockup(c, L, base, nsize, ink=INK, mark=ACCENT)
-    y = base + 92
+    brand.draw_lockup(c, L, base, asc, ink=INK, mark_rgb=ACCENT)
+    y = base + 96
     lines = ["Give it a topic or a script.", "Get a finished documentary."]
     size = 56
     while max(para(book, ln, size, "display", INK, 5000, track=-0.015).LongestLine for ln in lines) > colw - 40 and size > 36:

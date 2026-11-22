@@ -32,5 +32,5 @@ python tools/run_fixture.py history-short   # voice → stills → check, prints
 python tools/make_styles.py                # rewrite the built-in style packs from its table
 python tools/style_gallery.py PROJECT out.jpg [styles]   # one project in many styles, one row each
 python tools/make_banner.py PROJECT        # README banner: one style per scene type (project: evals/fixtures/showcase, voiced)
-python tools/brand.py                      # logo files (docs/media/logo): the d-frame mark + Instrument Sans wordmark
+python tools/brand.py                      # logo files (docs/media/logo): page-fold frame mark + custom frame-built wordmark
 ```

@@ -1,179 +1,292 @@
-"""The docuframe logo: one source for the mark, the wordmark and the files made from them.
+"""The docuframe logo: a custom wordmark and a page-fold frame mark, drawn from one construction.
 
   python tools/brand.py        # writes docs/media/logo/*.svg and *.png
 
-The mark is a lowercase "d" built from a video frame: the frame is the bowl, its right side
-rises into the stem. It is drawn from the wordmark's own metrics (x-height, ascender, stem
-weight of Instrument Sans SemiBold), so mark and name read as one typeface.
+Wordmark: every letter is built from the same parts — one stroke weight, rounded frame corners,
+square joins where a stem meets a bowl — so "d", "o", "a" and "e" are all small frames.
+Mark: a 16:9 frame whose top-right corner is folded like a page: a document and a frame.
+Units: x-height = 100, ascender = 142. Everything scales from there.
 """
 import pathlib
 
 import skia
-from fontTools.pens.svgPathPen import SVGPathPen
-from fontTools.pens.transformPen import TransformPen
-from fontTools.ttLib import TTFont
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
-FONT = pathlib.Path.home() / ".cache" / "docuframe" / "fonts" / "InstrumentSans-w600.ttf"
 INK, PAPER, ACCENT = (17, 17, 19), (247, 247, 245), (43, 108, 255)
-NAME, TRACK, GAP = "docuframe", -0.025, 0.22         # tracking and mark-to-name gap, in em
+T, XH, ASC, RC, GAP = 19.0, 100.0, 142.0, 27.0, 14.0     # stroke, x-height, ascender, centre-line corner radius, letter gap
+H = T / 2
 
 
-def _typeface():
-    if not FONT.exists():
-        from docuframe import fonts as _f  # noqa: F401  (fetches and instances fonts on first use)
-        from docuframe.text import FontBook
-        FontBook({"display": ["Instrument Sans:600"]})
-    return skia.Typeface.MakeFromFile(str(FONT))
+# ---------------------------------------------------------------- construction helpers
+def _stroke(path):
+    pt = skia.Paint(Style=skia.Paint.kStroke_Style, StrokeWidth=T, StrokeCap=skia.Paint.kButt_Cap,
+                    StrokeJoin=skia.Paint.kMiter_Join, AntiAlias=True)
+    out = skia.Path()
+    pt.getFillPath(path, out)
+    return out
 
 
-def metrics(size):
-    """(ascender of 'd', stem width of 'l', x-height) at this size, measured from the glyphs."""
-    f = skia.Font(_typeface(), size)
-
-    def bounds(ch):
-        return f.getPath(f.textToGlyphs(ch)[0]).computeTightBounds()
-    return -bounds("d").top(), bounds("l").width(), -bounds("x").top()
+def _union(*paths):
+    acc = skia.Path()
+    for p in paths:
+        acc = skia.Op(acc, p, skia.PathOp.kUnion_PathOp)
+    return acc
 
 
-K = 0.5523  # cubic handle length for a quarter circle
+def _cut(p, rect):
+    q = skia.Path()
+    q.addRect(rect)
+    return skia.Op(p, q, skia.PathOp.kDifference_PathOp)
 
 
-def mark_contours(size):
-    """The mark as two closed contours (outer outline, inner opening), y down, baseline at y = 0.
-    Each contour is a list of ("M"|"L", x, y) and ("C", x1, y1, x2, y2, x, y) commands.
-    One continuous outline: the stem runs straight down into the frame's right side (that corner is
-    square), so there is no seam where the stem meets the frame."""
-    asc, t, xh = metrics(size)
-    h, w = asc, asc * 1.08
-    top = -(xh + t * 0.15)                    # top edge of the frame
-    ro = t * 1.1 + t / 2                       # outer corner radius
-    ri = max(t * 0.35, ro - t)                 # inner corner radius
-
-    def arc(x0, y0, x1, y1, cx, cy):
-        # quarter circle from (x0,y0) to (x1,y1) around corner point (cx,cy)
-        return ("C", x0 + (cx - x0) * K, y0 + (cy - y0) * K, x1 + (cx - x1) * K, y1 + (cy - y1) * K, x1, y1)
-
-    outer = [("M", w - t, -h), ("L", w, -h), ("L", w, -ro), arc(w, -ro, w - ro, 0, w, 0), ("L", ro, 0),
-             arc(ro, 0, 0, -ro, 0, 0), ("L", 0, top + ro), arc(0, top + ro, ro, top, 0, top), ("L", w - t, top)]
-    l, tt, r, b = t, top + t, w - t, -t
-    inner = [("M", l + ri, tt), ("L", r - ri, tt), arc(r - ri, tt, r, tt + ri, r, tt), ("L", r, b - ri),
-             arc(r, b - ri, r - ri, b, r, b), ("L", l + ri, b), arc(l + ri, b, l, b - ri, l, b), ("L", l, tt + ri),
-             arc(l, tt + ri, l + ri, tt, l, tt)]
-    return {"w": w, "h": h, "contours": [outer, inner]}
-
-
-def mark_geometry(size):
-    g = mark_contours(size)
-    return {"w": g["w"], "h": g["h"]}
-
-
-def _skia_path(contours, dx=0.0, dy=0.0):
+def _bowl(w, radii):
+    """Centre line of a frame-shaped bowl of outer width w, sitting on the baseline; radii (tl, tr, br, bl)."""
+    rr = skia.RRect()
+    rr.setRectRadii(skia.Rect.MakeLTRB(H, -XH + H, w - H, -H), [skia.Point(v, v) for v in radii])
     p = skia.Path()
-    p.setFillType(skia.PathFillType.kEvenOdd)
-    for cont in contours:
-        for cmd in cont:
-            if cmd[0] == "M":
-                p.moveTo(cmd[1] + dx, cmd[2] + dy)
-            elif cmd[0] == "L":
-                p.lineTo(cmd[1] + dx, cmd[2] + dy)
-            else:
-                p.cubicTo(cmd[1] + dx, cmd[2] + dy, cmd[3] + dx, cmd[4] + dy, cmd[5] + dx, cmd[6] + dy)
-        p.close()
+    p.addRRect(rr)
     return p
 
 
-def _svg_d(contours):
-    out = []
-    for cont in contours:
-        for cmd in cont:
-            out.append(cmd[0] + " ".join(f"{v:.2f}" for v in cmd[1:]))
-        out.append("Z")
-    return " ".join(out)
+def _line(*pts):
+    p = skia.Path()
+    p.moveTo(*pts[0])
+    for q in pts[1:]:
+        p.lineTo(*q)
+    return p
 
 
-def draw_mark(c, x, base, size, rgb=ACCENT):
-    g = mark_contours(size)
-    c.drawPath(_skia_path(g["contours"], x, base), skia.Paint(Color=skia.Color(*rgb), AntiAlias=True))
-    return g["w"]
+def _arch(p, x, top):
+    """Append a quarter arc from a vertical going up at x into a horizontal going right at `top` (centre line)."""
+    p.arcTo(skia.Rect.MakeLTRB(x, top, x + 2 * RC, top + 2 * RC), 180, 90, False)
 
 
-def draw_lockup(c, x, base, size, ink=INK, mark=ACCENT):
-    """Mark + name on one baseline. Returns the total width."""
-    w = draw_mark(c, x, base, size, mark)
-    f = skia.Font(_typeface(), size)
-    f.setSubpixel(True)
-    glyphs = f.textToGlyphs(NAME)
-    pen = x + w + size * GAP
-    paint = skia.Paint(Color=skia.Color(*ink), AntiAlias=True)
-    for gid, adv in zip(glyphs, f.getWidths(glyphs)):
-        p = f.getPath(gid)
-        if p:
-            p.offset(pen, base)
-            c.drawPath(p, paint)
-        pen += adv + TRACK * size
-    return pen - TRACK * size - x
+# ---------------------------------------------------------------- letters
+def g_d():
+    w = 98
+    return _union(_stroke(_bowl(w, (RC, 0, RC, RC))), _stroke(_line((w - H, -ASC), (w - H, -XH + H)))), w
 
 
-# ---------------------------------------------------------------- SVG export
+def g_o():
+    w = 96
+    return _stroke(_bowl(w, (RC,) * 4)), w
+
+
+def g_c():
+    w = 90
+    return _cut(_stroke(_bowl(w, (RC,) * 4)), skia.Rect.MakeLTRB(w - T - 4, -XH + T + 9, w + 2, -T - 9)), w
+
+
+def g_u():
+    w = 95
+    p = skia.Path()
+    p.moveTo(H, -XH)
+    p.lineTo(H, -H - RC)
+    p.arcTo(skia.Rect.MakeLTRB(H, -H - 2 * RC, H + 2 * RC, -H), 180, -90, False)
+    p.lineTo(w - H, -H)
+    return _union(_stroke(p), _stroke(_line((w - H, -XH), (w - H, 0)))), w
+
+
+def g_f():
+    w, xs = 58, 17 + H
+    p = skia.Path()
+    p.moveTo(xs, 0)
+    p.lineTo(xs, -ASC + H + RC)
+    _arch(p, xs, -ASC + H)
+    p.lineTo(w, -ASC + H)
+    return _union(_stroke(p), _stroke(_line((0, -XH + H), (w - 6, -XH + H)))), w
+
+
+def g_r():
+    w = 56
+    p = skia.Path()
+    p.moveTo(H, 0)
+    p.lineTo(H, -XH + H + RC)
+    _arch(p, H, -XH + H)
+    p.lineTo(w, -XH + H)
+    return _stroke(p), w
+
+
+def g_a():
+    w = 95
+    return _union(_stroke(_bowl(w, (RC, 0, 0, RC))), _stroke(_line((w - H, -XH), (w - H, 0)))), w
+
+
+def g_m():
+    w = 150
+    mid = w / 2
+    top = -XH + H
+    p = skia.Path()
+    p.moveTo(H, 0)
+    p.lineTo(H, top + RC)
+    _arch(p, H, top)
+    p.lineTo(mid - RC, top)
+    p.arcTo(skia.Rect.MakeLTRB(mid - 2 * RC, top, mid, top + 2 * RC), 270, 90, False)
+    p.lineTo(mid, 0)
+    q = skia.Path()
+    q.moveTo(mid, top + RC)
+    _arch(q, mid, top)
+    q.lineTo(w - H - RC, top)
+    q.arcTo(skia.Rect.MakeLTRB(w - H - 2 * RC, top, w - H, top + 2 * RC), 270, 90, False)
+    q.lineTo(w - H, 0)
+    return _union(_stroke(p), _stroke(q)), w
+
+
+def g_e():
+    w = 95
+    p = _union(_stroke(_bowl(w, (RC,) * 4)), _stroke(_line((H, -XH / 2 - 1), (w - H, -XH / 2 - 1))))
+    return _cut(p, skia.Rect.MakeLTRB(w - T - 4, -XH / 2 + H + 4, w + 2, -T - 9)), w
+
+
+GLYPHS = {"d": g_d, "o": g_o, "c": g_c, "u": g_u, "f": g_f, "r": g_r, "a": g_a, "m": g_m, "e": g_e}
+KERN = {"fr": -10, "ra": -14, "rf": -6, "cu": -2, "uf": -4}
+
+
+def wordmark(text="docuframe"):
+    """The name as one path, baseline at y = 0, starting at x = 0. Returns (path, width)."""
+    out, x = skia.Path(), 0.0
+    for i, ch in enumerate(text):
+        p, w = GLYPHS[ch]()
+        p.offset(x, 0)
+        out = _union(out, p)
+        x += w + GAP + KERN.get(ch + (text[i + 1] if i + 1 < len(text) else ""), 0)
+    return out, x - GAP
+
+
+# ---------------------------------------------------------------- mark
+def mark():
+    """A 16:9 frame with its top-right corner folded like a page. Bottom-left at (0, 0), height = ascender."""
+    h = ASC
+    w = h * 16 / 10.4
+    f = h * 0.34                                # fold size
+    rc = RC * 1.25
+    p = skia.Path()
+    p.moveTo(H + rc, -h + H)
+    p.lineTo(w - H - f, -h + H)
+    p.lineTo(w - H, -h + H + f)
+    p.lineTo(w - H, -H - rc)
+    p.arcTo(skia.Rect.MakeLTRB(w - H - 2 * rc, -H - 2 * rc, w - H, -H), 0, 90, False)
+    p.lineTo(H + rc, -H)
+    p.arcTo(skia.Rect.MakeLTRB(H, -H - 2 * rc, H + 2 * rc, -H), 90, 90, False)
+    p.lineTo(H, -h + H + rc)
+    p.arcTo(skia.Rect.MakeLTRB(H, -h + H, H + 2 * rc, -h + H + 2 * rc), 180, 90, False)
+    p.close()
+    fold = skia.Path()                          # the folded-over corner, solid
+    fold.moveTo(w - H - f, -h + H)
+    fold.lineTo(w - H - f, -h + H + f)
+    fold.lineTo(w - H, -h + H + f)
+    fold.close()
+    rnd = skia.Paint(Style=skia.Paint.kStroke_Style, StrokeWidth=T, StrokeJoin=skia.Paint.kRound_Join, AntiAlias=True)
+    fold_s = skia.Path()
+    rnd.getFillPath(fold, fold_s)               # round joins: closes the seams without miter spikes
+    return _union(_stroke(p), fold, fold_s), w
+
+
+# ---------------------------------------------------------------- drawing
+def _scaled(path, k, x, base):
+    q = skia.Path(path)
+    q.transform(skia.Matrix.Scale(k, k))
+    q.offset(x, base)
+    return q
+
+
+def metrics(asc_px):
+    """(ascender, stem, x-height) in px for a lockup whose ascender is asc_px tall."""
+    k = asc_px / ASC
+    return asc_px, T * k, XH * k
+
+
+def draw_mark(c, x, base, asc_px, rgb=ACCENT):
+    p, w = mark()
+    k = asc_px / ASC
+    c.drawPath(_scaled(p, k, x, base), skia.Paint(Color=skia.Color(*rgb), AntiAlias=True))
+    return w * k
+
+
+def draw_lockup(c, x, base, asc_px, ink=INK, mark_rgb=ACCENT):
+    """Mark + name on one baseline, the mark as tall as the ascenders. Returns the total width."""
+    k = asc_px / ASC
+    mw = draw_mark(c, x, base, asc_px, mark_rgb)
+    wp, ww = wordmark()
+    gap = 34 * k
+    c.drawPath(_scaled(wp, k, x + mw + gap, base), skia.Paint(Color=skia.Color(*ink), AntiAlias=True))
+    return mw + gap + ww * k
+
+
+# ---------------------------------------------------------------- SVG
 def _hex(rgb):
     return "#%02x%02x%02x" % tuple(rgb)
 
 
-def _name_svg_path(size, x0):
-    font = TTFont(str(FONT))
-    gs = font.getGlyphSet()
-    cmap = font.getBestCmap()
-    scale = size / font["head"].unitsPerEm
-    out, pen_x = [], x0
-    for ch in NAME:
-        gname = cmap[ord(ch)]
-        sp = SVGPathPen(gs)
-        gs[gname].draw(TransformPen(sp, (scale, 0, 0, -scale, pen_x, 0)))
-        out.append(sp.getCommands())
-        pen_x += gs[gname].width * scale + TRACK * size
-    return " ".join(out), pen_x - TRACK * size
+def _svg_d(path, dx=0.0):
+    it = skia.Path.Iter(path, True)
+    out = []
+    V = skia.Path.Verb
+    while True:
+        verb, pts = it.next()
+        if verb == V.kDone_Verb:
+            break
+        if verb == V.kMove_Verb:
+            out.append(f"M{pts[0].x() + dx:.2f} {pts[0].y():.2f}")
+        elif verb == V.kLine_Verb:
+            out.append(f"L{pts[1].x() + dx:.2f} {pts[1].y():.2f}")
+        elif verb == V.kQuad_Verb:
+            out.append(f"Q{pts[1].x() + dx:.2f} {pts[1].y():.2f} {pts[2].x() + dx:.2f} {pts[2].y():.2f}")
+        elif verb == V.kConic_Verb:
+            q = skia.Path.ConvertConicToQuads(pts[0], pts[1], pts[2], it.conicWeight(), 2)
+            for j in range(1, len(q) - 1, 2):
+                out.append(f"Q{q[j].x() + dx:.2f} {q[j].y():.2f} {q[j + 1].x() + dx:.2f} {q[j + 1].y():.2f}")
+        elif verb == V.kCubic_Verb:
+            out.append("C" + " ".join(f"{pt.x() + dx:.2f} {pt.y():.2f}" for pt in pts[1:]))
+        elif verb == V.kClose_Verb:
+            out.append("Z")
+    return " ".join(out)
 
 
-def svg(kind="lockup", ink=INK, mark=ACCENT, size=100.0, pad=None):
-    g = mark_contours(size)
-    pad = size * 0.12 if pad is None else pad
-    parts = [f'<path fill-rule="evenodd" d="{_svg_d(g["contours"])}" fill="{_hex(mark)}"/>']
-    width = g["w"]
+def svg(kind="lockup", ink=INK, mark_rgb=ACCENT):
+    mp, mw = mark()
+    pad = 14.0
+    parts = [f'<path fill-rule="evenodd" d="{_svg_d(mp)}" fill="{_hex(mark_rgb)}"/>']
+    width = mw
     if kind == "lockup":
-        d, end = _name_svg_path(size, g["w"] + size * GAP)
-        parts.append(f'<path d="{d}" fill="{_hex(ink)}"/>')
-        width = end
-    desc = size * 0.22
-    vb = (-pad, -g["h"] - pad, width + 2 * pad, g["h"] + desc + 2 * pad)
-    return (f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="{vb[0]:.2f} {vb[1]:.2f} {vb[2]:.2f} {vb[3]:.2f}" '
+        wp, ww = wordmark()
+        parts.append(f'<path fill-rule="evenodd" d="{_svg_d(wp, mw + 34)}" fill="{_hex(ink)}"/>')
+        width = mw + 34 + ww
+    elif kind == "wordmark":
+        wp, ww = wordmark()
+        parts = [f'<path fill-rule="evenodd" d="{_svg_d(wp)}" fill="{_hex(ink)}"/>']
+        width = ww
+    return (f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="{-pad:.2f} {-ASC - pad:.2f} {width + 2 * pad:.2f} {ASC + 2 * pad:.2f}" '
             f'role="img" aria-label="docuframe">' + "".join(parts) + "</svg>\n")
 
 
 def main():
     out = ROOT / "docs" / "media" / "logo"
     out.mkdir(parents=True, exist_ok=True)
+    for old in out.glob("*"):
+        old.unlink()
     files = {"docuframe-logo.svg": svg("lockup"),
              "docuframe-logo-dark.svg": svg("lockup", ink=(245, 245, 243)),
+             "docuframe-wordmark.svg": svg("wordmark"),
              "docuframe-mark.svg": svg("mark"),
-             "docuframe-mark-mono.svg": svg("mark", mark=INK)}
+             "docuframe-mark-mono.svg": svg("mark", mark_rgb=INK)}
     for name, text in files.items():
         (out / name).write_text(text, encoding="utf-8")
-    # PNGs: lockup on paper and on ink, and a square app icon (mark on a rounded tile)
     for name, bg, ink in (("docuframe-logo.png", PAPER, INK), ("docuframe-logo-dark.png", (14, 14, 16), (245, 245, 243))):
         s = skia.Surface(1600, 400)
         c = s.getCanvas()
         c.clear(skia.Color(*bg))
-        w = draw_lockup(c, 0, 0, 180)
-        c.clear(skia.Color(*bg))
-        draw_lockup(c, (1600 - w) / 2, 200 + mark_geometry(180)["h"] / 2, 180, ink=ink)
+        probe = skia.Surface(10, 10).getCanvas()
+        w = draw_lockup(probe, 0, 0, 150)
+        draw_lockup(c, (1600 - w) / 2, 200 + 150 / 2, 150, ink=ink)
         s.makeImageSnapshot().save(str(out / name), skia.kPNG)
     s = skia.Surface(512, 512)
     c = s.getCanvas()
     c.clear(skia.Color(0, 0, 0, 0))
     c.drawRRect(skia.RRect.MakeRectXY(skia.Rect.MakeWH(512, 512), 112, 112), skia.Paint(Color=skia.Color(*ACCENT), AntiAlias=True))
-    g = mark_geometry(330)
-    draw_mark(c, (512 - g["w"]) / 2, 256 + g["h"] / 2, 330, (255, 255, 255))
+    _, mw = mark()
+    k = 300 / mw
+    draw_mark(c, (512 - mw * k) / 2, 256 + ASC * k / 2, ASC * k, (255, 255, 255))
     s.makeImageSnapshot().save(str(out / "docuframe-icon.png"), skia.kPNG)
     print("wrote", ", ".join(sorted(files) + ["docuframe-logo.png", "docuframe-logo-dark.png", "docuframe-icon.png"]))
 
