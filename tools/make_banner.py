@@ -117,17 +117,13 @@ def main():
     # ---- text column, aligned to the grid's top and bottom edges
     L, colw = 110, 900
     top, bottom = gy0, gy0 + 4 * fh + 3 * gap
-    # name: the hero. A small viewfinder mark (four corners of a frame) in the one accent colour.
-    ms, mt = 64, 7
-    my = top + 8
-    for sx, sy in ((0, 0), (1, 0), (0, 1), (1, 1)):
-        cx_, cy_ = L + sx * ms, my + sy * ms
-        dx, dy = (1 if sx == 0 else -1), (1 if sy == 0 else -1)
-        c.drawRect(skia.Rect.MakeXYWH(min(cx_, cx_ + dx * 22), cy_ - (mt if sy else 0), 22, mt), E.fill(ACCENT))
-        c.drawRect(skia.Rect.MakeXYWH(cx_ - (mt if sx else 0), min(cy_, cy_ + dy * 22), mt, 22), E.fill(ACCENT))
-    name = para(book, "docuframe", 118, "display", INK, colw, track=-0.035)
-    name.paint(c, L + ms + 34, my + ms / 2 - name.Height * 0.53)
-    y = my + ms + 70
+    # name: the hero. The d-frame mark and the Instrument Sans wordmark (tools/brand.py)
+    import brand
+    nsize = 124
+    asc = brand.metrics(nsize)[0]
+    base = top + asc
+    brand.draw_lockup(c, L, base, nsize, ink=INK, mark=ACCENT)
+    y = base + 92
     lines = ["Give it a topic or a script.", "Get a finished documentary."]
     size = 56
     while max(para(book, ln, size, "display", INK, 5000, track=-0.015).LongestLine for ln in lines) > colw - 40 and size > 36:
