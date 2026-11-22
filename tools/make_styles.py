@@ -387,6 +387,12 @@ SPOT = {"archive-documentary": 1.0, "cinematic-dark": 0.7, "briefing-room": 0.5,
         "tech-graphite": 0.0}
 
 
+# modern styles get the matching minimal map palette
+MAPLOOK = {"studio-dark": "ink", "midnight-minimal": "ink", "liquid-glass-night": "ink", "tech-graphite": "ink",
+           "studio-light": "paper", "liquid-glass": "paper", "slides-classic": "paper", "slides-color": "paper",
+           "swiss-grid": "paper", "flat-explainer": "paper", "pastel-pop": "paper", "soft-minimal": "period"}
+
+
 def main():
     for name, s in STYLES.items():
         d = ROOT / name
@@ -394,7 +400,7 @@ def main():
         st = {k: v for k, v in s.items() if k not in ("avoid", "extra_palette")}
         if s.get("extra_palette"):
             st["tokens"]["color"]["extra1"], st["tokens"]["color"]["extra2"] = (hexrgb(h) for h in s["extra_palette"])
-        st.setdefault("map_look", "explainer")
+        st.setdefault("map_look", MAPLOOK.get(name, "explainer"))
         st["finish"]["spotlight"] = SPOT.get(name, 0.0)
         a, col = SHADOW.get(name, (0.0, "#000000"))
         st["skin"]["shadow"] = a

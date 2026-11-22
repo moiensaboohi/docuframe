@@ -868,7 +868,7 @@ class DotLine(E.Item):
     def __init__(self, x, y, w, events, times, t_in, rgb, accent, muted, year_size, label_size, year_role="display", label_role="body",
                  rtl=False):
         self.x, self.y = x, y
-        super().__init__(t_in, None, None, False)
+        super().__init__(t_in, None, None, True)
         self.w, self.events, self.times, self.rgb, self.accent, self.muted = w, events, times, rgb, accent, muted
         self.ys, self.ls, self.yr, self.lr, self.rtl = year_size, label_size, year_role, label_role, rtl
 
@@ -958,3 +958,66 @@ class MapPin(E.Item):
             a = o * window(t, self.t_in + 0.2, 0.4)
             E.draw_text(c, kit, self.label, self.x + self.side * r * 2.4, self.y + self.size * 0.33, self.size, "label", self.ink, a, 0.01,
                         "left" if self.side > 0 else "right")
+
+
+class PathRoute(E.Item):
+    """A journey along waypoints (a trade route, a march, a flight): a smooth line that draws itself
+    with a dot travelling at its head, then a label beside the end. Points are board coordinates."""
+    z = 34
+
+    def __init__(self, pts, t_in, dur, rgb, width, label=None, label_rgb=(20, 20, 20), size=60.0, dashed=False, halo=None,
+                 label_at=1.0, label_side=1):
+        self.x, self.y = pts[0]
+        super().__init__(t_in, None, None, True)
+        self.rgb, self.width, self.label, self.label_rgb, self.size, self.dashed, self.halo = rgb, width, label, label_rgb, size, dashed, halo
+        self.dur = dur
+        p = skia.Path()
+        p.moveTo(*pts[0])
+        # Catmull-Rom through the waypoints, as cubics: smooth, passes every point
+        for i in range(len(pts) - 1):
+            p0 = pts[i - 1] if i else pts[i]
+            p1, p2 = pts[i], pts[i + 1]
+            p3 = pts[i + 2] if i + 2 < len(pts) else p2
+            c1 = (p1[0] + (p2[0] - p0[0]) / 6, p1[1] + (p2[1] - p0[1]) / 6)
+            c2 = (p2[0] - (p3[0] - p1[0]) / 6, p2[1] - (p3[1] - p1[1]) / 6)
+            p.cubicTo(*c1, *c2, *p2)
+        self.track = p
+        self.meas = skia.PathMeasure(p, False)
+        self.length = self.meas.getLength()
+        self.end = pts[-1]
+        self.label_at, self.label_side = max(0.0, min(1.0, label_at)), label_side
+        self.reach = 10 ** 6
+
+    def bounds(self, kit):
+        return self.track.getBounds().makeOutset(self.size * 6, self.size * 6)
+
+    def cues(self):
+        return [("pen", self.t_in, 0.4, {"dur": self.dur})]
+
+    def paint(self, c, kit, t, o):
+        u = window(t, self.t_in, self.dur)
+        if u <= 0:
+            return
+        k = 1 - (1 - u) ** 2 if u < 1 else 1.0
+        part = skia.Path()
+        self.meas.getSegment(0, self.length * k, part, True)
+        if self.halo:
+            c.drawPath(part, E.line(self.halo, 0.9 * o, self.width * 2.6))
+        pt = E.line(self.rgb, o, self.width)
+        pt.setStrokeCap(skia.Paint.kRound_Cap)
+        if self.dashed:
+            pt.setPathEffect(skia.DashPathEffect.Make([self.width * 2.2, self.width * 1.8], 0))
+        c.drawPath(part, pt)
+        pos, tan = self.meas.getPosTan(self.length * k)
+        if pos is not None:
+            r = self.width * 1.9
+            c.drawCircle(pos.x(), pos.y(), r * 1.9, E.fill(self.rgb, 0.22 * o))
+            c.drawCircle(pos.x(), pos.y(), r, E.fill(self.rgb, o))
+            c.drawCircle(pos.x(), pos.y(), r, E.line((255, 255, 255), 0.95 * o, r * 0.45))
+        if self.label and k >= self.label_at:
+            # the label sits beside the route at label_at (0..1 along it) and appears as the head passes
+            lp, lt = self.meas.getPosTan(self.length * self.label_at)
+            a = o * min(1.0, (k - self.label_at) * 8 + (0.0 if u < 1 else 1.0))
+            side = self.label_side
+            E.draw_text(c, kit, self.label, lp.x() + side * self.size * 0.7, lp.y() + self.size * 0.35, self.size, "label",
+                        self.label_rgb, a, 0.01, "left" if side > 0 else "right")

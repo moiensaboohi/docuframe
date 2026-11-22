@@ -1,0 +1,24 @@
+{
+ "topic": "The Suez Canal",
+ "checked": "2026-11-22",
+ "facts": [
+  {"id": "F1", "claim": "Construction of the Suez Canal lasted from 1859 to 1869; it officially opened on 17 November 1869.",
+   "sources": [{"title": "Suez Canal: History", "publisher": "Encyclopaedia Britannica", "url": "https://www.britannica.com/topic/Suez-Canal/History"},
+               {"title": "Suez Canal opens", "publisher": "HISTORY.com", "url": "https://www.history.com/this-day-in-history/november-17/suez-canal-opens"}]},
+  {"id": "F2", "claim": "The canal is about 193 km (120 miles) long, between Port Said and Suez.",
+   "sources": [{"title": "Suez Canal", "publisher": "Britannica (students)", "url": "https://kids.britannica.com/students/article/Suez-Canal/108305"}]},
+  {"id": "F3", "claim": "From the Persian Gulf to northern Europe, the route around Africa is about 21,000 km; through the Suez Canal about 12,000 km.",
+   "sources": [{"title": "Geographical Impacts of the Suez and Panama Canals", "publisher": "The Geography of Transport Systems (Rodrigue)", "url": "https://transportgeography.org/contents/chapter1/emergence-of-mechanized-transportation-systems/suez-panama-canal-geography-impacts/"}]},
+  {"id": "F4", "claim": "The Suez Canal handled roughly 12% to 15% of global trade in 2023.",
+   "sources": [{"title": "UN: Global trade is being disrupted by Red Sea attacks, war in Ukraine and low water in Panama Canal (UNCTAD briefing)", "publisher": "Fortune / AP", "url": "https://fortune.com/2024/01/26/un-alarm-global-trade-red-sea-attacks-ukraine-war-low-water-panama-canal/"}]},
+  {"id": "F5", "claim": "The canal carries about 30% of global container traffic.",
+   "sources": [{"title": "A lifeline under threat: Why the Suez Canal's security matters for the world", "publisher": "Atlantic Council", "url": "https://www.atlanticcouncil.org/in-depth-research-reports/issue-brief/a-lifeline-under-threat-why-the-suez-canals-security-matters-for-the-world/"}]},
+  {"id": "F6", "claim": "The Suez Crisis took place in October–November 1956.",
+   "sources": [{"title": "Suez Canal", "publisher": "Wikipedia", "url": "https://en.wikipedia.org/wiki/Suez_Canal"}]},
+  {"id": "F7", "claim": "In March 2021 the container ship Ever Given ran aground and blocked the Suez Canal for six days.",
+   "sources": [{"title": "2021 Suez Canal obstruction", "publisher": "Wikipedia", "url": "https://en.wikipedia.org/wiki/2021_Suez_Canal_obstruction"},
+               {"title": "Ever Given container ship on the move, ending a six-day jam", "publisher": "Fortune / AP", "url": "https://fortune.com/2021/03/29/ever-given-container-ship-on-the-move-apparently-ending-a-six-day-jam-clogged-suez-canal/"}]},
+  {"id": "F8", "claim": "On 28 March 2021 at least 369 ships were queuing to pass through the canal.",
+   "sources": [{"title": "2021 Suez Canal obstruction", "publisher": "Wikipedia", "url": "https://en.wikipedia.org/wiki/2021_Suez_Canal_obstruction"}]}
+ ]
+}

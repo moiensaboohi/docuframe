@@ -56,7 +56,7 @@ The manifest keeps it as proof of human creative direction.
 
 ## Workflow
 
-1. **Start the project.** `new <name> [--template history-short] [--style S] [--format 16:9]`.
+1. **Start the project.** `new <name> [--template history-short|suez-canal] [--style S] [--format 16:9]`. `suez-canal` is a maps-and-numbers film (routes, pins, timeline) that needs no photographs.
    Never start from a blank folder: the template shows every file's shape.
 2. **Research (topic input).** Search reliable sources (encyclopaedias, archives, official sites,
    reputable news). Write `facts.json`: one entry per claim with id, the claim in plain words, and

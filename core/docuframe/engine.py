@@ -649,6 +649,9 @@ MAP_LOOKS = {
     "explainer": {"water": (150, 190, 196), "land": (210, 204, 192), "line": (150, 142, 130), "frame": (70, 66, 62)},
     "period": {"water": (190, 200, 186), "land": (222, 206, 172), "line": (126, 96, 66), "frame": (104, 80, 56)},
     "night": {"water": (20, 30, 48), "land": (44, 52, 66), "line": (90, 104, 126), "frame": (120, 130, 150)},
+    # modern minimal: quiet land on calm water, hairline borders, a frame you barely see
+    "ink": {"water": (12, 14, 19), "land": (42, 47, 58), "line": (66, 72, 86), "frame": (40, 44, 54)},
+    "paper": {"water": (232, 236, 241), "land": (255, 255, 255), "line": (206, 212, 220), "frame": (220, 224, 230)},
 }
 
 

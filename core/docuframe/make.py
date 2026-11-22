@@ -73,6 +73,8 @@ def main(argv=None):
         elif step == "assets":
             if (proj / "photos.json").exists():
                 importlib.import_module("docuframe.assets").main(["--project", p])
+            if (proj / "map.json").exists():          # map data for map beats (Natural Earth, built once)
+                importlib.import_module("docuframe.maps").main(["--project", p])
         elif step == "stills":
             importlib.import_module("docuframe.render").main(["--project", p, "--stills", "auto"])
         elif step == "approve":

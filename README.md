@@ -4,10 +4,25 @@
   <img src="https://img.shields.io/badge/license-MIT-24292f" alt="MIT">
   <img src="https://img.shields.io/badge/agents-Claude%20Code%20·%20Codex%20·%20Cursor%20·%20Gemini%20CLI%20·%20OpenCode-24292f" alt="agents">
   <img src="https://img.shields.io/badge/version-0.1.0%20preview-orange" alt="version">
+  <a href="https://github.com/moiensaboohi/docuframe/actions"><img src="https://github.com/moiensaboohi/docuframe/actions/workflows/ci.yml/badge.svg" alt="CI"></a>
 </p>
 
 <p align="center"><b>Research → script → narration → drawn motion graphics → captions → YouTube package.</b><br>
 Runs on your own computer. Free and open source. You own everything it makes.</p>
+
+## See it
+
+<p align="center"><img src="docs/media/docuframe-styles.gif" width="100%" alt="The same docuframe film about the Suez Canal in nine styles: a dark map with trade routes, a torn-paper title, a situation-room map, a Swiss-style number, a timeline slide, a newsroom number, sticky-note comparison, a dark chapter card and a bold poster end card."></p>
+
+**[▶ Watch the demo film (57 s, sound on)](https://github.com/moiensaboohi/docuframe/releases/download/v0.1.0/docuframe-demo-suez-canal.mp4)** —
+*The ditch that moved the world*: the Suez Canal, with narration, captions, maps, animated trade routes,
+a timeline and numbers, every figure sourced on screen. No stock footage, no generated video: all of it is
+drawn by code from a script and a fact sheet. Make the same film yourself in about two minutes:
+
+```
+docuframe new demo --template suez-canal
+docuframe make --project demo
+```
 
 ## Install
 

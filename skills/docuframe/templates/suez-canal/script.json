@@ -1,0 +1,36 @@
+{
+ "title": "The Ditch That Moved the World",
+ "lang": "en",
+ "takes": [
+  {"take": "T01_open", "lines": [
+   {"id": 1, "text": "In 1869, a 193-kilometre channel through the Egyptian desert redrew the map of world trade.",
+    "spoken": "In eighteen sixty-nine, a one hundred and ninety-three kilometre channel through the Egyptian desert redrew the map of world trade.", "facts": ["F1", "F2"], "gap_after": 0.5}
+  ]},
+  {"take": "T02_route", "lines": [
+   {"id": 2, "text": "Before it, a ship sailing from the Persian Gulf to northern Europe had to go all the way around Africa.",
+    "spoken": "Before it, a ship sailing from the Persian Gulf to northern Europe had to go all the way around Africa.", "facts": ["F3"]},
+   {"id": 3, "text": "About 21,000 kilometres. Through the canal, about 12,000.",
+    "spoken": "About twenty-one thousand kilometres. Through the canal, about twelve thousand.", "facts": ["F3"], "gap_after": 0.5}
+  ]},
+  {"take": "T03_history", "lines": [
+   {"id": 4, "text": "Work began in 1859 and took ten years. In 1956, the canal was at the centre of an international crisis.",
+    "spoken": "Work began in eighteen fifty-nine and took ten years. In nineteen fifty-six, the canal was at the centre of an international crisis.", "facts": ["F1", "F6"]}
+  ]},
+  {"take": "T04_now", "lines": [
+   {"id": 5, "text": "Today it carries roughly 12 to 15 percent of global trade,",
+    "spoken": "Today it carries roughly twelve to fifteen percent of global trade,", "facts": ["F4"]},
+   {"id": 6, "text": "and about 30 percent of the world's container traffic.",
+    "spoken": "and about thirty percent of the world's container traffic.", "facts": ["F5"], "gap_after": 0.5}
+  ]},
+  {"take": "T05_blocked", "lines": [
+   {"id": 7, "text": "In March 2021, one container ship, the Ever Given, ran aground and blocked it for six days.",
+    "spoken": "In March twenty twenty-one, one container ship, the Ever Given, ran aground and blocked it for six days.", "facts": ["F7"]},
+   {"id": 8, "text": "At least 369 ships queued at either end.",
+    "spoken": "At least three hundred and sixty-nine ships queued at either end.", "facts": ["F8"], "gap_after": 0.6}
+  ]},
+  {"take": "T06_end", "lines": [
+   {"id": 9, "text": "One narrow channel, and a slice of the world's trade waiting on it.",
+    "spoken": "One narrow channel, and a slice of the world's trade waiting on it.", "facts": []}
+  ]}
+ ]
+}

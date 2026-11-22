@@ -109,9 +109,16 @@ def check_timing(doc, b, st, rep):
         if g < 1.5:
             rep.add("pacing", "warn", f"beat {k + 1} is on screen for only {g:.1f} s (from {t:.1f} s)",
                     "Anchor it to an earlier word, or merge it with the next beat.")
-    for g, t in gaps:
+    # a visual change is a new beat or a timed change inside one (a route drawing, a pin, a timeline event, a count)
+    inner = []
+    try:
+        inner = [q["t"] for q in b.film.all_cues() if q.get("type") in ("pen", "tick", "roll", "hit", "stamp", "pop", "slap")]
+    except Exception:
+        pass
+    changes = sorted(set(round(x, 2) for x in starts + inner))
+    for g, t in [(b2 - a2, a2) for a2, b2 in zip(changes, changes[1:] + [doc.duration])]:
         if g > mx + 0.5:
-            rep.add("pacing", "warn", f"{g:.1f} s without a new beat from {t:.1f} s (style asks for a change every ≤{mx} s)",
+            rep.add("pacing", "warn", f"{g:.1f} s without a visual change from {t:.1f} s (style asks for a change every ≤{mx} s)",
                     "Split the beat, add a mark/highlight, or a lower third.")
     if starts and starts[0] > st["pacing"]["hook_s"]:
         rep.add("pacing", "warn", f"first beat starts at {starts[0]:.1f} s", "Open with the hook inside 10 s.")

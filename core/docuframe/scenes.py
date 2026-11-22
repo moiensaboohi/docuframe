@@ -562,6 +562,17 @@ class Builder(EditorialScenes):
             tp = self.t_of({"line": b.get("line"), "at": pin["at"]}) if pin.get("at") and b.get("line") else t0 + 1.0 + 0.4 * k
             self.film.add(K.MapPin(px, py, pin.get("label", ""), tp, self.c.get("mark", self.c.get("accent")),
                                    self.c.get("text", (20, 20, 20)), size=getattr(self, "px", 2.0) * 34, side=pin.get("side", 1)))
+        for k, rt in enumerate(b.get("routes", [])):
+            pts = [gm.w(project(lo, la, pj["kind"], pj["lon0"])) for lo, la in rt["points"]]
+            if rt.get("line") or (rt.get("at") is not None and b.get("line")):
+                tr = self.t_of({"line": rt.get("line", b.get("line")), "at": rt.get("at", 0.2)})
+            else:
+                tr = t0 + 0.8 + 1.6 * k
+            col = self.c.get(rt.get("color", "accent"), self.c.get("accent"))
+            px = getattr(self, "px", 2.0)
+            self.film.add(K.PathRoute(pts, tr, rt.get("dur", 2.2), col, px * rt.get("width", 5), rt.get("label"),
+                                      self.c.get("text", (20, 20, 20)), px * 26, rt.get("dashed", False),
+                                      label_at=rt.get("label_at", 1.0), label_side=rt.get("label_side", 1)))
         return None
 
     def scene_lower_third(self, b, i, cx, cy, rot, t0, t1):
